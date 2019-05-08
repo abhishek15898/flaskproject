@@ -1,0 +1,146 @@
+{%extends 'layout.html'%}
+  {%block content%}
+    <div id="forms">
+      <form method="post" action="">
+        {{ form.hidden_tag()}}
+        <h3 class="formTitle">Project Submission Form</h3>
+          <h5>1. Project Details</h5>
+        <div class="form-group">
+          {{form.projectTitle.label(class="form-control-label")}}
+          {% if form.projectTitle.errors %}
+            {{form.projectTitle(class="form-control is-invalid")}}
+            {% for error in form.projectTitle.errors %}
+              <span class="errorFeedback">{{ error }}</span>
+            {% endfor %}
+          {% else %}
+            {{form.projectTitle(class="form-control")}}
+          {% endif %}
+        </div>
+        <div class="form-group">
+          {{form.projectDescription.label(class="form-control-label")}}
+          {% if form.projectDescription.errors %}
+            {{form.projectDescription(class="form-control is-invalid")}}
+            {% for error in form.projectDescription.errors %}
+              <span class="errorFeedback">{{ error }}</span>
+            {% endfor %}
+          {% else %}
+            {{form.projectDescription(class="form-control")}}
+          {% endif %}
+        </div><hr />
+          <h5>2. Team Leader Details</h5>
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-group">
+              {{form.teamLeaderName.label(class="form-control-label")}}
+              {% if form.teamLeaderName.errors %}
+                {{form.teamLeaderName(class="form-control is-invalid")}}
+                {% for error in form.teamLeaderName.errors %}
+                  <span class="errorFeedback">{{ error }}</span>
+                {% endfor %}
+              {% else %}
+                {{form.teamLeaderName(class="form-control")}}
+              {% endif %}
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              {{form.teamLeaderEmail.label(class="form-control-label")}}
+              {% if form.teamLeaderEmail.errors %}
+                {{form.teamLeaderEmail(class="form-control is-invalid")}}
+                <div>
+                  {% for error in form.teamLeaderEmail.errors %}
+                    <span class="errorFeedback">{{ error }}</span>
+                  {% endfor %}
+                </div>
+              {% else %}
+                {{form.teamLeaderEmail(class="form-control form-control-md")}}
+              {% endif %}
+            </div>
+          </div>
+        </div><hr />
+          <h5>3. Team Members Detail <small>(optional)</small></h5>
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-group">
+              {{form.teamMember1Name.label(class="form-control-label")}}
+              {% if form.teamMember1Name.errors %}
+                {{form.teamMember1Name(class="form-control is-invalid")}}
+                {% for error in form.teamMember1Name.errors %}
+                  <span class="errorFeedback">{{ error }}</span>
+                {% endfor %}
+              {% else %}
+                {{form.teamMember1Name(class="form-control")}}
+              {% endif %}
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              {{form.teamMember2Name.label(class="form-control-label")}}
+              {% if form.teamMember2Name.errors %}
+                {{form.teamMember2Name(class="form-control is-invalid")}}
+                {% for error in form.teamMember2Name.errors %}
+                  <span class="errorFeedback">{{ error }}</span>
+                {% endfor %}
+              {% else %}
+                {{form.teamMember2Name(class="form-control")}}
+              {% endif %}
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-group">
+              {{form.teamMember3Name.label(class="form-control-label")}}
+              {% if form.teamMember3Name.errors %}
+                {{form.teamMember3Name(class="form-control is-invalid")}}
+                {% for error in form.teamMember3Name.errors %}
+                  <span class="errorFeedback">{{ error }}</span>
+                {% endfor %}
+              {% else %}
+                {{form.teamMember3Name(class="form-control")}}
+              {% endif %}
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              {{form.teamMember4Name.label(class="form-control-label")}}
+              {% if form.teamMember4Name.errors %}
+                {{form.teamMember4Name(class="form-control is-invalid")}}
+                {% for error in form.teamMember4Name.errors %}
+                  <span class="errorFeedback">{{ error }}</span>
+                {% endfor %}
+              {% else %}
+                {{form.teamMember4Name(class="form-control")}}
+              {% endif %}
+            </div>
+          </div>
+        </div><hr />
+        <h5>4. Other Details</h5>
+        <div class="form-group">
+            {{form.technologyUsed.label(class="form-control-label")}}
+            {% if form.technologyUsed.errors %}
+              {{form.technologyUsed(class="form-control is-invalid")}}
+              {% for error in form.technologyUsed.errors %}
+                <span class="errorFeedback">{{ error }}</span>
+              {% endfor %}
+            {% else %}
+              {{form.technologyUsed(class="form-control")}}
+            {% endif %}
+        </div>
+        <div class="form-group">
+            {{form.reason.label(class="form-control-label")}}
+            {% if form.reason.errors %}
+              {{form.reason(class="form-control is-invalid")}}
+              {% for error in form.reason.errors %}
+                <span class="errorFeedback">{{ error }}</span>
+              {% endfor %}
+            {% else %}
+              {{form.reason(class="form-control")}}
+            {% endif %}
+        </div>
+        <div class="form-group">
+            {{form.submitProject(class="btn btn-outline-primary")}}
+        </div>
+      </form>
+    </div>
+  {%endblock content%}

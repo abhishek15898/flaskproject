@@ -1,0 +1,108 @@
+body{
+background: #F0F4F8;
+}
+
+.badge{
+  padding: 5px;
+}
+.contentBlock{
+  padding: 20px;
+  /* background: white; */
+}
+.headerSection{
+  background: #56CCF2;  /* fallback for old browsers */
+  background: -webkit-linear-gradient(to right, #2F80ED, #56CCF2);  /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to right, #2F80ED, #56CCF2); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  padding: 10px;
+  padding-left: 0px;
+}
+#headerText{
+  font-size: 30px;
+  font-weight: 400;
+  color: white;
+}
+#headerDesc{
+  font-size: 18px;
+  font-weight: 400;
+  color: white;
+}
+#headerTitle{
+  font-size: 18px;
+  font-weight: 400;
+  color: white;
+}
+
+.navigationBar{
+  background: #56CCF2;  /* fallback for old browsers */
+  background: -webkit-linear-gradient(to right, #2F80ED, #56CCF2);  /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to right, #2F80ED, #56CCF2); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}
+
+.nav-link{
+  color: white !important;
+}
+
+#forms{
+  box-shadow: 2px 2px 10px lavender;
+  padding: 20px;
+  background: white;
+}
+.formTitle{
+  background: #00d2ff;  /* fallback for old browsers */
+  background: -webkit-linear-gradient(to right, #928DAB, #00d2ff);  /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to right, #928DAB, #00d2ff); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  color: white;
+  text-align: center;
+  padding: 10px;
+}
+.errorFeedback{
+  color: red;
+}
+#notice{
+  box-shadow: 2px 2px 10px lavander;
+  padding: 10px;
+  background: white;
+}
+#noticeText{
+  background: #8E2DE2;  /* fallback for old browsers */
+background: -webkit-linear-gradient(to right, #4A00E0, #8E2DE2);  /* Chrome 10-25, Safari 5.1-6 */
+background: linear-gradient(to right, #4A00E0, #8E2DE2); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+color: white;
+  text-align: center;
+  font-size: 20px;
+  font-weight: 400;
+  padding: 0px;
+}
+
+.view-more{
+  background: #00B4DB;  /* fallback for old browsers */
+  background: -webkit-linear-gradient(left, #0083B0, #00B4DB);
+  background: -o-linear-gradient(left, #0083B0, #00B4DB);
+  color: white;
+}
+.view-more:hover{
+  background: #396afc;  /* fallback for old browsers */
+background: -webkit-linear-gradient(to right, #2948ff, #396afc);  /* Chrome 10-25, Safari 5.1-6 */
+background: linear-gradient(to right, #2948ff, #396afc); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
+  color: white;
+}
+
+#footer{
+  padding: 30px 0px 10px 0px;
+  background: #242729;
+  color: white;
+  text-align: center;
+  font-size: 15px;
+}
+
+
+#footer-text{
+  font-size: 12px;
+}
+.cell{
+  padding: 5px;
+  border: 1px solid #563D7C;
+  background: #E6E2EB;
+  column-width: 50%
+}

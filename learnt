@@ -1,0 +1,37 @@
+formatted strings - f"
+__repr()__
+__str()__
+packages
+__init__.py in package
+  flaskproject.models
+  faskproject.forms
+if elseif
+slicing string (only 60 letters [ :60])
+sort by desc
+
+users = [
+  {
+    'name': 'Omkar',
+    'email': 'edu.omkar@gmail.com'
+  },
+  {
+    'name': 'Omkar',
+    'email': 'edu.omkar@gmail.com'
+  }
+]
+for user in users:
+  recipent = user['email']
+
+  Refer to : https://www.youtube.com/watch?v=48Eb8JuFuUI for Emails
+  Flask's context processor
+  Flask WTForm made available to all the templates
+
+F:\Flask_Project>python
+Python 3.6.1 (v3.6.1:69c0db5, Mar 21 2017, 17:54:52) [MSC v.1900 32 bit (Intel)] on win32
+Type "help", "copyright", "credits" or "license" for more information.
+>>> from flaskproject import db
+C:\Python\Python36-32\lib\site-packages\flask_sqlalchemy\__init__.py:794: FSADeprecationWarning: SQLALCHEMY_TRACK_MODIFICATIONS adds significant overhead and will be disabled by default in the future.  Set it to True or False to suppress this warning.
+  'SQLALCHEMY_TRACK_MODIFICATIONS adds significant overhead and '
+>>> db.drop_all()
+>>> db.create_all()
+>>> exit()

@@ -1,0 +1,42 @@
+{%extends 'layout.html'%}
+    {%block content%}
+    <br/>
+    <div class="alert alert-primary" role="alert">
+      College Student Projects. <a href="{{ url_for('ProjectRegistration')}}">Register/Login</a> to submit your team project!
+    </div>
+      {% for project in projects %}
+        <div class="card">
+          <div class="card-body">
+            <a href="#" class="badge badge-primary">Computer Science & Engineering</a>
+            <a href="#" class="badge badge-secondary">{{project.guide_id}}</a>
+            <a href="#" class="badge badge-success">{{project.date}}</a><br />
+            <span id="project-title"><h4>Title: {{ project.title.title() }}</h4></span>
+            <span id="members"><b>Members:</b><br /> {{project.leader.title()}},
+              {% if project.member1 != '' %}
+                  {{project.member1.title() }}
+              {% endif %}
+              {% if project.member2 != '' %}
+                  , {{project.member2.title() }}
+              {% endif %}
+              {% if project.member3 != '' %}
+                 , {{project.member3.title() }}
+              {% endif %}
+              {% if project.member4 != '' %}
+                  ,{{project.member4.title() }}
+              {% endif %}
+            </span><br  />
+            <p id="description"><b>Description:</b><br />
+              {{project.desc[:60]}}
+              {% if project.desc|length >60 %}
+                <span>...</span>
+              {% endif%}
+              (Status: {{project.status}})
+            </p>
+            <button class="view-more btn my-2 my-sm-0 float-right" type="button">View More</button>
+
+          </div>
+        </div>
+        <br/>
+      {% endfor %}
+    {%endblock content%}
+    <br />
