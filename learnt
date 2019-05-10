@@ -24,6 +24,7 @@ for user in users:
 
   Refer to : https://www.youtube.com/watch?v=48Eb8JuFuUI for Emails
   Flask's context processor
+    Flask's context processor
   Flask WTForm made available to all the templates
 
 F:\Flask_Project>python
@@ -35,3 +36,12 @@ C:\Python\Python36-32\lib\site-packages\flask_sqlalchemy\__init__.py:794: FSADep
 >>> db.drop_all()
 >>> db.create_all()
 >>> exit()
+
+
+Todo List: 11-05-2019 (12:00AM) (Deadline - 01:05 AM)(Finished at 01:10AM)
+1) Make the Project Track Form available in all the templates. (15 min)
+2) Get data from the input field into Routes. (10 min)
+3) Convert the string data into int - id. (5 min)
+4) Search the id (from the input field in routes) into the db. (15 min)
+5) Fetch details from the db and display into another template.(15 min)
+Yeaaaaaah Done!!! @1:10AM

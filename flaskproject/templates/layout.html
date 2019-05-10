@@ -70,10 +70,20 @@
               <a class="btn btn-success btn-sm" href="#" >Search</a>
             </div>
             <div class="searchBar form-group form-inline">
-              Track Your Project:
-              <input type="text" class="form-control form-control-sm" placeholder="Enter Project ID">
-              <a class="btn btn-success btn-sm" href="#" >Track</a>
-            </div><br />
+              <form method="post" action="/trackProject">
+                {{ trackForm.hidden_tag()}}
+                Track your Project:
+                  {% if trackForm.project_id.errors %}
+                    {{trackForm.project_id(class="form-control is-invalid")}}
+                    {% for error in trackForm.project_id.errors %}
+                      <span class="errorFeedback">{{ error }}</span>
+                    {% endfor %}
+                  {% else %}
+                    {{trackForm.project_id(class="form-control form-control-sm", placeholder="Enter Your Project - ID")}}
+                  {% endif %}
+                  {{trackForm.track(class="btn btn-success btn-sm")}}
+              </form>
+            </div>
             <div id="notice">
               <p id="noticeText">
                 NOTIFICATIONS

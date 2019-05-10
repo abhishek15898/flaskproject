@@ -5,6 +5,12 @@ from flaskproject.forms import projectRegister, guideRegister, trackProject
 from sqlalchemy import asc, desc, select
 from flask_mail import Mail, Message
 
+@app.context_processor
+def inject_sidebar_trackForm():
+    trackForm = trackProject()
+    return dict(trackForm=trackForm)
+
+
 @app.route("/")
 @app.route("/home")
 def home():
@@ -66,17 +72,16 @@ def GuideRegistration():
     return render_template('GuideRegistration.html', title='Guide Registration', form=form)
 
 @app.route("/assignGuide", methods=['GET', 'POST'])
-def assignGuide():
+def guideAssignment():
     projects = Project.query.filter_by(status='NotPublished')
     guides=Guide.query.all()
     return render_template('assignGuide.html', projects=projects, guides=guides, title='MGM Projects')
 
-@app.route("/email", methods=['GET', 'POST'])
-def email(receiver):
-    template = f"Hi {receiver.name}! You have been successfully registerd as a Guide. Your Interests: {receiver.interest}. You will be informed via mail, when students will be are assigned to you."
-    msg = Message(subject='Guide Registration Successful | Department of CSE | MGM College of Engineering | Nanded', sender=receiver.email, recipients=['edu.omkar@gmail.com'], body=template)
-    mail.send(msg)
-
 @app.route("/trackProject", methods=['GET', 'POST'])
-def trackProject():
-    return render_template('progress.html', title='Project')
+def trackProjects():
+    trackForm = trackProject()
+    id=trackForm.project_id.data
+    project =  db.session.query(Project).get(id)
+    if project is None:
+        return 'no'
+    return render_template('progress.html', title="Project Progress", project=project, id=id)
