@@ -42,8 +42,8 @@ def ProjectRegistration():
                           member4=form.teamMember4Name.data)
         db.session.add(project)
         db.session.commit()
-        unique_id = Markup('<b>'+str("{0:03}".format(project.id))+'-'+project.title[:4].upper().replace(" ", "")+'-'+project.leader[:3].upper()+'</b>')
-        template = f"<b>Hi {project.leader}!</b><br /> &nbsp&nbsp&nbsp&nbsp&nbsp&nbspYou have successfully registerd your Project - {project.title}. Please note this ID: {unique_id} to track your Project status. You will be soon assigned with a guide!"
+        unique_id = Markup('<b>'+str("{0:03}".format(project.id))+'-'+project.title[:4].replace(" ", "").upper()+'-'+project.leader[:3].upper()+'</b>')
+        template = f"<b>Hi {project.leader}!</b><br /> &nbsp;&nbsp;&nbsp;&nbsp;You have successfully registerd your Project - {project.title}. Please note this ID: {unique_id} to track your Project status. You will be soon assigned with a guide!"
         msg = Message(subject='Project Registration Successful | Department of CSE | MGM College of Engineering | Nanded', sender='hello@gmail.com', recipients=[form.teamLeaderEmail.data], html=template)
         # Can also access this way:
         # msg.subject=""
@@ -80,8 +80,7 @@ def guideAssignment():
 @app.route("/trackProject", methods=['GET', 'POST'])
 def trackProjects():
     trackForm = trackProject()
-    id=trackForm.project_id.data
-    project =  db.session.query(Project).get(id)
-    if project is None:
-        return 'no'
-    return render_template('progress.html', title="Project Progress", project=project, id=id)
+    id=(trackForm.project_id.data).split("-")
+    p=int(id[0])
+    project = db.session.query(Project).get(p)
+    return render_template('progress.html', title="Project Progress", project=project, id=id, p=p)

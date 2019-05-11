@@ -3,15 +3,22 @@
     <br/>
     <div id="forms">
       <div class="container">
+        {%if project == 'Not-Found' or project.id != p or project.title[:4].replace(" ", "").upper() != id[1] or project.leader[:3].upper() != id[2]%}
+          <h1>No Result's Found</h1>
+          <h5>Please enter a valid Project ID.</h5>
+          <h6>(Kindly check your email, or contact the Admin to get your Project ID.)</h6>
+        {% else %}
+
         <b>Project Overview:</b>
         <br />
         <div class="row">
-          <div class="col cell">Project ID: {{id}} </div>
-          <div class="col cell">001-GIT-OMK + {{project.title}}</div>
+          <div class="col cell">Project ID: {{id[1]}} and {{id[2]}} and {{project.id}} and p: {{p}} </div>
+          <div class="col cell">{{project.title[:4]}} and {{project.leader[:3]}}</div>
           <div class="w-100"></div>
           <div class="col cell">Project Title: </div>
           <div class="col cell">Git and GitHub</div>
         </div>
+        {% endif %}
       </div>
     </div>
     {%endblock content%}

@@ -37,7 +37,7 @@ class guideRegister(FlaskForm):
 
 class trackProject(FlaskForm):
     project_id = StringField('Track Your Project: ',
-                        validators = [DataRequired(), Length(min=1)])
+                        validators = [DataRequired(), Length(min=7)])
     track = SubmitField('Track')
 
 
