@@ -82,8 +82,8 @@ color: white;
 }
 .view-more:hover{
   background: #396afc;  /* fallback for old browsers */
-background: -webkit-linear-gradient(to right, #2948ff, #396afc);  /* Chrome 10-25, Safari 5.1-6 */
-background: linear-gradient(to right, #2948ff, #396afc); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  background: -webkit-linear-gradient(to right, #2948ff, #396afc);  /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to right, #2948ff, #396afc); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 
   color: white;
 }
@@ -105,4 +105,11 @@ background: linear-gradient(to right, #2948ff, #396afc); /* W3C, IE 10+/ Edge, F
   border: 1px solid #563D7C;
   background: #E6E2EB;
   column-width: 50%
+}
+.nav-item:hover{
+  background: #396afc;  /* fallback for old browsers */
+  background: -webkit-linear-gradient(to right, #2948ff, #396afc);  /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to right, #2948ff, #396afc); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+   /* border-radius: 2px; */
+  /* border: 1px solid #396afc; */
 }
