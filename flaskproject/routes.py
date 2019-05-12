@@ -34,12 +34,13 @@ def ProjectRegistration():
         project = Project(title=form.projectTitle.data,
                           desc=form.projectDescription.data,
                           leader=form.teamLeaderName.data,
-                          techUsed=form.teamLeaderName.data,
+                          techUsed=form.technologyUsed.data,
                           reason=form.reason.data,
                           member1=form.teamMember1Name.data,
                           member2=form.teamMember2Name.data,
                           member3=form.teamMember3Name.data,
-                          member4=form.teamMember4Name.data)
+                          member4=form.teamMember4Name.data,
+                          leaderEmail=form.teamLeaderEmail.data)
         db.session.add(project)
         db.session.commit()
         unique_id = Markup('<b>'+str("{0:03}".format(project.id))+'-'+project.title[:4].replace(" ", "").upper()+'-'+project.leader[:3].upper()+'</b>')
@@ -80,7 +81,8 @@ def guideAssignment():
 @app.route("/trackProject", methods=['GET', 'POST'])
 def trackProjects():
     trackForm = trackProject()
-    id=(trackForm.project_id.data).split("-")
+    data = trackForm.project_id.data
+    id=(data).split("-")
     p=int(id[0])
     project = db.session.query(Project).get(p)
-    return render_template('progress.html', title="Project Progress", project=project, id=id, p=p)
+    return render_template('progress.html', title="Project Progress", data=data, project=project, id=id, p=p)

@@ -45,3 +45,39 @@ Todo List: 11-05-2019 (12:00AM) (Deadline - 01:05 AM)(Finished at 01:10AM)
 4) Search the id (from the input field in routes) into the db. (15 min)
 5) Fetch details from the db and display into another template.(15 min)
 Yeaaaaaah Done!!! @1:10AM
+
+Todo List: 12-05-2019 (6:00PM) Deadine - 7:00PM
+1) Plan a design on how to arrange details in progress template. (15 min)
+2) Button to add references and links.
+Display following information:
+1) Project Details
+  - Project ID
+  - Project title
+  - Project Summary - Abstract
+  - Date of Approval
+  - Technology Used
+  - References (link to References Tab)
+2) Project Team (name, email, phone)
+  - Guide
+  - Project leader
+  - Project members
+3) Meetings (Modals)
+  - Total Score
+  - Date | Meeting No. | Score(Modal)  | Remarks(Modal)
+  - Each Modal of Marks contains:
+    - Date
+    - progress
+    - Designing
+    - Logic
+    - Parameter 5
+    - Parameter 6
+    - Total Marks
+    - Remarks in Meeting 1
+  - Each Modal of Remarks contains
+    - Remark Title
+    - Remarks Description
+4) References Tab
+  - Project Report (Google Drive Link)
+  - Project Code (GitHub Link)
+  - Project Timeline (Google Drive Link)
+  - Other Links

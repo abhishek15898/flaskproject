@@ -6,6 +6,7 @@ class Project(db.Model):
     title = db.Column(db.String(50), unique=True, nullable=False)
     desc = db.Column(db.Text, nullable=False)
     leader = db.Column(db.String(50), nullable=False)
+    leaderEmail = db.Column(db.String(120), nullable=False)
     status = db.Column(db.String(20), nullable=True, default='NotPublished')
     guide_id = db.Column(db.Integer, db.ForeignKey('guide.id'), nullable=True)
     techUsed = db.Column(db.Text, nullable=True)
