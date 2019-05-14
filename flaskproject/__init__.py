@@ -1,6 +1,8 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_mail import Mail
+from flask_bcrypt import Bcrypt
+from flask-login import LoginManager
 
 app = Flask(__name__)
 
@@ -19,6 +21,8 @@ mail = Mail(app)
 
 app.config['SECRET_KEY'] = '75083a4f96853215ceb516a0d62506a7'
 app.config['SQLALCHEMY_DATABASE_URI'] ='sqlite:///site.db'
-
 db = SQLAlchemy(app)
+bcrypt = Bcrypt(app)
+login_manager = LoginManager(app)
+
 from flaskproject import routes

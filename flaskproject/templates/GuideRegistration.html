@@ -4,30 +4,52 @@
       <form method="post" action="">
         {{ form.hidden_tag()}}
         <h3 class="formTitle">Guide Registration Form</h3>
-            <div class="form-group">
-              {{form.guideName.label(class="form-control-label")}}
-              {% if form.guideName.errors %}
-                {{form.guideName(class="form-control is-invalid")}}
-                {% for error in form.guideName.errors %}
-                  <span class="errorFeedback">{{ error }}</span>
-                {% endfor %}
-              {% else %}
-                {{form.guideName(class="form-control")}}
-              {% endif %}
+        <div class="form-group">
+          {{form.guideName.label(class="form-control-label")}}
+          {% if form.guideName.errors %}
+            {{form.guideName(class="form-control is-invalid")}}
+            {% for error in form.guideName.errors %}
+              <span class="errorFeedback">{{ error }}</span>
+            {% endfor %}
+          {% else %}
+            {{form.guideName(class="form-control")}}
+          {% endif %}
+        </div>
+        <div class="form-group">
+          {{form.guideEmail.label(class="form-control-label")}}
+          {% if form.guideEmail.errors %}
+            {{form.guideEmail(class="form-control is-invalid")}}
+            <div>
+              {% for error in form.guideEmail.errors %}
+                <span class="errorFeedback">{{ error }}</span>
+              {% endfor %}
             </div>
-            <div class="form-group">
-              {{form.guideEmail.label(class="form-control-label")}}
-              {% if form.guideEmail.errors %}
-                {{form.guideEmail(class="form-control is-invalid")}}
-                <div>
-                  {% for error in form.guideEmail.errors %}
-                    <span class="errorFeedback">{{ error }}</span>
-                  {% endfor %}
-                </div>
-              {% else %}
-                {{form.guideEmail(class="form-control form-control-md")}}
-              {% endif %}
-            </div>
+          {% else %}
+            {{form.guideEmail(class="form-control form-control-md")}}
+          {% endif %}
+        </div>
+        <div class="form-group">
+          {{form.username.label(class="form-control-label")}}
+          {% if form.username.errors %}
+            {{form.username(class="form-control is-invalid")}}
+            {% for error in form.username.errors %}
+              <span class="errorFeedback">{{ error }}</span>
+            {% endfor %}
+          {% else %}
+            {{form.username(class="form-control")}}
+          {% endif %}
+        </div>
+        <div class="form-group">
+          {{form.password.label(class="form-control-label")}}
+          {% if form.password.errors %}
+            {{form.password(class="form-control is-invalid")}}
+            {% for error in form.password.errors %}
+              <span class="errorFeedback">{{ error }}</span>
+            {% endfor %}
+          {% else %}
+            {{form.password(class="form-control")}}
+          {% endif %}
+        </div>
         <div class="form-group">
             {{form.guideInterest.label(class="form-control-label")}}
             {% if form.guideInterest.errors %}

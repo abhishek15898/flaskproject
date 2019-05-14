@@ -1,7 +1,7 @@
 from flask import render_template, url_for, redirect, flash, Markup
-from flaskproject import app, db, mail
+from flaskproject import app, db, mail, bcrypt
 from flaskproject.models import Project, Guide
-from flaskproject.forms import projectRegister, guideRegister, trackProject
+from flaskproject.forms import projectRegister, guideRegister, trackProject, GuideLoginForm
 from sqlalchemy import asc, desc, select
 from flask_mail import Mail, Message
 
@@ -62,10 +62,11 @@ def ProjectRegistration():
 def GuideRegistration():
     form = guideRegister()
     if form.validate_on_submit():
-        guide = Guide(name=form.guideName.data, email=form.guideEmail.data, interest=form.guideInterest.data)
+        hashed_password = bcrypt.generate_password_hash(form.username.data).decode('utf-8')
+        guide = Guide(name=form.guideName.data, username = form.username.data, password = hashed_password, email=form.guideEmail.data, interest=form.guideInterest.data)
         db.session.add(guide)
         db.session.commit()
-        flash('You have registered successfully! Please check your email', 'success')
+        flash('Your account has been created. You can now login as a guide.', 'success')
         template = f"Hi {guide.name}! You have been successfully registerd as a Guide. Your Interests: {guide.interest}. You will be informed via mail, when students will be are assigned to you."
         msg = Message(subject='Guide Registration Successful | Department of CSE | MGM College of Engineering | Nanded', sender='hello@gmail.com', recipients=[guide.email], body=template)
         mail.send(msg)
@@ -86,3 +87,12 @@ def trackProjects():
     p=int(id[0])
     project = db.session.query(Project).get(p)
     return render_template('progress.html', title="Project Progress", data=data, project=project, id=id, p=p)
+
+@app.route("/guideLogin", methods=['GET', 'POST'])
+def guideLogin():
+    form = GuideLoginForm()
+    if form.validate_on_submit():
+        if form.username == 'admin' and password == 'password':
+            flash('You have been successfully logged in!', 'success')
+            return redirect(url_for('home'))
+    return render_template('guideLogin.html', title='Guide Login', form=form)

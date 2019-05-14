@@ -31,6 +31,10 @@ class guideRegister(FlaskForm):
                         validators=[DataRequired(), Length(min=2, max=50)])
     guideEmail = StringField('Your Email: ',
                         validators=[DataRequired(), Email()])
+    username = StringField('Username ',
+                        validators = [DataRequired(), Length(min=2)])
+    password= PasswordField('Password: ',
+                        validators = [DataRequired(), Length(min=2)])
     guideInterest = TextAreaField('Your Area of Interest: ',
                         validators=[DataRequired(), Length(min=2, max=50)])
     registerGuide = SubmitField('Register Guide')
@@ -39,6 +43,13 @@ class trackProject(FlaskForm):
     project_id = StringField('Track Your Project: ',
                         validators = [DataRequired(), Length(min=7)])
     track = SubmitField('Track')
+
+class GuideLoginForm(FlaskForm):
+    username = StringField('Username ',
+                        validators = [DataRequired(), Length(min=2)])
+    password= PasswordField('Password: ',
+                        validators = [DataRequired(), Length(min=2)])
+    submit = SubmitField('Submit')
 
 
 # department = SelectField(u'Select Your Department',

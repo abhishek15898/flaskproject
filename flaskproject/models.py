@@ -1,5 +1,5 @@
 from datetime import datetime
-from flaskproject import db
+from flaskproject import db, login_manager
 
 class Project(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -25,6 +25,8 @@ class Guide(db.Model):
     name = db.Column(db.String(50), nullable=False)
     email = db.Column(db.String(120), nullable=False)
     # unique=True <- Put this in email field
+    username = db.Column(db.String(8), nullable=False)
+    password = db.Column(db.String(8), nullable=False)
     interest = db.Column(db.Text, nullable=False)
     projects = db.relationship('Project', backref='mentees', lazy=True)
 
