@@ -1,5 +1,11 @@
 from datetime import datetime
 from flaskproject import db, login_manager
+from flask_login import UserMixin
+# we write this decorator to let this extension know that
+# this is the function to get a guide by an id.
+@login_manager.user_loader
+def load_guide(guide_id):
+    return Guide.query.get(int(guide_id))
 
 class Project(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -20,7 +26,7 @@ class Project(db.Model):
     def __repr__(self):
         return f"Project('{self.title}', '{self.leader}', '{self.status}', '{self.guide_id}', '{self.date_created}')"
 
-class Guide(db.Model):
+class Guide(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(50), nullable=False)
     email = db.Column(db.String(120), nullable=False)

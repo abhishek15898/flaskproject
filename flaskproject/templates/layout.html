@@ -49,9 +49,17 @@
             </li>
           </ul>
           <form class="form-inline my-2 my-lg-0">
-            <a class="btn btn-success my-2 my-sm-0" href="{{url_for('ProjectRegistration')}}" >Submit your Project</a>
-            &nbsp;&nbsp;
-            <a class="btn btn-success my-2 my-sm-0" href="{{url_for('GuideRegistration')}}">Register as Guide</a>
+
+
+            {% if current_user.is_authenticated %}
+              <a class="btn btn-success my-2 my-sm-0" href="{{url_for('dashboard')}}" >Your Dashboard</a>
+              &nbsp;&nbsp;
+              <a class="btn btn-success my-2 my-sm-0" href="{{url_for('logout')}}">Logout</a>
+            {% else %}
+              <a class="btn btn-success my-2 my-sm-0" href="{{url_for('ProjectRegistration')}}" >Submit your Project</a>
+              &nbsp;&nbsp;
+              <a class="btn btn-success my-2 my-sm-0" href="{{url_for('GuideRegistration')}}">Register as Guide</a>
+            {% endif %}
           </form>
         </div>
       </div>

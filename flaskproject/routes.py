@@ -4,6 +4,7 @@ from flaskproject.models import Project, Guide
 from flaskproject.forms import projectRegister, guideRegister, trackProject, GuideLoginForm
 from sqlalchemy import asc, desc, select
 from flask_mail import Mail, Message
+from flask_login import login_user, current_user, logout_user, login_required
 
 @app.context_processor
 def inject_sidebar_trackForm():
@@ -62,7 +63,7 @@ def ProjectRegistration():
 def GuideRegistration():
     form = guideRegister()
     if form.validate_on_submit():
-        hashed_password = bcrypt.generate_password_hash(form.username.data).decode('utf-8')
+        hashed_password = bcrypt.generate_password_hash(form.password   .data).decode('utf-8')
         guide = Guide(name=form.guideName.data, username = form.username.data, password = hashed_password, email=form.guideEmail.data, interest=form.guideInterest.data)
         db.session.add(guide)
         db.session.commit()
@@ -92,7 +93,20 @@ def trackProjects():
 def guideLogin():
     form = GuideLoginForm()
     if form.validate_on_submit():
-        if form.username == 'admin' and password == 'password':
-            flash('You have been successfully logged in!', 'success')
+        guide = Guide.query.filter_by(username=form.username.data).first()
+        if guide and bcrypt.check_password_hash(guide.password, form.password.data):
+            login_user(guide)
             return redirect(url_for('home'))
+        else:
+            flash('Login Unsuccessful...'+form.password.data, 'danger')
     return render_template('guideLogin.html', title='Guide Login', form=form)
+
+@app.route("/logout")
+def logout():
+    logout_user()
+    return redirect(url_for('home'))
+
+@app.route("/dashboard")
+@login_required
+def dashboard():
+    return render_template('dashboard.html', title="Dashboard")
