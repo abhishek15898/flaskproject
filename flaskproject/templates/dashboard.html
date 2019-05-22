@@ -1,4 +1,12 @@
 {%extends 'layout.html'%}
   {%block content%}
       <h1>Hello {{ current_user.username.capitalize() }}</h1>
+      <div id=forms>
+        Projects guided by you:<br />
+        {% for p in project %}
+          &nbsp;{{loop.index}})
+          {{p.title}}
+          <br />
+        {% endfor %}
+      </div>
   {%endblock content%}

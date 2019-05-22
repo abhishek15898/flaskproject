@@ -34,7 +34,7 @@ class Guide(db.Model, UserMixin):
     username = db.Column(db.String(8), nullable=False)
     password = db.Column(db.String(8), nullable=False)
     interest = db.Column(db.Text, nullable=False)
-    projects = db.relationship('Project', backref='mentees', lazy=True)
+    projects = db.relationship('Project', backref='mentor', lazy=True)
 
     def __repr__(self):
         return f"Guide('{self.name}', '{self.email}', '{self.interest}')"

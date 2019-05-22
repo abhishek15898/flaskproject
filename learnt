@@ -1,5 +1,18 @@
 User Login - 41:00 Part 6
 
+Why to use relationship?
+We have 2 models here - Project and Guide.
+If no relationship:
+  If I would like to render the name of the guide for a project then:
+    I will need to create a query that selects the projects of a particular guide using the foreign key - guide_id
+    Then I will have to pass the query in the template.
+    OR
+    I will have to pass all the guides and projects in to the templates.
+With relationship:
+  I dont need to query anything. I will simply have to pass the project into the template and
+  use the relationship project.mentor.name to display the name of the mentor.
+  The relationship actually binds the foreign key with the primary key.
+
 formatted strings - f"
 __repr()__
 __str()__

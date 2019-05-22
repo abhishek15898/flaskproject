@@ -109,4 +109,5 @@ def logout():
 @app.route("/dashboard")
 @login_required
 def dashboard():
-    return render_template('dashboard.html', title="Dashboard")
+    project = Project.query.filter_by(guide_id=current_user.id)
+    return render_template('dashboard.html', title="Dashboard", project=project)
