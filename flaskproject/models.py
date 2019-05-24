@@ -10,6 +10,7 @@ def load_guide(guide_id):
 class Project(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(50), unique=True, nullable=False)
+    code = db.Column(db.String(50), nullable=True)
     desc = db.Column(db.Text, nullable=False)
     leader = db.Column(db.String(50), nullable=False)
     leaderEmail = db.Column(db.String(120), nullable=False)
@@ -22,7 +23,6 @@ class Project(db.Model):
     member2 = db.Column(db.String(50), nullable=True)
     member3 = db.Column(db.String(50), nullable=True)
     member4 = db.Column(db.String(50), nullable=True)
-
     def __repr__(self):
         return f"Project('{self.title}', '{self.leader}', '{self.status}', '{self.guide_id}', '{self.date_created}')"
 

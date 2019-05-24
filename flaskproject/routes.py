@@ -2,7 +2,7 @@ from flask import render_template, url_for, redirect, flash, Markup
 from flaskproject import app, db, mail, bcrypt
 from flaskproject.models import Project, Guide
 from flaskproject.forms import projectRegister, guideRegister, trackProject, GuideLoginForm
-from sqlalchemy import asc, desc, select
+from sqlalchemy import asc, desc, update
 from flask_mail import Mail, Message
 from flask_login import login_user, current_user, logout_user, login_required
 
@@ -10,7 +10,6 @@ from flask_login import login_user, current_user, logout_user, login_required
 def inject_sidebar_trackForm():
     trackForm = trackProject()
     return dict(trackForm=trackForm)
-
 
 @app.route("/")
 @app.route("/home")
@@ -43,21 +42,15 @@ def ProjectRegistration():
                           member4=form.teamMember4Name.data,
                           leaderEmail=form.teamLeaderEmail.data)
         db.session.add(project)
+        db.session.flush()
+        project.code = str("{0:03}".format(project.id))+'-'+project.title[:4].replace(" ", "").upper()+'-'+project.leader[:3].upper()
         db.session.commit()
-        unique_id = Markup('<b>'+str("{0:03}".format(project.id))+'-'+project.title[:4].replace(" ", "").upper()+'-'+project.leader[:3].upper()+'</b>')
-        template = f"<b>Hi {project.leader}!</b><br /> &nbsp;&nbsp;&nbsp;&nbsp;You have successfully registerd your Project - {project.title}. Please note this ID: {unique_id} to track your Project status. You will be soon assigned with a guide!"
+        template = f"<b>Hi {project.leader}!</b><br /> &nbsp;&nbsp;&nbsp;&nbsp;You have successfully registerd your Project - {project.title}. Please note this ID: <b>{project.code}</b> to track your Project status. You will be soon assigned with a guide!"
         msg = Message(subject='Project Registration Successful | Department of CSE | MGM College of Engineering | Nanded', sender='hello@gmail.com', recipients=[form.teamLeaderEmail.data], html=template)
-        # Can also access this way:
-        # msg.subject=""
-        # msg.body=""
-        # msg.html=""
-        # msg.add_recipient('fvs@gmail.com')
         mail.send(msg)
-        # bulk emails also possible
-        flash('You have successfully registered your Project! Please note this ID: ' + unique_id + ' to track your Project status.', 'success')
+        flash('You have successfully registered your Project! Please note this ID: ' + project.code + ' to track your Project status.', 'success')
         return redirect(url_for('home'))
     return render_template('ProjectRegistration.html', title='Project Registration', form=form)
-
 
 @app.route("/guideRegister", methods=['GET', 'POST'])
 def GuideRegistration():
@@ -84,10 +77,11 @@ def guideAssignment():
 def trackProjects():
     trackForm = trackProject()
     data = trackForm.project_id.data
-    id=(data).split("-")
-    p=int(id[0])
-    project = db.session.query(Project).get(p)
-    return render_template('progress.html', title="Project Progress", data=data, project=project, id=id, p=p)
+    project = Project.query.filter_by(code=data).first()
+    if project:
+        return render_template('progress.html', title="Project Progress", data=data, project=project)
+    flash('Incorrect Project Code.' + data,'danger')
+    return redirect(url_for('home'))
 
 @app.route("/guideLogin", methods=['GET', 'POST'])
 def guideLogin():
