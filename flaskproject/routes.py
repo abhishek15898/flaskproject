@@ -79,7 +79,7 @@ def trackProjects():
     data = trackForm.project_id.data
     project = Project.query.filter_by(code=data).first()
     if project:
-        return render_template('progress.html', title="Project Progress", data=data, project=project)
+        return render_template('progress.html', title="Project Progress", project=project)
     flash('Incorrect Project Code.' + data,'danger')
     return redirect(url_for('home'))
 
@@ -103,5 +103,5 @@ def logout():
 @app.route("/dashboard")
 @login_required
 def dashboard():
-    project = Project.query.filter_by(guide_id=current_user.id)
-    return render_template('dashboard.html', title="Dashboard", project=project)
+    projects = Project.query.filter_by(guide_id=current_user.id)
+    return render_template('dashboard.html', title="Dashboard", projects=projects)
