@@ -1,4 +1,4 @@
-from flask import render_template, url_for, redirect, flash, Markup
+from flask import render_template, url_for, redirect, flash, Markup, abort, request
 from flaskproject import app, db, mail, bcrypt
 from flaskproject.models import Project, Guide
 from flaskproject.forms import projectRegister, guideRegister, trackProject, GuideLoginForm
@@ -73,14 +73,16 @@ def guideAssignment():
     guides=Guide.query.all()
     return render_template('assignGuide.html', projects=projects, guides=guides, title='MGM Projects')
 
+@app.route("/trackProject/<data>", methods=['GET', 'POST'])
 @app.route("/trackProject", methods=['GET', 'POST'])
-def trackProjects():
+def trackProjects(data=None):
     trackForm = trackProject()
-    data = trackForm.project_id.data
+    if not data:
+        data = trackForm.project_id.data
     project = Project.query.filter_by(code=data).first()
     if project:
         return render_template('progress.html', title="Project Progress", project=project)
-    flash('Incorrect Project Code.' + data,'danger')
+    flash('Incorrect Project Code.' + str(data),'danger')
     return redirect(url_for('home'))
 
 @app.route("/guideLogin", methods=['GET', 'POST'])
@@ -105,3 +107,37 @@ def logout():
 def dashboard():
     projects = Project.query.filter_by(guide_id=current_user.id)
     return render_template('dashboard.html', title="Dashboard", projects=projects)
+
+@app.route("/updateProject/<project_id>", methods=['GET', 'POST'])
+@login_required
+def update_Projects(project_id):
+    project = Project.query.get_or_404(project_id)
+    if project.guide_id!=current_user.id:
+        abort(403)
+    form = projectRegister()
+    if form.validate_on_submit():
+        project.title = form.projectTitle.data
+        project.desc = form.projectDescription.data
+        project.leader = form.teamLeaderName.data
+        project.leaderEmail = form.teamLeaderEmail.data
+        project.member1 = form.teamMember1Name.data
+        project.member2 = form.teamMember2Name.data
+        project.member3 = form.teamMember3Name.data
+        project.member4 = form.teamMember4Name.data
+        project.techUsed = form.technologyUsed.data
+        project.reason = form.reason.data
+        db.session.commit()
+        flash('Updated Post', 'success')
+        return redirect(url_for('trackProjects', data=project.code))
+    elif request.method == 'GET':
+        form.projectTitle.data = project.title
+        form.projectDescription.data = project.desc
+        form.teamLeaderName.data= project.leader
+        form.teamLeaderEmail.data= project.leaderEmail
+        form.teamMember1Name.data= project.member1
+        form.teamMember2Name.data= project.member2
+        form.teamMember3Name.data= project.member3
+        form.teamMember4Name.data= project.member4
+        form.technologyUsed.data= project.techUsed
+        form.reason.data= project.reason
+    return render_template('ProjectRegistration.html', title='Update Project', form=form)

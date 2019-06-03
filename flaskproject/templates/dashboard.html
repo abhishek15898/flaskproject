@@ -30,7 +30,7 @@
                         <p>Last Modified: {{ project.date_created.strftime('%d-%B-%Y at %H:%M (%A)') }}</p>
                         <p>Last Meeting: {{ project.date_created.strftime('%d-%B-%Y at %H:%M (%A)') }}</p>
                         <p>Current Score: 5.6/10</p>
-                        <!-- <a href="{{url_for('trackProjects', code = project.code|string, value = 1)}}">View More Details</a> -->
+                        <a href="{{url_for('trackProjects', data=project.code)}}">hg</a>
                       </div>
                     {%endfor%}
                   </div>
