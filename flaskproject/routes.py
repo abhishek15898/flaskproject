@@ -110,7 +110,7 @@ def dashboard():
 
 @app.route("/updateProject/<project_id>", methods=['GET', 'POST'])
 @login_required
-def update_Projects(project_id):
+def updateProject(project_id):
     project = Project.query.get_or_404(project_id)
     if project.guide_id!=current_user.id:
         abort(403)
