@@ -7,7 +7,7 @@ class projectRegister(FlaskForm):
                         validators=[DataRequired(), Length(min=2, max=50)])
     projectDescription = TextAreaField('Project Description',
                         validators=[DataRequired()])
-    teamLeaderName = StringField('Team Leader Name',
+    teamName = StringField('Team Name',
                         validators=[DataRequired(), Length(min=2, max=50)])
     teamLeaderEmail = StringField('Team Leader Email',
                         validators=[DataRequired(), Email()])

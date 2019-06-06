@@ -15,6 +15,7 @@ class Project(db.Model):
     leaderEmail = db.Column(db.String(120), nullable=False)
     status = db.Column(db.String(20), nullable=True, default='NotPublished')
     guide_id = db.Column(db.Integer, db.ForeignKey('guide.id'), nullable=True)
+    team_id = db.Column(db.Integer, db.ForeignKey('team.id'), nullable=True)
     techUsed = db.Column(db.Text, nullable=True)
     reason = db.Column(db.Text, nullable=False)
     date_created = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)

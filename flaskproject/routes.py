@@ -1,6 +1,6 @@
 from flask import render_template, url_for, redirect, flash, Markup, abort, request
 from flaskproject import app, db, mail, bcrypt
-from flaskproject.models import Project, Guide
+from flaskproject.models import Project, Guide, Student, Team
 from flaskproject.forms import projectRegister, guideRegister, trackProject, GuideLoginForm
 from sqlalchemy import asc, desc, update
 from flask_mail import Mail, Message
@@ -33,7 +33,6 @@ def ProjectRegistration():
     if form.validate_on_submit():
         project = Project(title=form.projectTitle.data,
                           desc=form.projectDescription.data,
-                          leader=form.teamLeaderName.data,
                           techUsed=form.technologyUsed.data,
                           reason=form.reason.data,
                           member1=form.teamMember1Name.data,
@@ -43,7 +42,19 @@ def ProjectRegistration():
                           leaderEmail=form.teamLeaderEmail.data)
         db.session.add(project)
         db.session.flush()
-        project.code = str("{0:03}".format(project.id))+'-'+project.title[:4].replace(" ", "").upper()+'-'+project.leader[:3].upper()
+        project.code = str("{0:03}".format(project.id))+'-'+project.title[:4].replace(" ", "").upper()+'-'+"omk".upper()
+        team = Team(name=form.teamName.data)
+        db.session.add(team)
+        db.session.flush()
+        project.team_id = team.id
+        for i in range(1,5):
+            if form.teamMember1Name.data:
+                student = Student(name=form.teamMember1Name.data,
+                          email=form.teamLeaderEmail.data,
+                          phone=form.teamMember1Name.data,
+                          cls="TECSEA")
+                db.session.add(student)
+        db.session.flush()
         db.session.commit()
         template = f"<b>Hi {project.leader}!</b><br /> &nbsp;&nbsp;&nbsp;&nbsp;You have successfully registerd your Project - {project.title}. Please note this ID: <b>{project.code}</b> to track your Project status. You will be soon assigned with a guide!"
         msg = Message(subject='Project Registration Successful | Department of CSE | MGM College of Engineering | Nanded', sender='hello@gmail.com', recipients=[form.teamLeaderEmail.data], html=template)

@@ -29,20 +29,7 @@
         </div><hr />
           <h5>2. Team Leader Details</h5>
         <div class="row">
-          <div class="col-md-6">
-            <div class="form-group">
-              {{form.teamLeaderName.label(class="form-control-label")}}
-              {% if form.teamLeaderName.errors %}
-                {{form.teamLeaderName(class="form-control is-invalid")}}
-                {% for error in form.teamLeaderName.errors %}
-                  <span class="errorFeedback">{{ error }}</span>
-                {% endfor %}
-              {% else %}
-                {{form.teamLeaderName(class="form-control")}}
-              {% endif %}
-            </div>
-          </div>
-          <div class="col-md-6">
+          <div class="col-md-12">
             <div class="form-group">
               {{form.teamLeaderEmail.label(class="form-control-label")}}
               {% if form.teamLeaderEmail.errors %}
@@ -60,7 +47,19 @@
         </div><hr />
           <h5>3. Team Members Detail <small>(optional)</small></h5>
         <div class="row">
-          <div class="col-md-6">
+          <div class="col-md-4">
+            <div class="form-group">
+              {{form.teamName.label(class="form-control-label")}}
+              {% if form.teamName.errors %}
+                {{form.teamName(class="form-control is-invalid")}}
+                {% for error in form.teamName.errors %}
+                  <span class="errorFeedback">{{ error }}</span>
+                {% endfor %}
+              {% else %}
+                {{form.teamName(class="form-control")}}
+              {% endif %}
+            </div></div>
+          <div class="col-md-4">
             <div class="form-group">
               {{form.teamMember1Name.label(class="form-control-label")}}
               {% if form.teamMember1Name.errors %}
@@ -71,9 +70,8 @@
               {% else %}
                 {{form.teamMember1Name(class="form-control")}}
               {% endif %}
-            </div>
-          </div>
-          <div class="col-md-6">
+            </div></div>
+          <div class="col-md-4">
             <div class="form-group">
               {{form.teamMember2Name.label(class="form-control-label")}}
               {% if form.teamMember2Name.errors %}
@@ -84,8 +82,7 @@
               {% else %}
                 {{form.teamMember2Name(class="form-control")}}
               {% endif %}
-            </div>
-          </div>
+            </div></div>
         </div>
         <div class="row">
           <div class="col-md-6">
