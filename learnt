@@ -96,3 +96,24 @@ Display following information:
   - Project Code (GitHub Link)
   - Project Timeline (Google Drive Link)
   - Other Links
+
+
+Todo List: 10-06-2019 (10:45AM)
+1) Create relationships between Project, Guide, Team, Student (Done)
+2) Change the form. (30 mins) (10:35 - 11:05)(finished at 11:03AM)(Designing 11:10 - 11:40am  )
+  2.1) Include all the necessary project details.
+  2.2) Include Team Details
+  2.3) Include Student details
+  2.4) Submit the details and catch it at the route.
+3) Fill the details in the database (30 mins) (5:00pm - 6:00pm ):
+  3.0) Send the details to a new route and check for response.args.
+  3.1) Check response.args data.
+  3.2) Fill the team members details.
+  3.3) Fill the database.
+  3.4) Assign a guide to the team.
+4) Change the frontend Design. (30 mins)
+  4.1) Change the homescreen.
+  4.2) Change the guide dashboard.
+  4.3) Change the project details page.
+  4.4) Change the guide page.
+5) (Optional) Apply Jquery and AJAX for members feature.

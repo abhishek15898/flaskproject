@@ -1,29 +1,34 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, SelectField, PasswordField, SubmitField, BooleanField, TextAreaField
-from wtforms.validators import DataRequired, Length, Email, EqualTo
+from wtforms import FieldList, FormField, StringField, SelectField, PasswordField, SubmitField, BooleanField, TextAreaField
+from wtforms.validators import DataRequired, Length, Email, EqualTo, Optional
+
+class membersForm(FlaskForm):
+    class Meta:
+        csrf = False
+    memberName = StringField('Team Member',
+                        validators=[Length(min=0, max=50)])
+    memberEmail = StringField('Email: ',
+                        validators=[Email(), Optional()])
+    memberClass = SelectField(u'Class', choices=[('','Select Class'),('A', 'BE-CSE-A'), ('B', 'BE-CSE-B')])
+    memberPhone = StringField('Phone: ',
+                        validators=[Length(min=10, max=10), Optional()])
 
 class projectRegister(FlaskForm):
+    class Meta:
+        csrf = True
     projectTitle = StringField('Project Title',
                         validators=[DataRequired(), Length(min=2, max=50)])
     projectDescription = TextAreaField('Project Description',
                         validators=[DataRequired()])
     teamName = StringField('Team Name',
                         validators=[DataRequired(), Length(min=2, max=50)])
-    teamLeaderEmail = StringField('Team Leader Email',
-                        validators=[DataRequired(), Email()])
-    teamMember1Name = StringField('Team Member - 1',
-                        validators=[Length(min=0, max=50)])
-    teamMember2Name = StringField('Team Member - 2',
-                        validators=[ Length(min=0, max=50)])
-    teamMember3Name = StringField('Team Member - 3',
-                        validators=[ Length(min=0, max=50)])
-    teamMember4Name = StringField('Team Member - 4',
-                        validators=[ Length(min=0, max=50)])
+    members = FieldList(FormField(membersForm), min_entries=4)
     technologyUsed = StringField('Technology Used',
                         validators=[ Length(min=0, max=100)])
     reason = TextAreaField('Why this Project?',
                         validators=[DataRequired()])
     submitProject = SubmitField('Register Project')
+
 
 
 class guideRegister(FlaskForm):

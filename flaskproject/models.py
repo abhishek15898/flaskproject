@@ -12,17 +12,12 @@ class Project(db.Model):
     title = db.Column(db.String(50), unique=True, nullable=False)
     code = db.Column(db.String(50), nullable=True)
     desc = db.Column(db.Text, nullable=False)
-    leaderEmail = db.Column(db.String(120), nullable=False)
     status = db.Column(db.String(20), nullable=True, default='NotPublished')
     guide_id = db.Column(db.Integer, db.ForeignKey('guide.id'), nullable=True)
     team_id = db.Column(db.Integer, db.ForeignKey('team.id'), nullable=True)
     techUsed = db.Column(db.Text, nullable=True)
     reason = db.Column(db.Text, nullable=False)
     date_created = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
-    member1 = db.Column(db.String(50), nullable=True)
-    member2 = db.Column(db.String(50), nullable=True)
-    member3 = db.Column(db.String(50), nullable=True)
-    member4 = db.Column(db.String(50), nullable=True)
     def __repr__(self):
         return f"Project('{self.title}', '{self.leader}', '{self.status}', '{self.guide_id}', '{self.date_created}')"
 
@@ -52,5 +47,6 @@ class Team(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(50), nullable=False)
     members = db.relationship('Student', backref='team', lazy=True)
+    project_team = db.relationship('Project', backref='team', lazy=True)
     def __repr__(self):
         return f"Team('{self.name}')"

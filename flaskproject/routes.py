@@ -31,36 +31,38 @@ def guide():
 def ProjectRegistration():
     form = projectRegister()
     if form.validate_on_submit():
-        project = Project(title=form.projectTitle.data,
-                          desc=form.projectDescription.data,
-                          techUsed=form.technologyUsed.data,
-                          reason=form.reason.data,
-                          member1=form.teamMember1Name.data,
-                          member2=form.teamMember2Name.data,
-                          member3=form.teamMember3Name.data,
-                          member4=form.teamMember4Name.data,
-                          leaderEmail=form.teamLeaderEmail.data)
-        db.session.add(project)
-        db.session.flush()
-        project.code = str("{0:03}".format(project.id))+'-'+project.title[:4].replace(" ", "").upper()+'-'+"omk".upper()
-        team = Team(name=form.teamName.data)
-        db.session.add(team)
-        db.session.flush()
-        project.team_id = team.id
-        for i in range(1,5):
-            if form.teamMember1Name.data:
-                student = Student(name=form.teamMember1Name.data,
-                          email=form.teamLeaderEmail.data,
-                          phone=form.teamMember1Name.data,
-                          cls="TECSEA")
-                db.session.add(student)
-        db.session.flush()
-        db.session.commit()
-        template = f"<b>Hi {project.leader}!</b><br /> &nbsp;&nbsp;&nbsp;&nbsp;You have successfully registerd your Project - {project.title}. Please note this ID: <b>{project.code}</b> to track your Project status. You will be soon assigned with a guide!"
-        msg = Message(subject='Project Registration Successful | Department of CSE | MGM College of Engineering | Nanded', sender='hello@gmail.com', recipients=[form.teamLeaderEmail.data], html=template)
-        mail.send(msg)
-        flash('You have successfully registered your Project! Please note this ID: ' + project.code + ' to track your Project status.', 'success')
-        return redirect(url_for('home'))
+        for entry in form.members.entries:
+            flash(entry.data)
+        # project = Project(title=form.projectTitle.data,
+        #                   desc=form.projectDescription.data,
+        #                   techUsed=form.technologyUsed.data,
+        #                   reason=form.reason.data,
+        #                   member1=form.teamMember1Name.data,
+        #                   member2=form.teamMember2Name.data,
+        #                   member3=form.teamMember3Name.data,
+        #                   member4=form.teamMember4Name.data,
+        #                   )
+        # db.session.add(project)
+        # db.session.flush()
+        # project.code = str("{0:03}".format(project.id))+'-'+project.title[:4].replace(" ", "").upper()+'-'+"omk".upper()
+        # team = Team(name=form.teamName.data)
+        # db.session.add(team)
+        # db.session.flush()
+        # project.team_id = team.id
+        # for i in range(1,5):
+        #     if form.teamMember1Name.data:
+        #         student = Student(name=form.teamMember1Name.data,
+        #                   email=form.teamLeaderEmail.data,
+        #                   phone=form.teamMember1Name.data,
+        #                   cls="TECSEA")
+        #         db.session.add(student)
+        # db.session.flush()
+        # db.session.commit()
+        # template = f"<b>Hi {project.leader}!</b><br /> &nbsp;&nbsp;&nbsp;&nbsp;You have successfully registerd your Project - {project.title}. Please note this ID: <b>{project.code}</b> to track your Project status. You will be soon assigned with a guide!"
+        # msg = Message(subject='Project Registration Successful | Department of CSE | MGM College of Engineering | Nanded', sender='hello@gmail.com', recipients=[form.teamLeaderEmail.data], html=template)
+        # mail.send(msg)
+        # flash('You have successfully registered your Project! Please note this ID: ' + project.code + ' to track your Project status.', 'success')
+        # return redirect(url_for('home'))
     return render_template('ProjectRegistration.html', title='Project Registration', form=form)
 
 @app.route("/guideRegister", methods=['GET', 'POST'])
