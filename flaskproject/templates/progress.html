@@ -64,9 +64,9 @@
                   <td>Email</td>
                 </tr>
                 <tr id="leader">
-                  <td>{{project.leader}}</td>
+                  <td>{{project.team.members[0].name}}</td>
                   <td>Phone</td>
-                  <td>{{project.leaderEmail}}</td>
+                  <td>{{project.team.members[0].email}}</td>
                 </tr>
                   {% if project.member1%}
                     <tr>

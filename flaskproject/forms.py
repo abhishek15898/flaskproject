@@ -6,7 +6,7 @@ class membersForm(FlaskForm):
     class Meta:
         csrf = False
     memberName = StringField('Team Member',
-                        validators=[Length(min=0, max=50)])
+                        validators=[Length(min=0, max=20)])
     memberEmail = StringField('Email: ',
                         validators=[Email(), Optional()])
     memberClass = SelectField(u'Class', choices=[('','Select Class'),('A', 'BE-CSE-A'), ('B', 'BE-CSE-B')])

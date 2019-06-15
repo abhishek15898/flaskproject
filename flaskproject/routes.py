@@ -29,40 +29,78 @@ def guide():
 
 @app.route("/projectRegister", methods=['GET', 'POST'])
 def ProjectRegistration():
+    global status
+    status=0
     form = projectRegister()
     if form.validate_on_submit():
-        for entry in form.members.entries:
-            flash(entry.data)
-        # project = Project(title=form.projectTitle.data,
-        #                   desc=form.projectDescription.data,
-        #                   techUsed=form.technologyUsed.data,
-        #                   reason=form.reason.data,
-        #                   member1=form.teamMember1Name.data,
-        #                   member2=form.teamMember2Name.data,
-        #                   member3=form.teamMember3Name.data,
-        #                   member4=form.teamMember4Name.data,
-        #                   )
-        # db.session.add(project)
-        # db.session.flush()
-        # project.code = str("{0:03}".format(project.id))+'-'+project.title[:4].replace(" ", "").upper()+'-'+"omk".upper()
-        # team = Team(name=form.teamName.data)
-        # db.session.add(team)
-        # db.session.flush()
-        # project.team_id = team.id
-        # for i in range(1,5):
-        #     if form.teamMember1Name.data:
-        #         student = Student(name=form.teamMember1Name.data,
-        #                   email=form.teamLeaderEmail.data,
-        #                   phone=form.teamMember1Name.data,
-        #                   cls="TECSEA")
-        #         db.session.add(student)
-        # db.session.flush()
-        # db.session.commit()
-        # template = f"<b>Hi {project.leader}!</b><br /> &nbsp;&nbsp;&nbsp;&nbsp;You have successfully registerd your Project - {project.title}. Please note this ID: <b>{project.code}</b> to track your Project status. You will be soon assigned with a guide!"
-        # msg = Message(subject='Project Registration Successful | Department of CSE | MGM College of Engineering | Nanded', sender='hello@gmail.com', recipients=[form.teamLeaderEmail.data], html=template)
-        # mail.send(msg)
-        # flash('You have successfully registered your Project! Please note this ID: ' + project.code + ' to track your Project status.', 'success')
-        # return redirect(url_for('home'))
+        entries = form.members.data
+        membersList = []
+        # entries.pop(2)
+        flash(form.members.data)
+        for index, entry in enumerate(entries):
+            flag=0
+            for key, value in entry.items():
+                if bool(value) and flag==0:
+                    if entry['memberName']!='':
+                        membersList.append(entry)
+                        flag=1
+                        status=1
+                        continue
+                    else:
+                        if index==0:
+                            flash("Enter valid Leader Name.", 'danger')
+                        else:
+                            flash("Enter valid Member-"+str(index)+" Name.", 'danger')
+                        status=0
+                        break
+                if flag==1 and bool(value)==False:
+                    membersList.remove(entry)
+                    if index==0:
+                        flash("Enter valid Leader "+key[6:]+" Details ", 'danger')
+                    else:
+                        flash("Enter valid Member-"+str(index)+" "+ key[6:]+ " Details ", 'danger')
+                    status=0
+                    break
+                if index==0 and bool(value)==False:
+                    status=0
+                    flash("Enter valid Leader "+key[6:], 'danger')
+                    break
+            if status==0:
+                break
+
+        flash(membersList)
+        flash(status)
+        if len(membersList)>=1 and status==1:
+            flash("check", 'success')
+            project = Project(
+                        title=form.projectTitle.data,
+                        desc=form.projectDescription.data,
+                        techUsed=form.technologyUsed.data,
+                        reason=form.reason.data
+                        )
+            db.session.add(project)
+            db.session.flush()
+            project.code = str("{0:03}".format(project.id))+'-'+project.title[:4].replace(" ", "").upper()+'-'+"omk".upper()
+            team = Team(name=form.teamName.data)
+            db.session.add(team)
+            db.session.flush()
+            project.team_id = team.id
+            for index, entry in enumerate(membersList):
+                    student = Student(
+                                team_id=project.team_id,
+                                name=entry['memberName'],
+                                email=entry['memberEmail'],
+                                phone=entry['memberPhone'],
+                                cls=entry['memberClass']
+                                )
+                    db.session.add(student)
+            db.session.flush()
+            db.session.commit()
+            template = f"<b>Hi {project.team.members[0].name}!</b><br /> &nbsp;&nbsp;&nbsp;&nbsp;You have successfully registerd your Project - {project.title}. Please note this ID: <b>{project.code}</b> to track your Project status. You will be soon assigned with a guide!"
+            msg = Message(subject='Project Registration Successful | Department of CSE | MGM College of Engineering | Nanded', sender='hello@gmail.com', recipients=[form.teamLeaderEmail.data], html=template)
+            mail.send(msg)
+            flash('You have successfully registered your Project! Please note this ID: ' + project.code + ' to track your Project status.', 'success')
+            return redirect(url_for('home'))
     return render_template('ProjectRegistration.html', title='Project Registration', form=form)
 
 @app.route("/guideRegister", methods=['GET', 'POST'])
@@ -131,12 +169,7 @@ def updateProject(project_id):
     if form.validate_on_submit():
         project.title = form.projectTitle.data
         project.desc = form.projectDescription.data
-        project.leader = form.teamLeaderName.data
-        project.leaderEmail = form.teamLeaderEmail.data
-        project.member1 = form.teamMember1Name.data
-        project.member2 = form.teamMember2Name.data
-        project.member3 = form.teamMember3Name.data
-        project.member4 = form.teamMember4Name.data
+        project.team.members= form.members
         project.techUsed = form.technologyUsed.data
         project.reason = form.reason.data
         db.session.commit()
@@ -145,12 +178,8 @@ def updateProject(project_id):
     elif request.method == 'GET':
         form.projectTitle.data = project.title
         form.projectDescription.data = project.desc
-        form.teamLeaderName.data= project.leader
-        form.teamLeaderEmail.data= project.leaderEmail
-        form.teamMember1Name.data= project.member1
-        form.teamMember2Name.data= project.member2
-        form.teamMember3Name.data= project.member3
-        form.teamMember4Name.data= project.member4
+
+        form.members = project.team.members
         form.technologyUsed.data= project.techUsed
         form.reason.data= project.reason
     return render_template('ProjectRegistration.html', title='Update Project', form=form)

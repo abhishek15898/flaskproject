@@ -25,7 +25,7 @@
                         {%set display = 'show'%}
                       {%endif%}
                       <div class="tab-pane fade {{display}} active" style="word-wrap: break-word;" id="list-{{project.title}}" role="tabpanel" aria-labelledby="list-home-list">
-                        <p>Leader: {{project.leader}}</p>
+                        <p>Leader: {{project.team.members[0].name}}</p>
                         <p>Code : {{project.code}}</p>
                         <p>Last Modified: {{ project.date_created.strftime('%d-%B-%Y at %H:%M (%A)') }}</p>
                         <p>Last Meeting: {{ project.date_created.strftime('%d-%B-%Y at %H:%M (%A)') }}</p>

@@ -11,19 +11,10 @@
             <a href="#" class="badge badge-secondary">{{project.mentor.name}}</a>
             <a href="#" class="badge badge-success">{{project.date}}</a><br />
             <span id="project-title"><h4>Title: {{ project.title.title() }}</h4></span>
-            <span id="members"><b>Members:</b><br /> {{project.leader.title()}},
-              {% if project.member1 != '' %}
-                  {{project.member1.title() }}
-              {% endif %}
-              {% if project.member2 != '' %}
-                  , {{project.member2.title() }}
-              {% endif %}
-              {% if project.member3 != '' %}
-                 , {{project.member3.title() }}
-              {% endif %}
-              {% if project.member4 != '' %}
-                  ,{{project.member4.title() }}
-              {% endif %}
+            <span id="members"><b>Members:</b>&nbsp;&nbsp;&nbsp;
+            {% for member in project.team.members%}
+              <span class="badge badge-light">{{member.name}}</span>
+            {% endfor %}
             </span><br  />
             <p id="description"><b>Description:</b><br />
               {{project.desc[:60]}}
