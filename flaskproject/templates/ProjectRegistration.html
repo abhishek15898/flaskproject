@@ -1,5 +1,6 @@
 {%extends 'layout.html'%}
   {%block content%}
+{{form.members.data}}
     <div id="forms">
       <form method="post" action="">
         {{ form.hidden_tag()}}
@@ -42,7 +43,6 @@
               {% endif %}
             </div>
           </div>
-
 
           {% for field in form.members%}
             {%set member = 'Team Member' %}

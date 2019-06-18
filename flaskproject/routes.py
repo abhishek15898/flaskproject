@@ -1,10 +1,12 @@
 from flask import render_template, url_for, redirect, flash, Markup, abort, request
 from flaskproject import app, db, mail, bcrypt
 from flaskproject.models import Project, Guide, Student, Team
-from flaskproject.forms import projectRegister, guideRegister, trackProject, GuideLoginForm
+from flaskproject.forms import projectRegister, guideRegister, trackProject, GuideLoginForm, membersForm
 from sqlalchemy import asc, desc, update
 from flask_mail import Mail, Message
 from flask_login import login_user, current_user, logout_user, login_required
+
+total_members=4
 
 @app.context_processor
 def inject_sidebar_trackForm():
@@ -37,37 +39,8 @@ def ProjectRegistration():
         membersList = []
         # entries.pop(2)
         flash(form.members.data)
-        for index, entry in enumerate(entries):
-            flag=0
-            for key, value in entry.items():
-                if bool(value) and flag==0:
-                    if entry['memberName']!='':
-                        membersList.append(entry)
-                        flag=1
-                        status=1
-                        continue
-                    else:
-                        if index==0:
-                            flash("Enter valid Leader Name.", 'danger')
-                        else:
-                            flash("Enter valid Member-"+str(index)+" Name.", 'danger')
-                        status=0
-                        break
-                if flag==1 and bool(value)==False:
-                    membersList.remove(entry)
-                    if index==0:
-                        flash("Enter valid Leader "+key[6:]+" Details ", 'danger')
-                    else:
-                        flash("Enter valid Member-"+str(index)+" "+ key[6:]+ " Details ", 'danger')
-                    status=0
-                    break
-                if index==0 and bool(value)==False:
-                    status=0
-                    flash("Enter valid Leader "+key[6:], 'danger')
-                    break
-            if status==0:
-                break
-
+        membersList=validate_on_submit_members(entries)
+        status=membersList.pop()
         flash(membersList)
         flash(status)
         if len(membersList)>=1 and status==1:
@@ -97,7 +70,7 @@ def ProjectRegistration():
             db.session.flush()
             db.session.commit()
             template = f"<b>Hi {project.team.members[0].name}!</b><br /> &nbsp;&nbsp;&nbsp;&nbsp;You have successfully registerd your Project - {project.title}. Please note this ID: <b>{project.code}</b> to track your Project status. You will be soon assigned with a guide!"
-            msg = Message(subject='Project Registration Successful | Department of CSE | MGM College of Engineering | Nanded', sender='hello@gmail.com', recipients=[form.teamLeaderEmail.data], html=template)
+            msg = Message(subject='Project Registration Successful | Department of CSE | MGM College of Engineering | Nanded', sender='hello@gmail.com', recipients=[project.team.members[0].email], html=template)
             mail.send(msg)
             flash('You have successfully registered your Project! Please note this ID: ' + project.code + ' to track your Project status.', 'success')
             return redirect(url_for('home'))
@@ -166,10 +139,10 @@ def updateProject(project_id):
     if project.guide_id!=current_user.id:
         abort(403)
     form = projectRegister()
+    students = Student.query.filter_by(team_id=project.team_id)
     if form.validate_on_submit():
         project.title = form.projectTitle.data
         project.desc = form.projectDescription.data
-        project.team.members= form.members
         project.techUsed = form.technologyUsed.data
         project.reason = form.reason.data
         db.session.commit()
@@ -178,8 +151,63 @@ def updateProject(project_id):
     elif request.method == 'GET':
         form.projectTitle.data = project.title
         form.projectDescription.data = project.desc
-
-        form.members = project.team.members
+        form.teamName.data = project.team.name
+        l=[]
+        for i in range(total_members):
+                form.members.pop_entry()
+        for student in students:
+            member = {
+            'memberName':student.name,
+            'memberEmail':student.email,
+            'memberClass':student.cls,
+            'memberPhone':student.phone
+            }
+            l.append(member)
+            form.members.append_entry(member)
+        length=len(form.members)
+        for i in range(0,total_members-length):
+            member = {
+            'memberName':None,
+            'memberEmail':None,
+            'memberClass':None,
+            'memberPhone':None
+            }
+            form.members.append_entry(member)
         form.technologyUsed.data= project.techUsed
         form.reason.data= project.reason
     return render_template('ProjectRegistration.html', title='Update Project', form=form)
+
+def validate_on_submit_members(entries):
+    membersList=[]
+    for index, entry in enumerate(entries):
+        flag=0
+        for key, value in entry.items():
+            if bool(value) and flag==0:
+                if entry['memberName']!='':
+                    membersList.append(entry)
+                    flag=1
+                    status=1
+                    continue
+                else:
+                    if index==0:
+                        flash("Enter valid Leader Name.", 'danger')
+                    else:
+                        flash("Enter valid Member-"+str(index)+" Name.", 'danger')
+                    status=0
+                    break
+            if flag==1 and bool(value)==False:
+                membersList.remove(entry)
+                if index==0:
+                    flash("Enter valid Leader "+key[6:]+" Details ", 'danger')
+                else:
+                    flash("Enter valid Member-"+str(index)+" "+ key[6:]+ " Details ", 'danger')
+                status=0
+                break
+            if index==0 and bool(value)==False:
+                status=0
+                flash("Enter valid Leader "+key[6:], 'danger')
+                break
+        if status==0:
+            break
+    membersList.append(status)
+    return membersList
