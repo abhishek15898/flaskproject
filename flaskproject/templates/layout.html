@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='main.css')}}">
+    <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
+    <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+    <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"> -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+    <!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script> -->
+    <meta charset="utf-8">
+    <title>{{title}}</title>
+  </head>
+  <body>
+    <div class="headerSection">
+      <div class="container">
+        <span id="headerText">Department of Computer Science & Engineering</span><br />
+        <span id="headerDesc" >Mahatma Gandhi Mission's College of Engineering, Nanded</span><br />
+      </div>
+    </div>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top navigationBar">
+      <div class="container">
+        <a class="navbar-brand" href="#"></a><br />
+        <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navb">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navb">
+          <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+              <a class="nav-link menuBar" href="{{url_for('home')}}">Projects</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link menuBar" href="{{url_for('guide')}}">Guides</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link menuBar" href="#">About</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link menuBar" href="#">Guidelines</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link menuBar" href="#">Timeline</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link menuBar" href="#">FAQ's</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link menuBar" href="#">Contact</a>
+            </li>
+          </ul>
+          <form class="form-inline my-2 my-lg-0">
+
+
+            {% if current_user.is_authenticated %}
+              <a class="btn btn-success my-2 my-sm-0" href="{{url_for('dashboard')}}" >Your Dashboard</a>
+              &nbsp;&nbsp;
+              <a class="btn btn-success my-2 my-sm-0" href="{{url_for('logout')}}">Logout</a>
+            {% else %}
+              <a class="btn btn-success my-2 my-sm-0" href="{{url_for('ProjectRegistration')}}" >Submit your Project</a>
+              &nbsp;&nbsp;
+              <a class="btn btn-success my-2 my-sm-0" href="{{url_for('GuideRegistration')}}">Register as Guide</a>
+            {% endif %}
+          </form>
+        </div>
+      </div>
+  </nav>
+    <div class="container">
+      <div class="row">
+        <div class="col-md-9 contentBlock">
+          {% with FlashMessages = get_flashed_messages(with_categories=true) %}
+            {% if FlashMessages %}
+              {% for category, message in FlashMessages %}
+              <br />
+                <div class="messages alert alert-{{ category }}">
+                  {{ message }}
+                </div>
+              {% endfor %}
+            {% endif %}
+          {% endwith %}
+          {%block content%}{%endblock content%}
+        </div>
+        <div class="col-md-3">
+          <br />
+            <div class="searchBar form-group form-inline">
+              Check Topic Availability:
+              <input type="text" class="form-control form-control-sm" placeholder="Enter Topic Name">
+              <a class="btn btn-success btn-sm" href="#" >Search</a>
+            </div>
+            <div class="searchBar form-group form-inline">
+              <form method="post" action="/trackProject">
+                {{ trackForm.hidden_tag()}}
+                Track your Project:
+                  {% if trackForm.project_id.errors %}
+                    {{trackForm.project_id(class="form-control is-invalid")}}
+                    {% for error in trackForm.project_id.errors %}
+                      <span class="errorFeedback">{{ error }}</span>
+                    {% endfor %}
+                  {% else %}
+                    {{trackForm.project_id(class="form-control form-control-sm", placeholder="Enter Your Project - ID")}}
+                  {% endif %}
+                  {{trackForm.track(class="btn btn-success btn-sm")}}
+              </form>
+            </div>
+            <div id="notice">
+              <p id="noticeText">
+                NOTIFICATIONS
+              </p>
+              1) Project Submission Deadline for TECSE 1 is <b>26th April.</b><br /><hr />
+              2) Project Submission Deadline for TECSE 2 is <b>28th April.</b><br /><hr />
+              3) All the students should submit their reports before 24th April.</b><br /><hr />
+              <span class="float-right" style="font-size: 14px; color:white; background: #F7F7F9; border-radius: 10px; padding: 0px 10px 0px 10px; border: 1px solid blue"><a href="#">View More</a></span>
+            </div>
+            <br />
+        </div>
+      </div>
+
+    </div>
+
+    {%block content1%}
+    <div id="footer">
+      <div class="container">
+        <span class="footer-text">Designed and Developed by <a href="">Omkar Deshpande</a> under the Guidance of <a href='./guides'>Prof. B. S. Kapre.</a></span><br />
+        <span class="footer-text">Copyright 2019 | MGM's College of Engineering | Dept. of CSE</span>
+      </div>
+    </div>
+    {%endblock content1%}
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
+
+  </body>
+</html>
