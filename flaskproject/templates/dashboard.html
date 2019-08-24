@@ -30,7 +30,8 @@
                         <p>Last Modified: {{ project.date_created.strftime('%d-%B-%Y at %H:%M (%A)') }}</p>
                         <p>Last Meeting: {{ project.date_created.strftime('%d-%B-%Y at %H:%M (%A)') }}</p>
                         <p>Current Score: 5.6/10</p>
-                        <a href="{{url_for('trackProjects', data=project.code)}}">View more</a>
+                        <a href="{{url_for('trackProjects', data=project.code)}}" class="btn btn-outline-primary btn-sm" role="button">View</a>
+                        <a href="{{url_for('assignMarks', data=project.code)}}" class="btn btn-outline-primary btn-sm" role="button">Marks</a>
                       </div>
                     {%endfor%}
                   </div>

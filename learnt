@@ -52,6 +52,16 @@ C:\Python\Python36-32\lib\site-packages\flask_sqlalchemy\__init__.py:794: FSADep
 >>> db.create_all()
 >>> exit()
 
+migrations:
+python run.py db init
+python run.py db migrate
+python run.py db upgrade
+
+make changes
+python run.py db migrate
+python run.py db upgrade
+
+
 
 Todo List: 11-05-2019 (12:00AM) (Deadline - 01:05 AM)(Finished at 01:10AM)
 1) Make the Project Track Form available in all the templates. (15 min)

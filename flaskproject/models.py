@@ -1,6 +1,8 @@
 from datetime import datetime
 from flaskproject import db, login_manager
 from flask_login import UserMixin
+
+
 # we write this decorator to let this extension know that
 # this is the function to get a guide by an id.
 @login_manager.user_loader
@@ -11,6 +13,9 @@ class Project(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(50), unique=True, nullable=False)
     code = db.Column(db.String(50), nullable=True)
+
+    desc1 = db.Column(db.Text, nullable=False)
+
     desc = db.Column(db.Text, nullable=False)
     status = db.Column(db.String(20), nullable=True, default='NotPublished')
     guide_id = db.Column(db.Integer, db.ForeignKey('guide.id'), nullable=True)

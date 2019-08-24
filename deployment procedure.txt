@@ -1,0 +1,38 @@
+follow this video:
+https://www.youtube.com/watch?v=6p7GBfHgJq8
+
+Create virtual environment:
+13:51 ~ $ mkvirtualenv flaskk --python=python3.7
+Running virtualenv with interpreter /usr/bin/python3.7
+Using base prefix '/usr'
+/usr/local/lib/python2.7/dist-packages/virtualenv.py:1041: DeprecationWarning: the imp module is deprecated in favour of importlib; see the module's documentation for alternative uses
+  import imp
+New python executable in /home/omkar/.virtualenvs/flaskk/bin/python3.7
+Also creating executable in /home/omkar/.virtualenvs/flaskk/bin/python
+Installing setuptools, pip, wheel...done.
+virtualenvwrapper.user_scripts creating /home/omkar/.virtualenvs/flaskk/bin/predeactivate
+virtualenvwrapper.user_scripts creating /home/omkar/.virtualenvs/flaskk/bin/postdeactivate
+virtualenvwrapper.user_scripts creating /home/omkar/.virtualenvs/flaskk/bin/preactivate
+virtualenvwrapper.user_scripts creating /home/omkar/.virtualenvs/flaskk/bin/postactivate
+virtualenvwrapper.user_scripts creating /home/omkar/.virtualenvs/flaskk/bin/get_env_details
+
+
+
+
+(flaskk) 13:53 ~ $ pip install flask
+
+(flaskk) 13:58 ~ $ pip install flask_mail
+
+(flaskk) 13:59 ~ $ pip install flask_bcrypt
+
+(flaskk) 14:00 ~ $ pip install flask_login
+
+(flaskk) 14:00 ~ $ pip install flask_wtf
+
+
+Email ISSUES:
+https://accounts.google.com/DisplayUnlockCaptcha
+Click on continue
+Follow this website for email issues:http://joequery.me/guides/python-smtp-authenticationerror/
+
+1 parent 3fbcdf1 commit c921a97d63405f10fadd8bd2e3c39fe97803bf3d

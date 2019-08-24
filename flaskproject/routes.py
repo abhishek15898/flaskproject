@@ -177,6 +177,15 @@ def updateProject(project_id):
         form.reason.data= project.reason
     return render_template('ProjectRegistration.html', title='Update Project', form=form)
 
+@app.route("/assignMarks/<data>", methods=['GET', 'POST'])
+@login_required
+def assignMarks(data):
+    project = Project.query.filter_by(code=data).first()
+    if project:
+        return render_template('assignMarks.html', title="Project Progress", project=project)
+    flash('Project Marks for '+ str(data)+' is Not Available. Kindly contact Project Incharge/Developers.','danger')
+    return redirect(url_for('dashboard'))
+
 def validate_on_submit_members(entries):
     membersList=[]
     for index, entry in enumerate(entries):

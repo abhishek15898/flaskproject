@@ -1,6 +1,5 @@
 {%extends 'layout.html'%}
   {%block content%}
-{{form.members.data}}
     <div id="forms">
       <form method="post" action="">
         {{ form.hidden_tag()}}
@@ -28,6 +27,7 @@
             {{form.projectDescription(class="form-control")}}
           {% endif %}
         </div><hr />
+
         <h5>3. Details of Team Member's</h5>
         <div class="row">
           <div class="col-md-12">
