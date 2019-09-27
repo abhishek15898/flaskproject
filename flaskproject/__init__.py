@@ -13,16 +13,18 @@ mail_settings = {
     "MAIL_PORT": 465,
     "MAIL_USE_TLS": False,
     "MAIL_USE_SSL": True,
-    "MAIL_USERNAME": 'edu.omkar@gmail.com',
+    "MAIL_USERNAME": 'mgms.projects@gmail.com',
     # s16_deshpande_omkar@mgmcen.ac.in
-    "MAIL_PASSWORD": 'omnewton1'
+    "MAIL_PASSWORD": 'Pass@1234'
 }
 
 app.config.update(mail_settings)
 mail = Mail(app)
 
 app.config['SECRET_KEY'] = '75083a4f96853215ceb516a0d62506a7'
-app.config['SQLALCHEMY_DATABASE_URI'] ='sqlite:///site.db'
+app.config['SQLALCHEMY_DATABASE_URI'] ='sqlite:///./site.db'
+#While making migrations change the path to 'sqlite:///./site.db'
+#Else place the path to: 'sqlite:///../site.db'
 db = SQLAlchemy(app)
 bcrypt = Bcrypt(app)
 login_manager = LoginManager(app)

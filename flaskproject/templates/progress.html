@@ -1,6 +1,7 @@
 {%extends 'layout.html'%}
     {%block content%}
     <br/>
+
     <div id="forms">
       <div class="container">
         <!-- <h4 style="text-align:center;">Mahatma Gandhi Mission's College of Engineering</h4>
@@ -15,7 +16,7 @@
             <a class="nav-link tab-design" data-toggle="tab" href="#ProjectTeam">Project Team</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link tab-design" data-toggle="tab" href="#Meetings">Meetings</a>
+            <a class="nav-link tab-design" data-toggle="tab" href="#Meetings">Demos</a>
           </li>
           <li class="nav-item">
             <a class="nav-link tab-design" data-toggle="tab" href="#References">References</a>
@@ -41,7 +42,7 @@
                   </tr>
                   <tr>
                     <th scope="row">Submitted on: </th>
-                    <td>{{ project.date_created.strftime('%d-%B-%Y at %H:%M (%A)') }}</td>
+                    <td>{{ project.date_created.strftime('%d-%B-%Y at %H:%M(%A)') }}</td>
                   </tr>
                   <tr>
                     <th scope="row">Technology Used: </th>
@@ -54,7 +55,7 @@
           <div id="ProjectTeam" class="container tab-pane fade"><br>
             <h3>Project Team</h3>
             <p>
-              This project is being designed, developed and implemented under the guidance of <b>Prof. {{project.mentor.name}}</b>.
+              This project is being designed, developed and implemented under the guidance of <b>Prof. {{project.int_relation.name}}</b> and externally guided by <b>Prof. {{project.ext_relation.name}}</b>.
             </p>
             <table class="table-sm table-hover table-bordered">
               <tbody>
@@ -65,7 +66,7 @@
                 </tr>
                 <tr id="leader">
                   <td>{{project.team.members[0].name}}</td>
-                  <td>Phone</td>
+                  <td>{{project.team.members[0].phone}}</td>
                   <td>{{project.team.members[0].email}}</td>
                 </tr>
                   {% if project.member1%}
@@ -100,35 +101,46 @@
             </table>
           </div>
           <div id="Meetings" class="container tab-pane fade"><br>
-            <h3>Project Meetings</h3>
+            <h5>Internal Guide</h5><hr>
             <table class="table-sm table-hover table-bordered">
               <tbody>
                 <tr id="head">
-                  <td>Meeting No.</td>
+                  <td>Demo Number</td>
                   <td>Date</td>
                   <td>Score</td>
                   <td>Remarks</td>
                 </tr>
-                <tr>
-                  <td>1</td>
-                  <td>{{ project.date_created.strftime('%d-%b-%Y (%H:%M)') }}</td>
-                  <td><a data-toggle="modal" href="#Marks">20 / 30</a></td>
-                  <td><a data-toggle="modal" href="#Remarks">View Here</a></td>
-                </tr>
-                <tr>
-                  <td>1</td>
-                  <td>{{ project.date_created.strftime('%d-%b-%Y (%H:%M)') }}</td>
-                  <td><a data-toggle="modal" href="#Marks">20 / 30</a></td>
-                  <td><a data-toggle="modal" href="#Remarks">View Here</a></td>
-                </tr>
-                <tr>
-                  <td>1</td>
-                  <td>{{ project.date_created.strftime('%d-%b-%Y (%H:%M)') }}</td>
-                  <td><a data-toggle="modal" href="#Marks">20 / 30</a></td>
-                  <td><a data-toggle="modal" href="#Remarks">View Here</a></td>
-                </tr>
+                {%for demos in i_demos%}
+                  <tr>
+                    <td>#{{loop.index}}</td>
+                    <td>{{demos.demo.demo_date.strftime('%d-%b-%Y (%H:%M)') }}</td>
+                    <td><a data-toggle="modal" href="#Marksi{{loop.index}}">Internal: {{demos.demo.marks.total}}</a></td>
+                    <td><a data-toggle="modal" href="#Remarksi{{loop.index}}">View Here</a></td>
+                  </tr>
+                {%endfor%}
               </tbody>
             </table>
+            <hr>
+            <h5>External Guide</h5><hr>
+            <table class="table-sm table-hover table-bordered">
+              <tbody>
+                <tr id="head">
+                  <td>Demo Number</td>
+                  <td>Date</td>
+                  <td>Score</td>
+                  <td>Remarks</td>
+                </tr>
+                {%for demos in e_demos%}
+                  <tr>
+                    <td>#{{loop.index}}</td>
+                    <td>{{demos.demo.demo_date.strftime('%d-%b-%Y (%H:%M)') }}</td>
+                    <td><a data-toggle="modal" href="#Markse{{loop.index}}">Internal: {{demos.demo.marks.total}}</a></td>
+                    <td><a data-toggle="modal" href="#Remarkse{{loop.index}}">View Here</a></td>
+                  </tr>
+                {%endfor%}
+              </tbody>
+            </table>
+
           </div>
           <div id="References" class="container tab-pane fade"><br>
             <h3>References</h3>
@@ -140,7 +152,8 @@
     </div>
 
     <!-- Modal -->
-      <div class="modal fade " id="Remarks" tabindex="-1" role="dialog" aria-labelledby="exampleModalScrollableTitle" aria-hidden="true">
+    {%for demos in i_demos%}
+      <div class="modal fade " id="Remarksi{{loop.index}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalScrollableTitle" aria-hidden="true">
         <div class="modal-dialog modal-lg modal-dialog-scrollable" role="document">
           <div class="modal-content">
             <div class="modal-header">
@@ -153,12 +166,11 @@
               <table class="table table-hover table-bordered">
                 <tbody>
                   <tr>
-                    <td><b>Title: </b></td>
-                    <td>Change the Header on the Homepage.</td>
+                    <td><b>Date: </b></td>
+                    <td>{{demos.demo.demo_date.strftime('%d-%b-%Y (%H:%M)') }}</td>
                   </tr>
                   <tr>
-                    <td colspan="2"><b>Description:  </b><br />
-                      The color doesnot give appealing feel. Add Contact Us page on the Header. Provide appropriate and proper links to all the tabs on the Navigation Page and also look for new designs of Homepage.
+                    <td colspan="2"><b>Description:  </b><br />{{demos.demo.remark}}
                     </td>
                   </tr>
                 </tbody>
@@ -170,60 +182,85 @@
           </div>
         </div>
       </div>
-
-
-
+    {%endfor%}
+    {%for demos in e_demos%}
+      <div class="modal fade " id="Remarkse{{loop.index}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalScrollableTitle" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-scrollable" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalScrollableTitle">Remarks</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <table class="table table-hover table-bordered">
+                <tbody>
+                  <tr>
+                    <td><b>Date: </b></td>
+                    <td>{{demos.demo.demo_date.strftime('%d-%b-%Y (%H:%M)') }}</td>
+                  </tr>
+                  <tr>
+                    <td colspan="2"><b>Description:  </b><br />{{demos.demo.remark}}
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    {%endfor%}
       <!-- Modal - 2 -->
-        <div class="modal fade " id="Marks" tabindex="-1" role="dialog" aria-labelledby="exampleModalScrollableTitle" aria-hidden="true">
+    {%for demos in i_demos%}
+        <div class="modal fade " id="Marksi{{loop.index}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalScrollableTitle" aria-hidden="true">
           <div class="modal-dialog modal-xl modal-dialog-scrollable" role="document">
             <div class="modal-content">
               <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalScrollableTitle">Marks Distribution</h5>
+                <h5 class="modal-title" id="exampleModalScrollableTitle">Marks Distribution (Internal)</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                   <span aria-hidden="true">&times;</span>
                 </button>
               </div>
               <div class="modal-body">
-                After Meeting - 1, your progress in the project can be indicated with the Marks assigned below:<br /><br />
+                After Meeting - {{loop.index}}, your progress in the project can be indicated with the Marks assigned below:<br /><br />
                 <table class="table-sm table-hover table-bordered">
                   <tbody>
                     <tr>
                       <td><b>Date: </b></td>
-                      <td>12 May 2019</td>
+                      <td>{{demos.demo.demo_date.strftime('%d-%b-%Y (%H:%M)') }}</td>
                     </tr>
                     <tr>
                       <td><b>Progress: </b></td>
-                      <td>25% Completion</td>
+                      <td>{{demos.demo.progress}}% Completion</td>
                     </tr>
                     <tr>
-                      <td><b>Designing: </b></td>
-                      <td>8/10</td>
+                      <td><b>Design: </b></td>
+                      <td>{{demos.demo.marks.parameter1}}/10</td>
                     </tr>
                     <tr>
                       <td><b>Logic: </b></td>
-                      <td>8/10</td>
+                      <td>{{demos.demo.marks.parameter2}}/10</td>
                     </tr>
                     <tr>
-                      <td><b>Parameter - 1: </b></td>
-                      <td>8/10</td>
+                      <td><b>Usability: </b></td>
+                      <td>{{demos.demo.marks.parameter3}}/10</td>
                     </tr>
                     <tr>
-                      <td><b>Parameter - 2: </b></td>
-                      <td>8/10</td>
+                      <td><b>Deadline: </b></td>
+                      <td>{{demos.demo.marks.parameter4}}/10</td>
+                    </tr>
+                    <tr>
+                      <td><b>Documentation: </b></td>
+                      <td>{{demos.demo.marks.parameter5}}/10</td>
                     </tr>
                     <tr>
                       <td><b>Total: </b></td>
-                      <td>20/30</td>
+                      <td>{{demos.demo.marks.total}}/50</td>
                     </tr>
-                    <!-- <tr id="head">
-                      <td>Date</td>
-                      <td>Progress</td>
-                      <td>Designing</td>
-                      <td>Logic</td>
-                      <td>Paramer - 5</td>
-                      <td>Paramer - 6</td>
-                      <td>Total</td>
-                    </tr> -->
                   </tbody>
                 </table>
               </div>
@@ -233,4 +270,62 @@
             </div>
           </div>
         </div>
+    {%endfor%}
+    {%for demos in e_demos%}
+        <div class="modal fade " id="Markse{{loop.index}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalScrollableTitle" aria-hidden="true">
+          <div class="modal-dialog modal-xl modal-dialog-scrollable" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalScrollableTitle">Marks Distribution (Internal)</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                After Meeting - {{loop.index}}, your progress in the project can be indicated with the Marks assigned below:<br /><br />
+                <table class="table-sm table-hover table-bordered">
+                  <tbody>
+                    <tr>
+                      <td><b>Date: </b></td>
+                      <td>{{demos.demo.demo_date.strftime('%d-%b-%Y (%H:%M)') }}</td>
+                    </tr>
+                    <tr>
+                      <td><b>Progress: </b></td>
+                      <td>{{demos.demo.progress}}% Completion</td>
+                    </tr>
+                    <tr>
+                      <td><b>Design: </b></td>
+                      <td>{{demos.demo.marks.parameter1}}/10</td>
+                    </tr>
+                    <tr>
+                      <td><b>Logic: </b></td>
+                      <td>{{demos.demo.marks.parameter2}}/10</td>
+                    </tr>
+                    <tr>
+                      <td><b>Usability: </b></td>
+                      <td>{{demos.demo.marks.parameter3}}/10</td>
+                    </tr>
+                    <tr>
+                      <td><b>Deadline: </b></td>
+                      <td>{{demos.demo.marks.parameter4}}/10</td>
+                    </tr>
+                    <tr>
+                      <td><b>Documentation: </b></td>
+                      <td>{{demos.demo.marks.parameter5}}/10</td>
+                    </tr>
+                    <tr>
+                      <td><b>Total: </b></td>
+                      <td>{{demos.demo.marks.total}}/50</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+              </div>
+            </div>
+          </div>
+        </div>
+    {%endfor%}
+
     {%endblock content%}

@@ -61,8 +61,6 @@ make changes
 python run.py db migrate
 python run.py db upgrade
 
-
-
 Todo List: 11-05-2019 (12:00AM) (Deadline - 01:05 AM)(Finished at 01:10AM)
 1) Make the Project Track Form available in all the templates. (15 min)
 2) Get data from the input field into Routes. (10 min)
@@ -127,3 +125,31 @@ Todo List: 10-06-2019 (10:45AM)
   4.3) Change the project details page.
   4.4) Change the guide page.
 5) (Optional) Apply Jquery and AJAX for members feature.
+
+Priority-1: Assign Marks and Grades to students(10:30am - 12:30pm)
+1) Create a stable DB table #1 (10:30 - 10:40)
+  1.1) The table should hold marks of both the guides(External+Internal)
+  1.2) Ensure to also create table for Grades
+2) Create a Form to Assign Marks #2 (10:40 - 10:55)
+3) Create a Form to add Remarks #3 (10:55 - 11:10)
+4) Add validations to the Form #6
+5) Fetch the data into the Routes #4
+6) Display it into the individual Projects - Progress #5
+  6.1) Arrange data properly in the modal #7
+  6.2) Internal + External Marks with Total-Average Auto-Calculated and Grades Auto-Calculated #8
+
+Task for 27th Sept 2019:
+Primary Focus: Get the students data from the website and display it on the website.
+1) Generate password Reset link on Guide Email
+  Generate a form - Username and New Password + Confirm Password
+  Update the password
+  Show trust that we store your password in encrypted form.
+2) Formal Email Templates - Project Registration and Guide Registration
+3) Deployment - mgmprojects.pythonanywhere.com
+4) Register all the guides with their Email ID's on the Website
+5) Provide a dropdown with all the guides names: External and Internal
+6)Pagination and Table format of Projects
+  Remove References Text on the website
+  Notifications
+  Timestamp Issue (System timestamp/ Local Timestamp)
+6) Make all the users register on the website

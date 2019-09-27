@@ -1,6 +1,6 @@
 from flask_wtf import FlaskForm
-from wtforms import FieldList, FormField, StringField, SelectField, PasswordField, SubmitField, BooleanField, TextAreaField
-from wtforms.validators import DataRequired, Length, Email, EqualTo, Optional
+from wtforms import FieldList, FormField, StringField, SelectField, PasswordField, SubmitField, BooleanField, TextAreaField, IntegerField
+from wtforms.validators import DataRequired, Length, Email, EqualTo, Optional, NumberRange
 
 class membersForm(FlaskForm):
     class Meta:
@@ -29,19 +29,15 @@ class projectRegister(FlaskForm):
                         validators=[DataRequired()])
     submitProject = SubmitField('Register Project')
 
-
-
 class guideRegister(FlaskForm):
     guideName = StringField('Your Name: ',
                         validators=[DataRequired(), Length(min=2, max=50)])
     guideEmail = StringField('Your Email: ',
                         validators=[DataRequired(), Email()])
     username = StringField('Username ',
-                        validators = [DataRequired(), Length(min=2)])
+                        validators = [DataRequired(), Length(min=8)])
     password= PasswordField('Password: ',
-                        validators = [DataRequired(), Length(min=2)])
-    guideInterest = TextAreaField('Your Area of Interest: ',
-                        validators=[DataRequired(), Length(min=2, max=50)])
+                        validators = [DataRequired(), Length(min=8)])
     registerGuide = SubmitField('Register Guide')
 
 class trackProject(FlaskForm):
@@ -56,7 +52,24 @@ class GuideLoginForm(FlaskForm):
                         validators = [DataRequired(), Length(min=2)])
     submit = SubmitField('Submit')
 
-
+class DemoForm(FlaskForm):
+    csrf = True
+    parameter= IntegerField('Marks: ',
+                        validators=[DataRequired(), NumberRange(min=0, max=10, message="Please enter marks between 0 to 10 only.")])
+    progress= IntegerField('Progress: ',
+                        validators=[DataRequired(), NumberRange(min=0, max=100, message="Please enter progress of project between 0 to 100 only.")])
+    remarks = TextAreaField('Remarks: (if any)',
+                        validators=[Optional()])
+    submit = SubmitField('Add Demo')
 # department = SelectField(u'Select Your Department',
 #                     choices=[('ce', 'Civil Engineering'), ('cse', 'Computer Science & Engineering'), ('it', 'Information Technology'),('entc', 'Electonics and Telecommunication Engineering'), ('me', 'Mechanical Engineering')],
 #                     validators=[DataRequired()])
+
+class passwordReset(FlaskForm):
+    username = StringField('Username ',
+                        validators = [DataRequired(), Length(min=2)])
+    password= PasswordField('Password: ',
+                        validators = [DataRequired(), Length(min=2)])
+    confirmPassword = PasswordField('Confirm Password: ',
+                        validators = [DataRequired(), Length(min=2), EqualTo('password', message='Passwords must match')])
+    registerGuide = SubmitField('Register Guide')
