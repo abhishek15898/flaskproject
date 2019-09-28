@@ -7,7 +7,6 @@ from flask_mail import Mail, Message
 from flask_login import login_user, current_user, logout_user, login_required
 
 total_members=4
-
 email_header = f"""
 <div style=\"background: linear-gradient(to right, #6a3093, #a044ff); padding:8px\">
 <center>
