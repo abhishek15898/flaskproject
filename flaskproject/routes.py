@@ -23,14 +23,15 @@ Department of Computer Science and Engineering,<br/>
 Mahatma Gandhi Mission's College of Engineering,<br/>
 Nanded - 431605<br/>
 Visit Us at mgmprojects.pythonanywhere.com<br/>
-Reach out to us at (+91)9511681791
+Reach out to us at +91-9511681791<small>(Whatsapp Responsive Helpline - 24*7)</small><br/>
+Email Us at mgms.projects@gmail.com <small>(Expect a response within 12 Hours.)</small>
 <div class=\"email-footer\" style=\"background: rgba(255, 219, 88, 0.3);\">
     <hr>
     <small><center><b>This is an auto-generated email.</b></center>
     This email is a part of the Final Year Project - <b>"Project Management System"</b>, designed and developed by <b>Omkar Deshpande</b> and <b>Abhishek Bagate</b> under the guidance of <b>Dr. Mrs. M. Y. Joshi</b>.
-    <br/>To report any issues or unsubscribe from our System, we request you to email us at mgms.projects@gmail.com. We are happy to help you anytime! :)</small>
+    To report any issues or unsubscribe from our System, we request you to email us at mgms.projects@gmail.com. We are happy to help you anytime! :)</small>
 </div>
-<div><small>Copyright © 2019 MGM's College of Engineering, Nanded - 431605</small></div>
+<div style=\"background: #3489EE\"><small><span style=\"color: white\">Copyright © 2019 MGM's College of Engineering, Nanded - 431605</span></small></div>
 """
 
 @app.context_processor
@@ -95,7 +96,7 @@ def ProjectRegistration():
             db.session.flush()
             db.session.commit()
             template = email_header+f"<b>Hi {project.team.members[0].name}!</b><br /> &nbsp;&nbsp;&nbsp;&nbsp;You have successfully registerd your Project - {project.title}. Please note this ID: <b>{project.code}</b> to track your Project status. You will be soon assigned with a guide!<br/>" + email_footer
-            msg = Message(subject='Project Registration Successful | Department of CSE | MGM College of Engineering | Nanded', sender='hello@gmail.com', recipients=[project.team.members[0].email], html=template)
+            msg = Message(subject='Project Registration Successful | Department of CSE | MGM College of Engineering | Nanded', sender='mgms.projects@gmail.com', recipients=[project.team.members[0].email], html=template)
             mail.send(msg)
             flash('You have successfully registered your Project! Please note this ID: ' + project.code + ' to track your Project status.', 'success')
             return redirect(url_for('home'))
@@ -115,10 +116,12 @@ def GuideRegistration():
         You will be informed via mail, when students will be are assigned to you.<br/><br/>
         <b>Username</b>:{guide.username}<br/>
         <b>Password</b>:{guide.password}<br/><br/>
-        Please <a href=mgmprojects.pythonanywhere.com/password_reset>Click Here</a> to Reset your Password using the temporary Username and Password provided above.<br/><br/>
-        Please <a href=mgmprojects.pythonanywhere.com/guideLogin>Click Here</a> to Login to the website.<br/><br/>
+        Please <a href=mgmprojects.pythonanywhere.com/password_reset>Click Here</a> to Reset your Password using the temporary Username and Password provided above.<br/>
+        <small>(If the above link doesn't work, please copy this link - mgmprojects.pythonanywhere.com/password_reset and paste it in the address field of your browser.)</small><br/><br/>
+        Please <a href=mgmprojects.pythonanywhere.com/guideLogin>Click Here</a> to Login to the website.<br/>
+        <small>(If the above link doesn't work, please copy this link - mgmprojects.pythonanywhere.com/guideLogin and paste it in the address field of your browser.)</small><br/>
         """+email_footer
-        msg = Message(subject='Guide Registration Successful | Department of CSE | MGM College of Engineering | Nanded', sender='hello@gmail.com', recipients=[guide.email], html=template)
+        msg = Message(subject='Guide Registration Successful | Department of CSE | MGM College of Engineering | Nanded', sender='mgms.projects@gmail.com', recipients=[guide.email], html=template)
         mail.send(msg)
         return redirect(url_for('guide'))
     return render_template('GuideRegistration.html', title='Guide Registration', form=form)
@@ -300,7 +303,7 @@ def password_reset():
             <br/><br/>You have successfully reset your password.<br/><br/>
             If it was not you, please immediately report us by replying the issue on this email.<br/><br/>
             """+email_footer
-            msg = Message(subject='[ALERT!] Password Reset Done | Department of CSE | MGM\'s College of Engineering', sender='hello@gmail.com', recipients=[guide[0].email], html=template)
+            msg = Message(subject='[ALERT!] Password Reset Done | Department of CSE | MGM\'s College of Engineering', sender='mgms.projects@gmail.com', recipients=[guide[0].email], html=template)
             mail.send(msg)
             flash('Password Reset Successful!','success')
         else:
