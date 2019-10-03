@@ -153,3 +153,34 @@ Primary Focus: Get the students data from the website and display it on the webs
   Notifications
   Timestamp Issue (System timestamp/ Local Timestamp)
 6) Make all the users register on the website
+
+Task for 30th Sept 2019:
+1) Project Registration Form (PRIORITY - 1)(DONE)
+  Include 2 fields - Internal Guide and External Guide
+  Remove Why this field
+2) Make changes in the Models: (PRIORITY - 2)
+  Change status to stage:
+    Total Stages:
+      Stage - 0: Registered
+      Stage - 1: Confirmed and Accepted (10 Score)
+      Stage - 2: Abstract Submitted (10 Score)
+      Stage - 3: Demo - 1 Done ( _ Score)
+      Stage - 4: Demo - 2 Done ( _ Score)
+      Stage - 5: Demo - 3 Done ( _ Score)
+      Stage - 6: Report Submitted ( _ Score)
+      Stage - 7: Finally Done! (Final Marks)
+3) Pagination on the Projects (PRIORITY - 4)(Done)
+4) Display all the projects (its Design) (PRIORITY - 3)(Done)
+    Current - Stage
+    Marks So far
+5) Email Templates (PRIORITY - 5)
+  Send email to guide as well as students (all)
+  projectConfirmation(): Whether the project is confirmed or not?
+
+Left over part ->
+Project Confirmation Part - email + template for guide
+Abstract Submission Part - email + template for guide and students
+Email Templates
+Custom Error Message:
+  404 page
+  Email Failed - mail.send(msg)

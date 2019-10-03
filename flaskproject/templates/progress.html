@@ -114,7 +114,7 @@
                   <tr>
                     <td>#{{loop.index}}</td>
                     <td>{{demos.demo.demo_date.strftime('%d-%b-%Y (%H:%M)') }}</td>
-                    <td><a data-toggle="modal" href="#Marksi{{loop.index}}">Internal: {{demos.demo.marks.total}}</a></td>
+                    <td><a data-toggle="modal" href="#Marksi{{loop.index}}">{{demos.demo.marks.parameter}}</a></td>
                     <td><a data-toggle="modal" href="#Remarksi{{loop.index}}">View Here</a></td>
                   </tr>
                 {%endfor%}
@@ -134,7 +134,7 @@
                   <tr>
                     <td>#{{loop.index}}</td>
                     <td>{{demos.demo.demo_date.strftime('%d-%b-%Y (%H:%M)') }}</td>
-                    <td><a data-toggle="modal" href="#Markse{{loop.index}}">Internal: {{demos.demo.marks.total}}</a></td>
+                    <td><a data-toggle="modal" href="#Markse{{loop.index}}">{{demos.demo.marks.parameter}}</a></td>
                     <td><a data-toggle="modal" href="#Remarkse{{loop.index}}">View Here</a></td>
                   </tr>
                 {%endfor%}
@@ -144,7 +144,7 @@
           </div>
           <div id="References" class="container tab-pane fade"><br>
             <h3>References</h3>
-            <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam.</p>
+            <p>Once you are done with your project, we will inform you to provide your references. Meanwhile, we would suggest you to keep a list of all your reference websites.</p>
           </div>
         </div>
 
@@ -238,29 +238,29 @@
                       <td>{{demos.demo.progress}}% Completion</td>
                     </tr>
                     <tr>
-                      <td><b>Design: </b></td>
-                      <td>{{demos.demo.marks.parameter1}}/10</td>
+                      <td><b>Marks: </b></td>
+                      <td>{{demos.demo.marks.parameter}}/10</td>
                     </tr>
-                    <tr>
+                    <!-- <tr>
                       <td><b>Logic: </b></td>
                       <td>{{demos.demo.marks.parameter2}}/10</td>
                     </tr>
                     <tr>
                       <td><b>Usability: </b></td>
                       <td>{{demos.demo.marks.parameter3}}/10</td>
-                    </tr>
-                    <tr>
+                    </tr> -->
+                    <!-- <tr>
                       <td><b>Deadline: </b></td>
                       <td>{{demos.demo.marks.parameter4}}/10</td>
                     </tr>
                     <tr>
                       <td><b>Documentation: </b></td>
                       <td>{{demos.demo.marks.parameter5}}/10</td>
-                    </tr>
-                    <tr>
+                    </tr> -->
+                    <!-- <tr>
                       <td><b>Total: </b></td>
                       <td>{{demos.demo.marks.total}}/50</td>
-                    </tr>
+                    </tr> -->
                   </tbody>
                 </table>
               </div>
@@ -294,28 +294,8 @@
                       <td>{{demos.demo.progress}}% Completion</td>
                     </tr>
                     <tr>
-                      <td><b>Design: </b></td>
-                      <td>{{demos.demo.marks.parameter1}}/10</td>
-                    </tr>
-                    <tr>
-                      <td><b>Logic: </b></td>
-                      <td>{{demos.demo.marks.parameter2}}/10</td>
-                    </tr>
-                    <tr>
-                      <td><b>Usability: </b></td>
-                      <td>{{demos.demo.marks.parameter3}}/10</td>
-                    </tr>
-                    <tr>
-                      <td><b>Deadline: </b></td>
-                      <td>{{demos.demo.marks.parameter4}}/10</td>
-                    </tr>
-                    <tr>
-                      <td><b>Documentation: </b></td>
-                      <td>{{demos.demo.marks.parameter5}}/10</td>
-                    </tr>
-                    <tr>
-                      <td><b>Total: </b></td>
-                      <td>{{demos.demo.marks.total}}/50</td>
+                      <td><b>Marks: </b></td>
+                      <td>{{demos.demo.marks.parameter}}/10</td>
                     </tr>
                   </tbody>
                 </table>
@@ -327,5 +307,4 @@
           </div>
         </div>
     {%endfor%}
-
     {%endblock content%}

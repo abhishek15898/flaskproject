@@ -19,14 +19,14 @@ class projectRegister(FlaskForm):
     projectTitle = StringField('Project Title',
                         validators=[DataRequired(), Length(min=2, max=50)])
     projectDescription = TextAreaField('Project Description',
-                        validators=[DataRequired()])
+                        validators=[DataRequired(), Length(min=150)])
     teamName = StringField('Team Name',
                         validators=[DataRequired(), Length(min=2, max=50)])
     members = FieldList(FormField(membersForm), min_entries=4)
     technologyUsed = StringField('Technology Used',
-                        validators=[ Length(min=0, max=100)])
-    reason = TextAreaField('Why this Project?',
-                        validators=[DataRequired()])
+                        validators=[Length(min=0, max=100)])
+    internalGuides = SelectField(u'Select your Internal Guide', coerce=int)
+    externalGuides = SelectField(u'Select your Enternal Guide', coerce=int)
     submitProject = SubmitField('Register Project')
 
 class guideRegister(FlaskForm):

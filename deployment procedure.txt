@@ -20,14 +20,13 @@ virtualenvwrapper.user_scripts creating /home/omkar/.virtualenvs/flaskk/bin/get_
 
 
 (flaskk) 13:53 ~ $ pip install flask
-
 (flaskk) 13:58 ~ $ pip install flask_mail
-
 (flaskk) 13:59 ~ $ pip install flask_bcrypt
-
 (flaskk) 14:00 ~ $ pip install flask_login
-
 (flaskk) 14:00 ~ $ pip install flask_wtf
+(flaskk) 04:52 ~ $ pip install Flask-SQLAlchemy
+(flaskk) 05:07 ~ $ pip install Flask-Script
+(flaskk) 05:10 ~ $ pip install Flask-Migrate
 
 
 Email ISSUES:

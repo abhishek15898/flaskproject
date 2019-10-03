@@ -18,13 +18,14 @@
         </div>
         <div class="form-group">
           {{form.projectDescription.label(class="form-control-label")}}
+          <small>Min 150 characters.</small> <small><span id="charNum">0</span> chars entered.</small>
           {% if form.projectDescription.errors %}
-            {{form.projectDescription(class="form-control is-invalid")}}
+            {{form.projectDescription(class="form-control is-invalid" )}}
             {% for error in form.projectDescription.errors %}
               <span class="errorFeedback">{{ error }}</span>
             {% endfor %}
           {% else %}
-            {{form.projectDescription(class="form-control")}}
+            {{form.projectDescription(class="form-control", onkeyup="countChar(this)")}}
           {% endif %}
         </div><hr />
 
@@ -106,7 +107,6 @@
               </div>
             </div>
           {% endfor %}
-
         </div>
         <hr />
         <h5>4. Other Details</h5>
@@ -121,17 +121,38 @@
               {{form.technologyUsed(class="form-control")}}
             {% endif %}
         </div>
-        <div class="form-group">
-            {{form.reason.label(class="form-control-label")}}
-            {% if form.reason.errors %}
-              {{form.reason(class="form-control is-invalid")}}
-              {% for error in form.reason.errors %}
-                <span class="errorFeedback">{{ error }}</span>
-              {% endfor %}
-            {% else %}
-              {{form.reason(class="form-control")}}
-            {% endif %}
-        </div>
+        <hr />
+        <h5>5. Guide Details</h5>
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group">
+                  {{form.internalGuides.label(class="form-control-label")}}
+                  {% if form.internalGuides.errors %}
+                    {{form.internalGuides(class="form-control is-invalid")}}
+                    {% for error in form.internalGuides.errors %}
+                      <span class="errorFeedback">{{ error }}</span>
+                    {% endfor %}
+                  {% else %}
+                    {{form.internalGuides(class="form-control")}}
+                  {% endif %}
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                  {{form.externalGuides.label(class="form-control-label")}}
+                  {% if form.externalGuides.errors %}
+                    {{form.externalGuides(class="form-control is-invalid")}}
+                    {% for error in form.externalGuides.errors %}
+                      <span class="errorFeedback">{{ error }}</span>
+                    {% endfor %}
+                  {% else %}
+                    {{form.externalGuides(class="form-control")}}
+                  {% endif %}
+              </div>
+            </div>
+          </div>
+
+
         <div class="form-group">
             {{form.submitProject(class="btn btn-outline-primary")}}
         </div>
