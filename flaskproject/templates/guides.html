@@ -1,3 +1,4 @@
+
 {%extends 'layout.html'%}
     {%block content%}
     <br/>
@@ -23,14 +24,12 @@
             {% endfor %}
         </tbody>
       </table>
-    </div><br/>
-    <div class="pagination">
-    {% for page_num in guides.iter_pages() %}
-      {% if page_num %}
-        <a class="btn btn-outline-info mb-4" href="{{url_for('guide', page=page_num)}}">{{ page_num }}</a>&nbsp;
-      {% else %}
-        ...
-      {%endif%}
-    {%endfor%}
+      {% for page_num in guides.iter_pages() %}
+        {% if page_num %}
+          <a class="btn btn-outline-info mb-4" href="{{url_for('guide', page=page_num)}}">{{ page_num }}</a>
+        {% else %}
+          ...
+        {%endif%}
+      {%endfor%}
     </div>
   {%endblock content%}

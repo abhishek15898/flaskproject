@@ -151,11 +151,11 @@ color: white;
 }
 table
 {
-    table-layout:fixed;
+    /*table-layout:fixed;*/
     width:100%;
 }
 th,td {
-    word-wrap: break-word;
+    /*word-wrap: break-word;*/
 }
 tr#head{
   font-weight: bold;
