@@ -2,15 +2,26 @@
 <html lang="en" dir="ltr">
   <head>
     <link rel="icon" href="{{url_for('static', filename='mgm_logo.png')}}" type="image/gif">
-
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='main.css')}}">
     <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
-
+    <script src="http://code.jquery.com/jquery-1.5.js"></script>
     <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"> -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script> -->
+    <script>
+    function countChar(val) {
+        var len = val.value.length;
+        $('#charNum').text(len);
+        // Min 500 chars
+        // if (len >= 500) {
+        //   val.value = val.value.substring(0, 500);
+        // } else {
+        //   $('#charNum').text(500 - len);
+        // }
+      };
+    </script>
     <meta charset="utf-8">
     <title>{{title}}</title>
   </head>
@@ -60,8 +71,6 @@
             </li>
           </ul>
           <form class="form-inline my-2 my-lg-0">
-
-
             {% if current_user.is_authenticated %}
               <a class="btn btn-success my-2 my-sm-0" href="{{url_for('dashboard')}}" >Your Dashboard</a>
               &nbsp;&nbsp;
@@ -75,9 +84,11 @@
         </div>
       </div>
   </nav>
+
     <div class="container">
       <div class="row">
         <div class="col-md-9 contentBlock">
+          <marquee behavior="scroll" direction="left" scrollamount="7"><span style="background:snow;border:5px solid green;padding:10px;"> <i class="fa fa-bell" aria-hidden="true"></i> Please note the following dates: Demo-I(16-08-2019) | Demo-II(20-09-2019) | Demo-III(18-10-2019) </span></marquee>
           {% with FlashMessages = get_flashed_messages(with_categories=true) %}
             {% if FlashMessages %}
               {% for category, message in FlashMessages %}
@@ -113,13 +124,15 @@
               </form>
             </div>
             <div id="notice">
-              <p id="noticeText">
+              <!-- <p id="noticeText">
                 NOTIFICATIONS
               </p>
               1) Project Submission Deadline for TECSE 1 is <b>26th April.</b><br /><hr />
               2) Project Submission Deadline for TECSE 2 is <b>28th April.</b><br /><hr />
               3) All the students should submit their reports before 24th April.</b><br /><hr />
-              <span class="float-right" style="font-size: 14px; color:white; background: #F7F7F9; border-radius: 10px; padding: 0px 10px 0px 10px; border: 1px solid blue"><a href="#">View More</a></span>
+              <span class="float-right" style="font-size: 14px; color:white; background: #F7F7F9; border-radius: 10px; padding: 0px 10px 0px 10px; border: 1px solid blue"><a href="#">View More</a></span> -->
+
+                <img src="{{url_for('static', filename='poster.jpg')}}" alt="image" width="100%" style="position:sticky">
             </div>
             <br />
         </div>

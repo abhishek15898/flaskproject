@@ -2,30 +2,67 @@
     {%block content%}
     <br/>
     <div class="alert alert-primary" role="alert">
-      College Student Projects. <a href="{{ url_for('ProjectRegistration')}}">Register</a> to submit your team project!
+      <a href="{{ url_for('ProjectRegistration')}}">Register</a> to submit your team project!
+      Total Projects Registered: {{total_projects|length}}.
     </div>
-      {% for project in projects %}
-        <div class="card">
-          <div class="card-body">
-            <a href="#" class="badge badge-primary">Computer Science & Engineering</a>
-            <a href="#" class="badge badge-success">{{project.date}}</a><br />
-            <span id="project-title"><h4>Title: {{ project.title.title() }}</h4></span>
-            <span id="members"><b>Members:</b>&nbsp;&nbsp;&nbsp;
+      {% for project in projects.items %}
+      <div class="project_title">
+        <div class="row">
+          <div class="col-md-9">
+            <h4>{{ project.title.title()}}</h4>
+            <span class="badge badge-info">{{project.int_relation.name}}</span>
+            <span class="badge badge-warning">{{project.ext_relation.name}}</span><br/>
             {% for member in project.team.members%}
               <span class="badge badge-light">{{member.name}}</span>
-            {% endfor %}
-            </span><br  />
-            <p id="description"><b>Description:</b><br />
-              {{project.desc[:60]}}
-              {% if project.desc|length >60 %}
-                <span>...</span>
-              {% endif%}
-              (Status: {{project.status}})
-            </p>
-            <button class="view-more btn my-2 my-sm-0 float-right" type="button">View More</button>
+            {% endfor %}<br/>
+            {{project.desc[:60]}}
+            {% if project.desc|length >60 %}
+              <span>...</span>
+            {% endif%}
+            <a href="#myModal{{project.id}}" data-toggle="modal">View More</a>
+          </div>
+          <div class="col-md-3 project_status_block">
+              <span class="project_status">{{stages[project.status]}}</span>
+              <p>Last Update: {{project.date_created.strftime('%d-%m-%y')}}</p>
           </div>
         </div>
-        <br/>
+      </div>
       {% endfor %}
+      <br/>
+      <div class="pagination">
+      {% for page_num in projects.iter_pages() %}
+        {% if page_num %}
+          <a class="btn btn-outline-info mb-4" href="{{url_for('home', page=page_num)}}">{{ page_num }}</a>&nbsp;
+        {% else %}
+          ...
+        {%endif%}
+      {%endfor%}
+      </div>
+      {% for project in projects.items %}
+        <div class="modal fade" id="myModal{{project.id}}">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <!-- Modal Header -->
+              <div class="modal-header">
+                <h4 class="modal-title">{{project.title}}</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+              </div>
+              <!-- Modal body -->
+              <div class="modal-body">
+                <b>Internal Guide:</b> {{project.int_relation.name}}<br/>
+                <b>External Guide:</b> {{project.ext_relation.name}}<br/><hr>
+                <b>Current Status:</b> {{project.status}}<br/><hr>
+                <b>Description:</b><br/>
+                {{project.desc}}
+              </div>
+
+              <!-- Modal footer -->
+              <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      {%endfor%}
+
     {%endblock content%}
-    <br />

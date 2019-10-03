@@ -28,10 +28,11 @@
               {% endif %}
               </td>
             </tr>
-            
+
             <tr>
               <td class="form-group">
               {{form.progress.label(class="form-control-label")}}
+              (In Percentage)<br/><small> Ex: Enter 20 for 20%. Donot enter '%' sign.</small>()
               </td>
               <td>
               {% if form.progress.errors %}

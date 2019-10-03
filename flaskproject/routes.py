@@ -5,33 +5,8 @@ from flaskproject.forms import projectRegister, guideRegister, trackProject, Gui
 from sqlalchemy import asc, desc, update
 from flask_mail import Mail, Message
 from flask_login import login_user, current_user, logout_user, login_required
-
-total_members=4
-email_header = f"""
-<div style=\"background: linear-gradient(to right, #6a3093, #a044ff); padding:8px\">
-<center>
-<h4 style=\"color:white\">Mahatma Gandhi Mission's College of Engineering</h4>
-<h5 style=\"color:white\">Department of Computer Science and Engineering</h5>
-</center>
-</div><br/><hr><br/>
-"""
-email_footer = f"""
-<br/><b style=\"background: yellow, font-size: 10px\">Thank You,</b><br/>
-Project Management System Team,<br/>
-Department of Computer Science and Engineering,<br/>
-Mahatma Gandhi Mission's College of Engineering,<br/>
-Nanded - 431605<br/>
-Visit Us at mgmprojects.pythonanywhere.com<br/>
-Reach out to us at +91-9511681791<small>(Whatsapp Responsive Helpline - 24*7)</small><br/>
-Email Us at mgms.projects@gmail.com <small>(Expect a response within 12 Hours.)</small>
-<div class=\"email-footer\" style=\"background: rgba(255, 219, 88, 0.3);\">
-    <hr>
-    <small><center><b>This is an auto-generated email.</b></center>
-    This email is a part of the Final Year Project - <b>"Project Management System"</b>, designed and developed by <b>Omkar Deshpande</b> and <b>Abhishek Bagate</b> under the guidance of <b>Dr. Mrs. M. Y. Joshi</b>.
-    To report any issues or unsubscribe from our System, we request you to email us at mgms.projects@gmail.com. We are happy to help you anytime! :)</small>
-</div>
-<div style=\"background: #3489EE\"><small><span style=\"color: white\">Copyright © 2019 MGM's College of Engineering, Nanded - 431605</span></small></div>
-"""
+from flaskproject.global_variables import *
+from flaskproject.email_templates import *
 
 @app.context_processor
 def inject_sidebar_trackForm():
@@ -41,9 +16,11 @@ def inject_sidebar_trackForm():
 @app.route("/")
 @app.route("/home")
 def home():
-    projects = Project.query.order_by(desc(Project.id)).all()
+    page=request.args.get('page',1,type=int)
+    projects = Project.query.order_by(desc(Project.id)).paginate(page=page, per_page=10)
+    total_projects = Project.query.order_by(desc(Project.id)).all()
     guides=Guide.query.all()
-    return render_template('home.html', projects=projects, guides=guides, title='MGM Projects')
+    return render_template('home.html', projects=projects, guides=guides, title='MGM Projects',total_projects=total_projects, stages=stages)
 
 @app.route("/about")
 def about():
@@ -51,30 +28,31 @@ def about():
 
 @app.route("/guides")
 def guide():
-    guides=Guide.query.all()
+    page=request.args.get('page',1,type=int)
+    guides=Guide.query.paginate(page=page, per_page=10)
     return render_template('guides.html', guides=guides, title='Project Guide')
 
 @app.route("/projectRegister", methods=['GET', 'POST'])
 def ProjectRegistration():
     global status
     status=0
+    guides=Guide.query.all()
+    guide_list=[(i.id, i.name) for i in guides]
     form = projectRegister()
+    form.internalGuides.choices = form.externalGuides.choices =  guide_list
     if form.validate_on_submit():
         entries = form.members.data
+        # print(form.internalGuides.data)
         membersList = []
-        # entries.pop(2)
-        # flash(form.members.data)
         membersList=validate_on_submit_members(entries)
         status=membersList.pop()
-        # flash(membersList)
-        # flash(status)
         if len(membersList)>=1 and status==1:
-            flash("check", 'success')
             project = Project(
                         title=form.projectTitle.data,
                         desc=form.projectDescription.data,
                         techUsed=form.technologyUsed.data,
-                        reason=form.reason.data
+                        guide_id = form.internalGuides.data,
+                        external_id = form.externalGuides.data,
                         )
             db.session.add(project)
             db.session.flush()
@@ -95,7 +73,7 @@ def ProjectRegistration():
             db.session.flush()
             db.session.commit()
             template = email_header+f"<b>Hi {project.team.members[0].name}!</b><br /> &nbsp;&nbsp;&nbsp;&nbsp;You have successfully registerd your Project - {project.title}. Please note this ID: <b>{project.code}</b> to track your Project status. You will be soon assigned with a guide!<br/>" + email_footer
-            msg = Message(subject='Project Registration Successful | Department of CSE | MGM College of Engineering | Nanded', sender='mgms.projects@gmail.com', recipients=[project.team.members[0].email], html=template)
+            msg = Message(subject='Project Registration Successful | Department of CSE | MGM\'s College of Engineering | Nanded', sender='mgms.projects@gmail.com', recipients=[project.team.members[0].email], html=template)
             mail.send(msg)
             flash('You have successfully registered your Project! Please note this ID: ' + project.code + ' to track your Project status.', 'success')
             return redirect(url_for('home'))
@@ -111,8 +89,9 @@ def GuideRegistration():
         db.session.commit()
         flash(Markup('Your account has been created. You can now login as a guide <a href="/guideLogin" class="alert-link" style="color:blue"> here</a>.'), 'success')
         template = email_header+f"""
-        Respected <b>{guide.name},<br/><br/></b> You have been successfully registered as a Guide. <br/><br/>
-        You will be informed via mail, when students will be are assigned to you.<br/><br/>
+        Respected <b>{guide.name},<br/><br/></b> You are successfully registered as a Guide on our <b>Project Management System</b> Portal. <br/><br/>
+        We will inform you (via e-mail) when students are assigned to you.<br/><br/>
+        The following are your credentials:<br/>
         <b>Username</b>:{guide.username}<br/>
         <b>Password</b>:{guide.password}<br/><br/>
         Please <a href=mgmprojects.pythonanywhere.com/password_reset>Click Here</a> to Reset your Password using the temporary Username and Password provided above.<br/>
@@ -120,7 +99,7 @@ def GuideRegistration():
         Please <a href=mgmprojects.pythonanywhere.com/guideLogin>Click Here</a> to Login to the website.<br/>
         <small>(If the above link doesn't work, please copy this link - mgmprojects.pythonanywhere.com/guideLogin and paste it in the address field of your browser.)</small><br/>
         """+email_footer
-        msg = Message(subject='Guide Registration Successful | Department of CSE | MGM College of Engineering | Nanded', sender='mgms.projects@gmail.com', recipients=[guide.email], html=template)
+        msg = Message(subject='Guide Registration Successful | Department of CSE | MGM\'s College of Engineering | Nanded', sender='mgms.projects@gmail.com', recipients=[guide.email], html=template)
         mail.send(msg)
         return redirect(url_for('guide'))
     return render_template('GuideRegistration.html', title='Guide Registration', form=form)
@@ -138,12 +117,13 @@ def trackProjects(data=None):
     if not data:
         data = trackForm.project_id.data
     project = Project.query.filter_by(code=data).first()
+    if not project:
+        flash('Incorrect Project Code:' + str(data),'danger')
+        return redirect(url_for('home'))
     internal_guide_demos = ProjectGuideDemo.query.filter_by(guide_id=project.int_relation.id, project_id=project.id)
     external_guide_demos = ProjectGuideDemo.query.filter_by(guide_id=project.ext_relation.id, project_id=project.id)
-    if project:
-        return render_template('progress.html', title="Project Progress", project=project, i_demos=internal_guide_demos, e_demos=external_guide_demos )
-    flash('Incorrect Project Code.' + str(data),'danger')
-    return redirect(url_for('home'))
+    return render_template('progress.html', title="Project Progress", project=project, i_demos=internal_guide_demos, e_demos=external_guide_demos )
+
 
 @app.route("/guideLogin", methods=['GET', 'POST'])
 def guideLogin():
@@ -225,12 +205,8 @@ def assignMarks(data):
         # project.demo.marks.parameter1=form.data.para1
         # flash(form.data['para1'])
         marks = Marks(
-            parameter1=form.data['para1'],
-            parameter2=form.data['para2'],
-            parameter3=form.data['para3'],
-            parameter4=form.data['para4'],
-            parameter5=form.data['para5'],
-            total=form.data['para1']+form.data['para2']+form.data['para3']+form.data['para4']+form.data['para5']
+            parameter=form.parameter.data
+            # total=form.data['para1']+form.data['para2']+form.data['para3']+form.data['para4']+form.data['para5']
         )
         db.session.add(marks)
         db.session.flush()
@@ -300,7 +276,7 @@ def password_reset():
             template = email_header+f"""
             Respected <b>{guide[0].name}</b>,
             <br/><br/>You have successfully reset your password.<br/><br/>
-            If it was not you, please immediately report us by replying the issue on this email.<br/><br/>
+            <b>Not you? </b>If it was not you, please <b>immediately report us</b> by replying the issue on this email.<br/><br/>
             """+email_footer
             msg = Message(subject='[ALERT!] Password Reset Done | Department of CSE | MGM\'s College of Engineering', sender='mgms.projects@gmail.com', recipients=[guide[0].email], html=template)
             mail.send(msg)
@@ -309,3 +285,8 @@ def password_reset():
             flash('The entered username doesnot exist. Please register as a Guide.','danger')
         return redirect(url_for('guideLogin'))
     return render_template('password-reset.html', title="Reset Password", form=form)
+
+@app.errorhandler(500)
+def page_not_found(e):
+    # note that we set the 404 status explicitly
+    return render_template('500.html'), 500
