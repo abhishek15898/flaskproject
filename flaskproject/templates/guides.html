@@ -14,16 +14,21 @@
           </tr>
         </thead>
         <tbody>
-          {% for guide in guides %}
+          {% for guide in guides.items %}
           <tr>
-            <td>
-              {{guide.id}}
-            </td>
+            <td>{{guide.id}}</td>
             <td>{{guide.name}}</td>
             <td>{{guide.email}}</td>
           </tr>
             {% endfor %}
         </tbody>
       </table>
+      {% for page_num in guides.iter_pages() %}
+        {% if page_num %}
+          <a class="btn btn-outline-info mb-4" href="{{url_for('guide', page=page_num)}}">{{ page_num }}</a>
+        {% else %}
+          ...
+        {%endif%}
+      {%endfor%}
     </div>
-    {%endblock content%}
+  {%endblock content%}
