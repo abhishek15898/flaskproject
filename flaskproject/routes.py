@@ -21,7 +21,6 @@ def home():
     total_projects = Project.query.order_by(desc(Project.id)).all()
     guides=Guide.query.all()
     return render_template('home.html', projects=projects, guides=guides, title='MGM Projects',total_projects=total_projects, stages=stages)
-
 @app.route("/about")
 def about():
     return render_template('about.html', title='About MGM')
@@ -60,6 +59,7 @@ def ProjectRegistration():
             db.session.add(team)
             db.session.flush()
             project.team_id = team.id
+            student_emails=[]
             for index, entry in enumerate(membersList):
                     student = Student(
                                 team_id=project.team_id,
@@ -68,12 +68,51 @@ def ProjectRegistration():
                                 phone=entry['memberPhone'],
                                 cls=entry['memberClass']
                                 )
+                    student_emails.append(entry['memberEmail'])
                     db.session.add(student)
             project.code = str("{0:03}".format(project.id))+'-'+project.title[:4].replace(" ", "").upper()+'-'+project.team.members[0].name[:3].upper()
             db.session.flush()
             db.session.commit()
-            template = email_header+f"<b>Hi {project.team.members[0].name}!</b><br /> &nbsp;&nbsp;&nbsp;&nbsp;You have successfully registerd your Project - {project.title}. Please note this ID: <b>{project.code}</b> to track your Project status. You will be soon assigned with a guide!<br/>" + email_footer
-            msg = Message(subject='Project Registration Successful | Department of CSE | MGM\'s College of Engineering | Nanded', sender='mgms.projects@gmail.com', recipients=[project.team.members[0].email], html=template)
+            template_guide_body=f"""
+            We have received a project that has been assigned under your guidance:<br/>
+            <b>Project Name</b>:{project.title}<br/>
+            <b>Project Leader</b>: {project.team.members[0].name}<br/>
+            <b>Technologies used</b>: {project.techUsed}<br/>
+            <b>Project Internal Guide</b>: {project.int_relation.name}<br/>
+            <b>Project External Guide</b>: {project.ext_relation.name}<br/>
+            <br/>
+            We will keep informing you as we get other projects from students.<br/><br/>
+            To view more details of your projects and to conduct demos or assign marks to these projects, please login to our portal at mgmprojects.pythonanywhere.com/guideLogin<br/><br/>
+            """
+
+            template_int_body = email_header+f"""
+            Respected <b>{project.int_relation.name}</b>,<br/><br/>
+            """+template_guide_body+email_footer
+            msg = Message(subject='[Project Assigned] Internal Guide | Department of CSE | MGM\'s College of Engineering | Nanded', sender='mgms.projects@gmail.com', recipients=[project.int_relation.email], html=template_int_body)
+            mail.send(msg)
+
+            template_ext_body = email_header+f"""
+            Respected <b>{project.ext_relation.name}</b>,<br/><br/>
+            """+template_guide_body+email_footer
+            msg = Message(subject='[Project Assigned] External Gudie | Department of CSE | MGM\'s College of Engineering | Nanded', sender='mgms.projects@gmail.com', recipients=[project.ext_relation.email], html=template_ext_body)
+            mail.send(msg)
+
+            template_student_body=f"""
+             Hey <b>{project.team.members[0].name}!</b><br/><br/>
+             We are super-excited to have you, your team and your amazing project - <b>{project.title}</b> on board from our <b>Project Management System.</b><br/><br/>
+             We have also sent a notification to your guide with the details of your project. Please keep a note of the following details:<br/>
+             <b>Project-Code:</b> {project.code}<br/>
+             <b>Internal Guide:</b> {project.int_relation.name} ({project.int_relation.email})<br/>
+             <b>External Guide:</b> {project.ext_relation.name} ({project.ext_relation.email})<br/>
+             (<small>If you find the above guide details incorrect, please immediately report us at mgms.projects@gmail.com</small>)<br/><br/>
+                 That's it for now! We are delighted to see your project taking every step of its success with the dedicated efforts of your team and guides!<br/><br/>
+             All the very best!<br/><br/>
+             <div style=\"background: rgb(255,255,204); padding:5px;\">
+             <small><b>Need Help for your project?</b> You may find projects similar to your project on our <a href="http://mgmprojects.pythonanywhere.com">website</a>. They may have come with the same issue as you are facing now, and together you can figure out a solution! We encourage you to also help other teams in need! Afterall, sharing our knowledge is a great way to grow!</small>
+             </div><br/>
+            """
+            template = email_header+template_student_body+email_footer
+            msg = Message(subject='Project Registration Successful | Department of CSE | MGM\'s College of Engineering | Nanded', sender='mgms.projects@gmail.com', recipients=student_emails, html=template)
             mail.send(msg)
             flash('You have successfully registered your Project! Please note this ID: ' + project.code + ' to track your Project status.', 'success')
             return redirect(url_for('home'))
