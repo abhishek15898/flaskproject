@@ -44,7 +44,9 @@
               {% endif %}
             </div>
           </div>
-
+          <div style="background: #FFFF66; border-left: 3px solid #FFFF66; padding:5px;">
+            <b>Please Note:</b> Leader is a <span style="color: red">required</span> field. Team Member-1, Team Member-2 and Team Member-3 are <span style="color: red">optional</span>.<br/>
+          </div>
           {% for field in form.members%}
             {%set member = 'Team Member' %}
             {% if loop.index == 1 %}
@@ -151,11 +153,12 @@
               </div>
             </div>
           </div>
-
-
         <div class="form-group">
             {{form.submitProject(class="btn btn-outline-primary")}}
         </div>
       </form>
+      <div style="background: #FFFF66; border-left: 3px solid #FFFF66; padding:5px;">
+        <b>Please Note:</b> It may take some time to register all your project details and load the confirmation page. Hence, please donot refresh the page in between.
+      </div>
     </div>
   {%endblock content%}
