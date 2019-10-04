@@ -51,7 +51,8 @@
               <div class="modal-body">
                 <b>Internal Guide:</b> {{project.int_relation.name}}<br/>
                 <b>External Guide:</b> {{project.ext_relation.name}}<br/><hr>
-                <b>Current Status:</b> {{project.status}}<br/><hr>
+                <b>Current Status:</b> {{stages[project.status]}}<br/>
+                <b>Technology Used:</b> {{project.techUsed}}<hr>
                 <b>Description:</b><br/>
                 {{project.desc}}
               </div>
