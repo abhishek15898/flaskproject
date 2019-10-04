@@ -94,7 +94,7 @@ def ProjectRegistration():
             template_ext_body = email_header+f"""
             Respected <b>{project.ext_relation.name}</b>,<br/><br/>
             """+template_guide_body+email_footer
-            msg = Message(subject='[Project Assigned] External Gudie | Department of CSE | MGM\'s College of Engineering | Nanded', sender='mgms.projects@gmail.com', recipients=[project.ext_relation.email], html=template_ext_body)
+            msg = Message(subject='[Project Assigned] External Guide | Department of CSE | MGM\'s College of Engineering | Nanded', sender='mgms.projects@gmail.com', recipients=[project.ext_relation.email], html=template_ext_body)
             mail.send(msg)
 
             template_student_body=f"""
