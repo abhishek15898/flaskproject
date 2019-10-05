@@ -1,0 +1,76 @@
+{%extends 'layout.html'%}
+  {%block content%}
+  <div id="forms">
+  {%if count%}
+    <table class="table table-bordered table-responsive">
+    <thead>
+      <tr>
+        <th>Sr.No</th>
+        <th>Title</th>
+        <th>Team Leader</th>
+        <th>Accept</th>
+        <th>Delete</th>
+      </tr>
+    </thead>
+    <tbody>
+    {%else%}
+      <h2>No Pending Projects! </h2>
+    {%endif%}
+    {% for project in projects%}
+      <tr>
+        <td>{{loop.index}}</td>
+        <td><a href="#myModal{{project.id}}" data-toggle="modal">{{project.title}}</a></td>
+        <td>{{project.team.members[0]}}</td>
+        <td><a href = {{ url_for('confirmedProject',id=project.code) }}>Accept</a></td>
+        <td><a href = {{ url_for('deleteProject',id=project.code) }}>Delete</a></td>
+      </tr>
+    </tbody>
+    {%endfor%}
+  </table>
+  </div>
+  {% for project in projects%}
+  <div class="modal fade" id="myModal{{project.id}}">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <!-- Modal Header -->
+          <div class="modal-header">
+            <h4 class="modal-title">{{project.title}}</h4>
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+          </div>
+          <!-- Modal body -->
+          <div class="modal-body">
+            <table class="table table-bordered">
+            <thead>
+              <tr>
+                <th>Team Members</th>
+                <th>TechUsed</th>
+                <th>Internal Guide</th>
+                <th>External Guide</th>
+                <th>Team Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>{{project.team.members}}</td>
+                <td>{{project.techUsed}}</td>
+                <td>{{project.int_relation.name}}</td>
+                <td>{{project.ext_relation.name}}</td>
+                <td>{{project.desc}}</td>
+              </tr>
+            </tbody>
+          </table>
+          </div>
+          <!-- Modal footer -->
+          <div class="modal-footer">
+            <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+          </div>
+
+        </div>
+      </div>
+  </div>
+  {%endfor%}
+
+
+
+
+{%endblock content%}

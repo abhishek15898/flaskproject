@@ -1,6 +1,17 @@
 {%extends 'layout.html'%}
     {%block content%}
     <br/>
+    <div id="forms">
+      <div class="row">
+        <div class="col-md-7">
+          <center><iframe width="450" height=340 src="https://www.youtube.com/embed/6xBjk8AbTLE?autoplay=0&modestbranding=1&rel=0&showinfo=0" frameborder="0" allow="accelerometer; autoplay; picture-in-picture" allowfullscreen></iframe></center>
+        </div>
+        <div class="col-md-5">
+          <h2 style="background:#34325E;color:white;padding:10px;text-align:center;">A Quick Guide</h2><br/>
+          <p style="text-align:justify">Want to know more about this portal? Click on the video and take a quick tour to know how our portal solves the manual complex process of managing projects into a simpler software solution! <br/><br/>So, why wait long? Give your project an opportunity to walk through our online system for its successful completion! <a href="{{url_for('ProjectRegistration')}}"><br/>Register Today</a></p>
+        </div>
+      </div>
+    </div><br/>
     <div class="alert alert-primary" role="alert">
       <a href="{{ url_for('ProjectRegistration')}}">Register</a> to submit your team project!
       Total Projects Registered: {{total_projects|length}}.
@@ -9,7 +20,7 @@
       <div class="project_title">
         <div class="row">
           <div class="col-md-9">
-            <h4>{{ project.title.title()}}</h4>
+            <h4>{{ project.title}}</h4>
             <span class="badge badge-info">{{project.int_relation.name}}</span>
             <span class="badge badge-warning">{{project.ext_relation.name}}</span><br/>
             {% for member in project.team.members%}
@@ -22,7 +33,7 @@
             <a href="#myModal{{project.id}}" data-toggle="modal">View More</a>
           </div>
           <div class="col-md-3 project_status_block">
-              <span class="project_status">{{stages[project.status]}}</span>
+                <a href="#allStage{{project.status}}" data-toggle="modal"><span class="project_status">{{stages[project.status]}}</span></a>
               <p>Last Update: {{project.date_created.strftime('%d-%m-%y')}}</p>
           </div>
         </div>
@@ -40,7 +51,7 @@
       </div>
       {% for project in projects.items %}
         <div class="modal fade" id="myModal{{project.id}}">
-          <div class="modal-dialog">
+          <div class="modal-dialog modal-dialog-centered modal-lg">
             <div class="modal-content">
               <!-- Modal Header -->
               <div class="modal-header">
@@ -56,7 +67,6 @@
                 <b>Description:</b><br/>
                 {{project.desc}}
               </div>
-
               <!-- Modal footer -->
               <div class="modal-footer">
                 <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
@@ -64,6 +74,499 @@
             </div>
           </div>
         </div>
-      {%endfor%}
 
+      {%endfor%}
+      <div class="modal fade" id="allStage1">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+          <div class="modal-content">
+            <!-- Modal Header -->
+            <div class="modal-header">
+              <h4 class="modal-title">Stages</h4>
+              <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <!-- Modal body -->
+            <div class="modal-body">
+              <table class="table table-bordered">
+                <thead>
+                  <tr>
+                    <th>Stages</th>
+                    <th>Description</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr style="background:#76B583">
+                    <td>Registration</td>
+                    <td>You have registered your project on the portal.</td>
+                  </tr>
+                  <tr style="background:#76B583">
+                    <td>Accepted</td>
+                    <td>Your Internal Guide has accepted your project.</td>
+                  </tr>
+                  <tr style="background:#FFA07A">
+                    <td>Abstract</td>
+                    <td>You have submitted your abstract to your Internal Guide, and the abstract has been accepted.</td>
+                  </tr>
+                  <tr style="background:#FFA07A">
+                    <td>Demo-I</td>
+                    <td>You have successfully completed your Demo-I.</td>
+                  </tr>
+                  <tr style="background:#FFA07A">
+                    <td>Demo-II</td>
+                    <td>You have successfully completed your Demo-II.</td>
+                  </tr>
+                  <tr style="background:#FFA07A">
+                    <td>Demo-III</td>
+                    <td>You have successfully completed your Demo-III.</td>
+                  </tr>
+                  <tr style="background:#FFA07A">
+                    <td>Documentation</td>
+                    <td>You have completed your Final Report and submitted your Black Book to the Project Incharge.</td>
+                  </tr>
+                  <tr style="background:#FFA07A">
+                    <td>Certificate</td>
+                    <td>You are now permitted to download your Project Submission Certificate.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <!-- Modal footer -->
+            <div class="modal-footer">
+              <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal fade" id="allStage2">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+          <div class="modal-content">
+            <!-- Modal Header -->
+            <div class="modal-header">
+              <h4 class="modal-title">Stages</h4>
+              <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <!-- Modal body -->
+            <div class="modal-body">
+              <table class="table table-bordered">
+                <thead>
+                  <tr>
+                    <th>Stages</th>
+                    <th>Description</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr style="color:#76B583">
+                    <td>Registration</td>
+                    <td>You have registered your project on the portal.</td>
+                  </tr>
+                  <tr style="color:#76B583">
+                    <td>Accepted</td>
+                    <td>Your Internal Guide has accepted your project.</td>
+                  </tr>
+                  <tr style="color:#76B583">
+                    <td>You have submitted your abstract to your Internal Guide, and the abstract has been accepted.</td>
+                  </tr>
+                  <tr>
+                    <td>Demo-I</td>
+                    <td>You have successfully completed your Demo-I.</td>
+                  </tr>
+                  <tr>
+                    <td>Demo-II</td>
+                    <td>You have successfully completed your Demo-II.</td>
+                  </tr>
+                  <tr>
+                    <td>Demo-III</td>
+                    <td>You have successfully completed your Demo-III.</td>
+                  </tr>
+                  <tr>
+                    <td>Documentation</td>
+                    <td>You have completed your Final Report and submitted your Black Book to the Project Incharge.</td>
+                  </tr>
+                  <tr>
+                    <td>Certificate</td>
+                    <td>You are now permitted to download your Project Submission Certificate.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <!-- Modal footer -->
+            <div class="modal-footer">
+              <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal fade" id="allStage3">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+          <div class="modal-content">
+            <!-- Modal Header -->
+            <div class="modal-header">
+              <h4 class="modal-title">Stages</h4>
+              <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <!-- Modal body -->
+            <div class="modal-body">
+              <table class="table table-bordered">
+                <thead>
+                  <tr>
+
+                    <th>Stages</th>
+                    <th>Description</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Registration</td>
+                    <td>You have registered your project on the portal.</td>
+                  </tr>
+                  <tr>
+                    <td>Accepted</td>
+                    <td>Your Internal Guide has accepted your project.</td>
+                  </tr>
+                  <tr>
+                    <td>Abstract</td>
+                    <td>You have submitted your abstract to your Internal Guide, and the abstract has been accepted.</td>
+                  </tr>
+                  <tr>
+                    <td>Demo-I</td>
+                    <td>You have successfully completed your Demo-I.</td>
+                  </tr>
+                  <tr>
+                    <td>Demo-II</td>
+                    <td>You have successfully completed your Demo-II.</td>
+                  </tr>
+                  <tr>
+                    <td>Demo-III</td>
+                    <td>You have successfully completed your Demo-III.</td>
+                  </tr>
+                  <tr>
+                    <td>Documentation</td>
+                    <td>You have completed your Final Report and submitted your Black Book to the Project Incharge.</td>
+                  </tr>
+                  <tr>
+                    <td>Certificate</td>
+                    <td>You are now permitted to download your Project Submission Certificate.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <!-- Modal footer -->
+            <div class="modal-footer">
+              <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal fade" id="allStage4">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+          <div class="modal-content">
+            <!-- Modal Header -->
+            <div class="modal-header">
+              <h4 class="modal-title">Stages</h4>
+              <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <!-- Modal body -->
+            <div class="modal-body">
+              <table class="table table-bordered">
+                <thead>
+                  <tr>
+
+                    <th>Stages</th>
+                    <th>Description</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Registration</td>
+                    <td>You have registered your project on the portal.</td>
+                  </tr>
+                  <tr>
+                    <td>Accepted</td>
+                    <td>Your Internal Guide has accepted your project.</td>
+                  </tr>
+                  <tr>
+                    <td>Abstract</td>
+                    <td>You have submitted your abstract to your Internal Guide, and the abstract has been accepted.</td>
+                  </tr>
+                  <tr>
+                    <td>Demo-I</td>
+                    <td>You have successfully completed your Demo-I.</td>
+                  </tr>
+                  <tr>
+                    <td>Demo-II</td>
+                    <td>You have successfully completed your Demo-II.</td>
+                  </tr>
+                  <tr>
+                    <td>Demo-III</td>
+                    <td>You have successfully completed your Demo-III.</td>
+                  </tr>
+                  <tr>
+                    <td>Documentation</td>
+                    <td>You have completed your Final Report and submitted your Black Book to the Project Incharge.</td>
+                  </tr>
+                  <tr>
+                    <td>Certificate</td>
+                    <td>You are now permitted to download your Project Submission Certificate.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <!-- Modal footer -->
+            <div class="modal-footer">
+              <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal fade" id="allStage5">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+          <div class="modal-content">
+            <!-- Modal Header -->
+            <div class="modal-header">
+              <h4 class="modal-title">Stages</h4>
+              <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <!-- Modal body -->
+            <div class="modal-body">
+              <table class="table table-bordered">
+                <thead>
+                  <tr>
+
+                    <th>Stages</th>
+                    <th>Description</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Registration</td>
+                    <td>You have registered your project on the portal.</td>
+                  </tr>
+                  <tr>
+                    <td>Accepted</td>
+                    <td>Your Internal Guide has accepted your project.</td>
+                  </tr>
+                  <tr>
+                    <td>Abstract</td>
+                    <td>You have submitted your abstract to your Internal Guide, and the abstract has been accepted.</td>
+                  </tr>
+                  <tr>
+                    <td>Demo-I</td>
+                    <td>You have successfully completed your Demo-I.</td>
+                  </tr>
+                  <tr>
+                    <td>Demo-II</td>
+                    <td>You have successfully completed your Demo-II.</td>
+                  </tr>
+                  <tr>
+                    <td>Demo-III</td>
+                    <td>You have successfully completed your Demo-III.</td>
+                  </tr>
+                  <tr>
+                    <td>Documentation</td>
+                    <td>You have completed your Final Report and submitted your Black Book to the Project Incharge.</td>
+                  </tr>
+                  <tr>
+                    <td>Certificate</td>
+                    <td>You are now permitted to download your Project Submission Certificate.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <!-- Modal footer -->
+            <div class="modal-footer">
+              <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal fade" id="allStage6">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+          <div class="modal-content">
+            <!-- Modal Header -->
+            <div class="modal-header">
+              <h4 class="modal-title">Stages</h4>
+              <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <!-- Modal body -->
+            <div class="modal-body">
+              <table class="table table-bordered">
+                <thead>
+                  <tr>
+
+                    <th>Stages</th>
+                    <th>Description</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Registration</td>
+                    <td>You have registered your project on the portal.</td>
+                  </tr>
+                  <tr>
+                    <td>Accepted</td>
+                    <td>Your Internal Guide has accepted your project.</td>
+                  </tr>
+                  <tr>
+                    <td>Abstract</td>
+                    <td>You have submitted your abstract to your Internal Guide, and the abstract has been accepted.</td>
+                  </tr>
+                  <tr>
+                    <td>Demo-I</td>
+                    <td>You have successfully completed your Demo-I.</td>
+                  </tr>
+                  <tr>
+                    <td>Demo-II</td>
+                    <td>You have successfully completed your Demo-II.</td>
+                  </tr>
+                  <tr>
+                    <td>Demo-III</td>
+                    <td>You have successfully completed your Demo-III.</td>
+                  </tr>
+                  <tr>
+                    <td>Documentation</td>
+                    <td>You have completed your Final Report and submitted your Black Book to the Project Incharge.</td>
+                  </tr>
+                  <tr>
+                    <td>Certificate</td>
+                    <td>You are now permitted to download your Project Submission Certificate.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <!-- Modal footer -->
+            <div class="modal-footer">
+              <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal fade" id="allStage7">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+          <div class="modal-content">
+            <!-- Modal Header -->
+            <div class="modal-header">
+              <h4 class="modal-title">Stages</h4>
+              <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <!-- Modal body -->
+            <div class="modal-body">
+              <table class="table table-bordered">
+                <thead>
+                  <tr>
+
+                    <th>Stages</th>
+                    <th>Description</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Registration</td>
+                    <td>You have registered your project on the portal.</td>
+                  </tr>
+                  <tr>
+                    <td>Accepted</td>
+                    <td>Your Internal Guide has accepted your project.</td>
+                  </tr>
+                  <tr>
+                    <td>Abstract</td>
+                    <td>You have submitted your abstract to your Internal Guide, and the abstract has been accepted.</td>
+                  </tr>
+                  <tr>
+                    <td>Demo-I</td>
+                    <td>You have successfully completed your Demo-I.</td>
+                  </tr>
+                  <tr>
+                    <td>Demo-II</td>
+                    <td>You have successfully completed your Demo-II.</td>
+                  </tr>
+                  <tr>
+                    <td>Demo-III</td>
+                    <td>You have successfully completed your Demo-III.</td>
+                  </tr>
+                  <tr>
+                    <td>Documentation</td>
+                    <td>You have completed your Final Report and submitted your Black Book to the Project Incharge.</td>
+                  </tr>
+                  <tr>
+                    <td>Certificate</td>
+                    <td>You are now permitted to download your Project Submission Certificate.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <!-- Modal footer -->
+            <div class="modal-footer">
+              <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal fade" id="allStage8">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+          <div class="modal-content">
+            <!-- Modal Header -->
+            <div class="modal-header">
+              <h4 class="modal-title">Stages</h4>
+              <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <!-- Modal body -->
+            <div class="modal-body">
+              <table class="table table-bordered">
+                <thead>
+                  <tr>
+
+                    <th>Stages</th>
+                    <th>Description</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Registration</td>
+                    <td>You have registered your project on the portal.</td>
+                  </tr>
+                  <tr>
+                    <td>Accepted</td>
+                    <td>Your Internal Guide has accepted your project.</td>
+                  </tr>
+                  <tr>
+                    <td>Abstract</td>
+                    <td>You have submitted your abstract to your Internal Guide, and the abstract has been accepted.</td>
+                  </tr>
+                  <tr>
+                    <td>Demo-I</td>
+                    <td>You have successfully completed your Demo-I.</td>
+                  </tr>
+                  <tr>
+                    <td>Demo-II</td>
+                    <td>You have successfully completed your Demo-II.</td>
+                  </tr>
+                  <tr>
+                    <td>Demo-III</td>
+                    <td>You have successfully completed your Demo-III.</td>
+                  </tr>
+                  <tr>
+                    <td>Documentation</td>
+                    <td>You have completed your Final Report and submitted your Black Book to the Project Incharge.</td>
+                  </tr>
+                  <tr>
+                    <td>Certificate</td>
+                    <td>You are now permitted to download your Project Submission Certificate.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <!-- Modal footer -->
+            <div class="modal-footer">
+              <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+            </div>
+          </div>
+        </div>
+      </div>
     {%endblock content%}

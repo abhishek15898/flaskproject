@@ -73,3 +73,9 @@ class passwordReset(FlaskForm):
     confirmPassword = PasswordField('Confirm Password: ',
                         validators = [DataRequired(), Length(min=2), EqualTo('password', message='Passwords must match')])
     registerGuide = SubmitField('Register Guide')
+
+class subscription_form(FlaskForm):
+    name = StringField('Your Name', validators = [DataRequired(), Length(min=2)])
+    email = StringField('Your Email: ',
+                        validators=[DataRequired(), Email()])
+    subscribe = SubmitField('Subscribe')

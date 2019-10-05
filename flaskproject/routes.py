@@ -1,7 +1,7 @@
 from flask import render_template, url_for, redirect, flash, Markup, abort, request, jsonify
 from flaskproject import app, db, mail, bcrypt
 from flaskproject.models import Project, Guide, Student, Team, ProjectGuideDemo, Marks, Demo, Grades
-from flaskproject.forms import projectRegister, guideRegister, trackProject, GuideLoginForm, membersForm, DemoForm, passwordReset
+from flaskproject.forms import projectRegister, guideRegister, trackProject, GuideLoginForm, membersForm, DemoForm, passwordReset, subscription_form
 from sqlalchemy import asc, desc, update
 from flask_mail import Mail, Message
 from flask_login import login_user, current_user, logout_user, login_required
@@ -13,23 +13,47 @@ def inject_sidebar_trackForm():
     trackForm = trackProject()
     return dict(trackForm=trackForm)
 
+
 @app.route("/")
 @app.route("/home")
 def home():
     page=request.args.get('page',1,type=int)
-    projects = Project.query.order_by(desc(Project.id)).paginate(page=page, per_page=10)
+    projects = Project.query.filter_by(status=1).order_by(desc(Project.id)).paginate(page=page, per_page=6)
     total_projects = Project.query.order_by(desc(Project.id)).all()
     guides=Guide.query.all()
     return render_template('home.html', projects=projects, guides=guides, title='MGM Projects',total_projects=total_projects, stages=stages)
 @app.route("/about")
 def about():
-    return render_template('about.html', title='About MGM')
+    form = subscription_form()
+    return render_template('underConstruction.html', title='About Us', form=form)
 
-@app.route("/guides")
+@app.route("/guideline")
+def guideline():
+    form = subscription_form()
+    return render_template('underConstruction.html', title='About Us', form=form)
+
+@app.route("/timeline")
+def timeline():
+    form = subscription_form()
+    return render_template('underConstruction.html', title='About Us', form=form)
+
+@app.route("/faqs")
+def faqs():
+    form = subscription_form()
+    return render_template('underConstruction.html', title='About Us', form=form)
+
+
+
+@app.route("/guide")
 def guide():
     page=request.args.get('page',1,type=int)
     guides=Guide.query.paginate(page=page, per_page=10)
     return render_template('guides.html', guides=guides, title='Project Guide')
+
+@app.route("/contactus")
+def contactus():
+    form = subscription_form()
+    return render_template('underConstruction.html', title='About Us', form=form)
 
 @app.route("/projectRegister", methods=['GET', 'POST'])
 def ProjectRegistration():
@@ -63,7 +87,7 @@ def ProjectRegistration():
             for index, entry in enumerate(membersList):
                     student = Student(
                                 team_id=project.team_id,
-                                name=entry['memberName'],
+                                name=entry['memberName'].title(),
                                 email=entry['memberEmail'],
                                 phone=entry['memberPhone'],
                                 cls=entry['memberClass']
@@ -73,39 +97,15 @@ def ProjectRegistration():
             project.code = str("{0:03}".format(project.id))+'-'+project.title[:4].replace(" ", "").upper()+'-'+project.team.members[0].name[:3].upper()
             db.session.flush()
             db.session.commit()
-            template_guide_body=f"""
-            We have received a project that has been assigned under your guidance:<br/>
-            <b>Project Name</b>:{project.title}<br/>
-            <b>Project Leader</b>: {project.team.members[0].name}<br/>
-            <b>Technologies used</b>: {project.techUsed}<br/>
-            <b>Project Internal Guide</b>: {project.int_relation.name}<br/>
-            <b>Project External Guide</b>: {project.ext_relation.name}<br/>
-            <br/>
-            We will keep informing you as we get other projects from students.<br/><br/>
-            To view more details of your projects and to conduct demos or assign marks to these projects, please login to our portal at mgmprojects.pythonanywhere.com/guideLogin<br/><br/>
-            """
-
-            template_int_body = email_header+f"""
-            Respected <b>{project.int_relation.name}</b>,<br/><br/>
-            """+template_guide_body+email_footer
-            msg = Message(subject='[Project Assigned] Internal Guide | Department of CSE | MGM\'s College of Engineering | Nanded', sender='mgms.projects@gmail.com', recipients=[project.int_relation.email], html=template_int_body)
-            mail.send(msg)
-
-            template_ext_body = email_header+f"""
-            Respected <b>{project.ext_relation.name}</b>,<br/><br/>
-            """+template_guide_body+email_footer
-            msg = Message(subject='[Project Assigned] External Guide | Department of CSE | MGM\'s College of Engineering | Nanded', sender='mgms.projects@gmail.com', recipients=[project.ext_relation.email], html=template_ext_body)
-            mail.send(msg)
-
             template_student_body=f"""
              Hey <b>{project.team.members[0].name}!</b><br/><br/>
-             We are super-excited to have you, your team and your amazing project - <b>{project.title}</b> on board from our <b>Project Management System.</b><br/><br/>
-             We have also sent a notification to your guide with the details of your project. Please keep a note of the following details:<br/>
-             <b>Project-Code:</b> {project.code}<br/>
-             <b>Internal Guide:</b> {project.int_relation.name} ({project.int_relation.email})<br/>
-             <b>External Guide:</b> {project.ext_relation.name} ({project.ext_relation.email})<br/>
+             We are super-excited to have you, your team and your amazing project - <b>{project.title}</b> on board in our <b>Project Management System.</b><br/><br/>
+             Your project will be verified by Project Incharges. Once verified, it will be accepted for further stages. <br/><br/>
+             We will email you once your project has been accepted. Meanwhile stay rest assured and explore new projects on our portal!<br/><br/>
+             &emsp;<b>Project-Code:</b> {project.code}<br/>
+             &emsp;<b>Internal Guide:</b> {project.int_relation.name} ({project.int_relation.email})<br/>
+             &emsp;<b>External Guide:</b> {project.ext_relation.name} ({project.ext_relation.email})<br/>
              (<small>If you find the above guide details incorrect, please immediately report us at mgms.projects@gmail.com</small>)<br/><br/>
-                 That's it for now! We are delighted to see your project taking every step of its success with the dedicated efforts of your team and guides!<br/><br/>
              All the very best!<br/><br/>
              <div style=\"background: rgb(255,255,204); padding:5px;\">
              <small><b>Need Help for your project?</b> You may find projects similar to your project on our <a href="http://mgmprojects.pythonanywhere.com">website</a>. They may have come with the same issue as you are facing now, and together you can figure out a solution! We encourage you to also help other teams in need! Afterall, sharing our knowledge is a great way to grow!</small>
@@ -114,7 +114,7 @@ def ProjectRegistration():
             template = email_header+template_student_body+email_footer
             msg = Message(subject='Project Registration Successful | Department of CSE | MGM\'s College of Engineering | Nanded', sender='mgms.projects@gmail.com', recipients=student_emails, html=template)
             mail.send(msg)
-            flash('You have successfully registered your Project! Please note this ID: ' + project.code + ' to track your Project status.', 'success')
+            flash('You have successfully registered your Project! Please note this ID: ' + project.code + ' to track your Project status. Also check your Registered Email Id for more details.', 'success')
             return redirect(url_for('home'))
     return render_template('ProjectRegistration.html', title='Project Registration', form=form)
 
@@ -329,3 +329,96 @@ def password_reset():
 def page_not_found(e):
     # note that we set the 404 status explicitly
     return render_template('500.html'), 500
+@app.route("/confirm", methods=['GET', 'POST'])
+def confirmProjects():
+    projects = Project.query.filter_by(status=0)
+    count = Project.query.filter_by(status=0).count()
+    return render_template('temporary.html', title="ConfirmProjects", projects=projects, count=count)
+@app.route('/confirmedProject/<id>')
+def confirmedProject(id):
+    project = Project.query.filter_by(code=id).first()
+    project.status=1
+    db.session.commit()
+    student_emails=[]
+    student_email_ids=Student.query.filter_by(team_id=project.team_id).with_entities(Student.email).all()
+    for email in student_email_ids:
+        student_emails.append(email[0])
+    template_guide_body=f"""
+    We have received a project that has been assigned under your guidance:<br/>
+    &emsp;<b>Project Name</b>:{project.title}<br/>
+    &emsp;<b>Project Leader</b>: {project.team.members[0].name}<br/>
+    &emsp;<b>Technologies used</b>: {project.techUsed}<br/>
+    &emsp;<b>Project Internal Guide</b>: {project.int_relation.name}<br/>
+    &emsp;<b>Project External Guide</b>: {project.ext_relation.name}<br/>
+    <br/>
+    We will keep informing you as we get other projects from students.<br/><br/>
+    To view more details of your projects and to conduct demos or assign marks to these projects, please login to our portal at mgmprojects.pythonanywhere.com/guideLogin<br/><br/>
+    """
+
+    template_int_body = email_header+f"""
+    Respected <b>{project.int_relation.name}</b>,<br/><br/>
+    """+template_guide_body+email_footer
+    msg = Message(subject='[Project Assigned] Internal Guide | Department of CSE | MGM\'s College of Engineering | Nanded', sender='mgms.projects@gmail.com', recipients=[project.int_relation.email], html=template_int_body)
+    mail.send(msg)
+
+    template_ext_body = email_header+f"""
+    Respected <b>{project.ext_relation.name}</b>,<br/><br/>
+    """+template_guide_body+email_footer
+    msg = Message(subject='[Project Assigned] External Guide | Department of CSE | MGM\'s College of Engineering | Nanded', sender='mgms.projects@gmail.com', recipients=[project.ext_relation.email], html=template_ext_body)
+    mail.send(msg)
+
+    template_student_body=f"""
+     Hey <b>{project.team.members[0].name}!</b><br/><br/>
+     We are glad to inform you that your project - <b>{project.title}</b> has been accepted by Admin/Project-Incharge.</b><br/><br/>
+     Note the following details for future references:<br/>
+     &emsp;<b>Project-Code:</b> {project.code}<br/>
+     &emsp;<b>Internal Guide:</b> {project.int_relation.name} ({project.int_relation.email})<br/>
+     &emsp;<b>External Guide:</b> {project.ext_relation.name} ({project.ext_relation.email})<br/>
+     (<small>If you find the above guide details incorrect, please immediately report us at mgms.projects@gmail.com</small>)<br/><br/>
+         That's it for now! We are delighted to see your project taking every step of its success with the dedicated efforts of your team and guides!<br/><br/>
+     All the very best!<br/><br/>
+     <div style=\"background: rgb(255,255,204); padding:5px;\">
+     <small><b>Need Help for your project?</b> You may find projects similar to your project on our <a href="http://mgmprojects.pythonanywhere.com">website</a>. They may have come with the same issue as you are facing now, and together you can figure out a solution! We encourage you to also help other teams in need! Afterall, sharing our knowledge is a great way to grow!</small>
+     </div><br/>
+    """
+    template = email_header+template_student_body+email_footer
+    msg = Message(subject='[Project-Accepted] Congratulations! | Department of CSE | MGM\'s College of Engineering | Nanded', sender='mgms.projects@gmail.com', recipients=student_emails, html=template)
+    mail.send(msg)
+
+    projects = Project.query.filter_by(status=0)
+    count = Project.query.filter_by(status=0).count()
+    flash('Project Confirmed Successfully!', 'success')
+    return render_template('temporary.html', title="ConfirmProjects", projects=projects, count=count)
+
+@app.route('/deleteProject/<id>')
+def deleteProject(id):
+    project = Project.query.filter_by(code=id).first()
+    student_emails=[]
+    student_email_ids=Student.query.filter_by(team_id=project.team_id).with_entities(Student.email).all()
+    for email in student_email_ids:
+        student_emails.append(email[0])
+    template_student_body=f"""
+     Hi <b>{project.team.members[0].name}!</b><br/><br/>
+     You project - <b>{project.title}</b> has been rejected by Admin/Project-Incharge.</b><br/><br/>
+     Please contact the Project Incharge or consider submitting another Project Application.<br/><br/>
+     All the very best!<br/><br/>
+     <div style=\"background: rgb(255,255,204); padding:5px;\">
+     <small><b>Need Help for your project?</b> You may find projects similar to your project on our <a href="http://mgmprojects.pythonanywhere.com">website</a>. They may have come with the same issue as you are facing now, and together you can figure out a solution! We encourage you to also help other teams in need! Afterall, sharing our knowledge is a great way to grow!</small>
+     </div><br/>
+    """
+    template = email_header+template_student_body+email_footer
+    msg = Message(subject='[Project-Rejected] | Department of CSE | MGM\'s College of Engineering | Nanded', sender='mgms.projects@gmail.com', recipients=student_emails, html=template)
+    mail.send(msg)
+
+    team_id=project.team.id
+    Student.query.filter_by(team_id=team_id).delete()
+    # db.session.delete(students) doesnot take effect
+    db.session.delete(project)
+    team=Team.query.filter_by(id=team_id).delete()
+    db.session.delete(project)
+    db.session.commit()
+
+    projects = Project.query.filter_by(status=0)
+    count = Project.query.filter_by(status=0).count()
+    flash('Project Deleted Successfully', 'danger')
+    return render_template('temporary.html', title="ConfirmProjects", projects=projects, count=count)

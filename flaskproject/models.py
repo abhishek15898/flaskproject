@@ -38,16 +38,16 @@ class Guide(db.Model, UserMixin):
 class Student(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     team_id = db.Column(db.Integer, db.ForeignKey('team.id'), nullable=True)
-    name = db.Column(db.String(50), nullable=False)
-    email = db.Column(db.String(120), nullable=False)
-    phone = db.Column(db.String(10), nullable=False)
+    name = db.Column(db.String(50), nullable=False, unique=True)
+    email = db.Column(db.String(120), nullable=False, unique=True)
+    phone = db.Column(db.String(10), nullable=False, unique=True)
     cls = db.Column(db.String(7), nullable=False)
     def __repr__(self):
         return f"Student('{self.name}', '{self.email}', '{self.phone}', '{self.cls}')"
 
 class Team(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(50), nullable=False)
+    name = db.Column(db.String(50), nullable=False, unique=True)
     members = db.relationship('Student', backref='team', lazy=True)
     project_team = db.relationship('Project', backref='team', lazy=True)
     def __repr__(self):
