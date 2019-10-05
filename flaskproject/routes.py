@@ -72,7 +72,7 @@ def ProjectRegistration():
                     db.session.add(student)
             project.code = str("{0:03}".format(project.id))+'-'+project.title[:4].replace(" ", "").upper()+'-'+project.team.members[0].name[:3].upper()
             db.session.flush()
-            db.session.commit()
+            # db.session.commit()
             template_guide_body=f"""
             We have received a project that has been assigned under your guidance:<br/>
             <b>Project Name</b>:{project.title}<br/>
@@ -94,7 +94,7 @@ def ProjectRegistration():
             template_ext_body = email_header+f"""
             Respected <b>{project.ext_relation.name}</b>,<br/><br/>
             """+template_guide_body+email_footer
-            msg = Message(subject='[Project Assigned] External Gudie | Department of CSE | MGM\'s College of Engineering | Nanded', sender='mgms.projects@gmail.com', recipients=[project.ext_relation.email], html=template_ext_body)
+            msg = Message(subject='[Project Assigned] External Guide | Department of CSE | MGM\'s College of Engineering | Nanded', sender='mgms.projects@gmail.com', recipients=[project.ext_relation.email], html=template_ext_body)
             mail.send(msg)
 
             template_student_body=f"""
