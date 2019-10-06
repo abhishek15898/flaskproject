@@ -207,4 +207,9 @@ Todo-list -> 06-10-2019
 5) Intermediate Screen. -> If confirmed, email the team and internal_guide.
   Else, the project incharge can ask for corrections.
 
+  Gitignore files
+  *.pyc
+  site.db
+
+
 Bug found -> Team members not displaying
