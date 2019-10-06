@@ -196,4 +196,15 @@ IMPORTANT: Ensure to fetch the systemdate and increment stages at every step
 7) Project Status - Abstract and Demo (Fix it!)
 8) Deployment
 
+Todo-list -> 06-10-2019
+0) Remove the constraint - 150 char from Project Descr.
+1) Decide about the database - abstract(ab_id,proj_id,ab_desc,status)
+  Also include the project-abstract relationship
+2) Create an abstract submission page. (../abstract/001-PROJ-OMK)
+3) Also include a field, where they could explain their project in short. (Project Description)
+   If they have already submitted, then no need to submit again.
+4) Convert it into a PDF and mail to the team.
+5) Intermediate Screen. -> If confirmed, email the team and internal_guide.
+  Else, the project incharge can ask for corrections.
+
 Bug found -> Team members not displaying
