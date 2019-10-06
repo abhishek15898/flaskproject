@@ -184,3 +184,16 @@ Email Templates
 Custom Error Message:
   404 page
   Email Failed - mail.send(msg)
+
+To-do list -> 05-10-2019
+IMPORTANT: Ensure to fetch the systemdate and increment stages at every step
+1) Confirm Page (TOP PRIORITY - 1)(Completed)
+2) ../projectRegister (TOP PRIORITY - 2) (COMPLETED)
+3) Email for 'Project Accepted' (TOP PRIORITY - 3)(Completed)
+4) Static pages -> Under Construction (Priority 3)
+5) Subscription Form -> Sidebar + Email (Priority 2)
+6) Remove Password Reset link from the 500 error page (Priority 4)
+7) Project Status - Abstract and Demo (Fix it!)
+8) Deployment
+
+Bug found -> Team members not displaying

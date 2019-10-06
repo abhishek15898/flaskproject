@@ -18,7 +18,7 @@ class Project(db.Model):
     external_id = db.Column(db.Integer, db.ForeignKey('guide.id'), nullable=True)
     team_id = db.Column(db.Integer, db.ForeignKey('team.id'), nullable=True)
     techUsed = db.Column(db.Text, nullable=True)
-    date_created = db.Column(db.DateTime, nullable=False, default=datetime.utcnow())
+    date_created = db.Column(db.DateTime, nullable=False, default=datetime.now)
     ext_relation = db.relationship('Guide', foreign_keys=[external_id], backref='external')
     int_relation = db.relationship('Guide', foreign_keys=[guide_id], backref='mentor')
     # projectDemo = db.relationship('ProjectGuideDemo', backref="projectDemoDetails", lazy=True)
@@ -38,16 +38,16 @@ class Guide(db.Model, UserMixin):
 class Student(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     team_id = db.Column(db.Integer, db.ForeignKey('team.id'), nullable=True)
-    name = db.Column(db.String(50), nullable=False)
-    email = db.Column(db.String(120), nullable=False)
-    phone = db.Column(db.String(10), nullable=False)
+    name = db.Column(db.String(50), nullable=False, unique=True)
+    email = db.Column(db.String(120), nullable=False, unique=True)
+    phone = db.Column(db.String(10), nullable=False, unique=True)
     cls = db.Column(db.String(7), nullable=False)
     def __repr__(self):
         return f"Student('{self.name}', '{self.email}', '{self.phone}', '{self.cls}')"
 
 class Team(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(50), nullable=False)
+    name = db.Column(db.String(50), nullable=False, unique=True)
     members = db.relationship('Student', backref='team', lazy=True)
     project_team = db.relationship('Project', backref='team', lazy=True)
     def __repr__(self):
@@ -55,7 +55,7 @@ class Team(db.Model):
 
 class Demo(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    demo_date = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+    demo_date = db.Column(db.DateTime, nullable=False, default=datetime.now)
     remark = db.Column(db.Text, nullable=True)
     marks_id = db.Column(db.Integer, db.ForeignKey('marks.id'), nullable=True)
     progress = db.Column(db.Integer, nullable=False)

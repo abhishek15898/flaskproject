@@ -53,6 +53,9 @@
               {%set member = 'leader' %}
             {%endif%}
             <div class="col-md-12 {{member}}-box">
+              {% if loop.index == 2 %}
+                <center><small><b>DO-NOT</b> mention the leader's name again below. <b>ONLY</b> mention other members of the team. </small></center>
+              {%endif%}
               <div class="row">
                 <div class="col-md-3 {{member}}">
                   <div class="form-group">
@@ -107,6 +110,8 @@
                   </div>
                 </div>
               </div>
+
+
             </div>
           {% endfor %}
         </div>

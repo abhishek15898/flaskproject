@@ -19,7 +19,7 @@ class projectRegister(FlaskForm):
     projectTitle = StringField('Project Title',
                         validators=[DataRequired(), Length(min=2, max=50)])
     projectDescription = TextAreaField('Project Description',
-                        validators=[DataRequired(), Length(min=150)])
+                        validators=[DataRequired()])
     teamName = StringField('Team Name',
                         validators=[DataRequired(), Length(min=2, max=50)])
     members = FieldList(FormField(membersForm), min_entries=4)
@@ -73,3 +73,9 @@ class passwordReset(FlaskForm):
     confirmPassword = PasswordField('Confirm Password: ',
                         validators = [DataRequired(), Length(min=2), EqualTo('password', message='Passwords must match')])
     registerGuide = SubmitField('Register Guide')
+
+class subscription_form(FlaskForm):
+    name = StringField('Your Name', validators = [DataRequired(), Length(min=2)])
+    email = StringField('Your Email: ',
+                        validators=[DataRequired(), Email()])
+    subscribe = SubmitField('Subscribe')

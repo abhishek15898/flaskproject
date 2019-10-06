@@ -30,6 +30,3 @@ Our Team is working on making the website responsive, and we are sure to come wi
 </div>
 <div style=\"background: #3489EE\"><small><span style=\"color: white\">Copyright © 2019 MGM's College of Engineering, Nanded - 431605</span></small></div>
 """
-project_registration_template = f"""
-    Hey! your project is {{project.title}}
-"""
