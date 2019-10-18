@@ -97,31 +97,6 @@ def ProjectRegistration():
             project.code = str("{0:03}".format(project.id))+'-'+project.title[:4].replace(" ", "").upper()+'-'+project.team.members[0].name[:3].upper()
             db.session.flush()
             db.session.commit()
-            template_guide_body=f"""
-            We have received a project that has been assigned under your guidance:<br/>
-            <b>Project Name</b>:{project.title}<br/>
-            <b>Project Leader</b>: {project.team.members[0].name}<br/>
-            <b>Technologies used</b>: {project.techUsed}<br/>
-            <b>Project Internal Guide</b>: {project.int_relation.name}<br/>
-            <b>Project External Guide</b>: {project.ext_relation.name}<br/>
-            <br/>
-            We will keep informing you as we get other projects from students.<br/><br/>
-            To view more details of your projects and to conduct demos or assign marks to these projects, please login to our portal at mgmprojects.pythonanywhere.com/guideLogin<br/><br/>
-            """
-
-            template_int_body = email_header+f"""
-            Respected <b>{project.int_relation.name}</b>,<br/><br/>
-            """+template_guide_body+email_footer
-            msg = Message(subject='[Project Assigned] Internal Guide | Department of CSE | MGM\'s College of Engineering | Nanded', sender='mgms.projects@gmail.com', recipients=[project.int_relation.email], html=template_int_body)
-            mail.send(msg)
-
-            template_ext_body = email_header+f"""
-            Respected <b>{project.ext_relation.name}</b>,<br/><br/>
-            """+template_guide_body+email_footer
-            msg = Message(subject='[Project Assigned] External Guide | Department of CSE | MGM\'s College of Engineering | Nanded', sender='mgms.projects@gmail.com', recipients=[project.ext_relation.email], html=template_ext_body)
-            mail.send(msg)
-
-
             template_student_body=f"""
              Hey <b>{project.team.members[0].name}!</b><br/><br/>
              We are super-excited to have you, your team and your amazing project - <b>{project.title}</b> on board in our <b>Project Management System.</b><br/><br/>

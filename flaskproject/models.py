@@ -18,7 +18,7 @@ class Project(db.Model):
     external_id = db.Column(db.Integer, db.ForeignKey('guide.id'), nullable=True)
     team_id = db.Column(db.Integer, db.ForeignKey('team.id'), nullable=True)
     techUsed = db.Column(db.Text, nullable=True)
-    date_created = db.Column(db.DateTime, nullable=False, default=datetime.now)
+    date_created = db.Column(db.DateTime, nullable=False, default=datetime.now()+timedelta(hours=5, minutes=30))
     ext_relation = db.relationship('Guide', foreign_keys=[external_id], backref='external')
     int_relation = db.relationship('Guide', foreign_keys=[guide_id], backref='mentor')
     # projectDemo = db.relationship('ProjectGuideDemo', backref="projectDemoDetails", lazy=True)
@@ -55,7 +55,7 @@ class Team(db.Model):
 
 class Demo(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    demo_date = db.Column(db.DateTime, nullable=False, default=datetime.now)
+    demo_date = db.Column(db.DateTime, nullable=False, default=datetime.now()+timedelta(hours=5, minutes=30))
     remark = db.Column(db.Text, nullable=True)
     marks_id = db.Column(db.Integer, db.ForeignKey('marks.id'), nullable=True)
     progress = db.Column(db.Integer, nullable=False)
@@ -86,3 +86,19 @@ class Grades(db.Model):
     dPlus = db.Column(db.Integer, nullable=False)
     d = db.Column(db.Integer, nullable=False)
     f = db.Column(db.Integer, nullable=False)
+
+class Abstract(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    project_id = db.Column(db.Integer, db.ForeignKey('project.id'), nullable=True)
+    abs_desc = db.Column(db.Text, nullable=False)
+    status = db.Column(db.Integer, nullable=False, default=0)
+    acceptance_date = db.Column(db.DateTime, nullable=False, default=datetime.now()+timedelta(hours=5, minutes=30))
+    project = db.relationship('Project', backref='abstract', lazy=True)
+
+class Stage(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    project_id = db.Column(db.Integer, db.ForeignKey('project.id'), nullable=True)
+    completed_stage = db.Column(db.Integer, nullable=False, default=0)
+    started_time = db.Column(db.DateTime, default=datetime.now()+timedelta(hours=5, minutes=30))
+    completion_time = db.Column(db.DateTime, nullable=False, default=datetime.now()+timedelta(hours=5, minutes=30))
+    project = db.relationship('Project', backref='stage', lazy=True)
