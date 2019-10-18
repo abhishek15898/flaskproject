@@ -18,7 +18,7 @@ class Project(db.Model):
     external_id = db.Column(db.Integer, db.ForeignKey('guide.id'), nullable=True)
     team_id = db.Column(db.Integer, db.ForeignKey('team.id'), nullable=True)
     techUsed = db.Column(db.Text, nullable=True)
-    date_created = db.Column(db.DateTime, nullable=False, default=datetime.now)
+    date_created = db.Column(db.DateTime, nullable=False, default=datetime.now()+timedelta(hours=5, minutes=30))
     ext_relation = db.relationship('Guide', foreign_keys=[external_id], backref='external')
     int_relation = db.relationship('Guide', foreign_keys=[guide_id], backref='mentor')
     # projectDemo = db.relationship('ProjectGuideDemo', backref="projectDemoDetails", lazy=True)
@@ -33,7 +33,7 @@ class Guide(db.Model, UserMixin):
     password = db.Column(db.String(8), nullable=False)
     # guideDemo = db.relationship('ProjectGuideDemo', backref="guideDemoDetails", lazy=True)
     def __repr__(self):
-        return f"Guide('{self.name}', '{self.email}', '{self.interest}')"
+        return f"Guide('{self.name}', '{self.email}', '{self.username}')"
 
 class Student(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -51,20 +51,24 @@ class Team(db.Model):
     members = db.relationship('Student', backref='team', lazy=True)
     project_team = db.relationship('Project', backref='team', lazy=True)
     def __repr__(self):
-        return f"Team('{self.name}')"
+        return f"Team('{self.name}','{self.members}')"
 
 class Demo(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    demo_date = db.Column(db.DateTime, nullable=False, default=datetime.now)
+    demo_date = db.Column(db.DateTime, nullable=False, default=datetime.now()+timedelta(hours=5, minutes=30))
     remark = db.Column(db.Text, nullable=True)
     marks_id = db.Column(db.Integer, db.ForeignKey('marks.id'), nullable=True)
     progress = db.Column(db.Integer, nullable=False)
+    def __repr__(self):
+        return f"""Demo('{self.demo_date}', '{self.remark}', '{self.progress}', '{self.marks_id}')"""
     # demo = db.relationship('ProjectGuideDemo', backref="eachDemoDetails", lazy=True)
 
 class Marks(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     parameter = db.Column(db.Integer, nullable=False)
     demoMarks = db.relationship('Demo', backref="marks", lazy=True)
+    def __repr__(self):
+        return f"Marks('{self.parameter}', '{self.demoMarks}')"
 
 class ProjectGuideDemo(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -89,16 +93,16 @@ class Grades(db.Model):
 
 class Abstract(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    project_id = db.Column(db.Integer, db.ForeignKey('project.id'), nullable=True)
+    project_id = db.Column(db.Integer, db.ForeignKey('project.id'), nullable=False)
     abs_desc = db.Column(db.Text, nullable=False)
     status = db.Column(db.Integer, nullable=False, default=0)
-    acceptance_date = db.Column(db.DateTime, nullable=False, default=datetime.now)
+    acceptance_date = db.Column(db.DateTime, nullable=False, default=datetime.now()+timedelta(hours=5, minutes=30))
     project = db.relationship('Project', backref='abstract', lazy=True)
 
 class Stage(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     project_id = db.Column(db.Integer, db.ForeignKey('project.id'), nullable=True)
     completed_stage = db.Column(db.Integer, nullable=False, default=0)
-    started_time = db.Column(db.DateTime, default=datetime.now)
-    completion_time = db.Column(db.DateTime, nullable=False, default=datetime.now)
+    started_time = db.Column(db.DateTime, default=datetime.now()+timedelta(hours=5, minutes=30))
+    completion_time = db.Column(db.DateTime, nullable=False, default=datetime.now()+timedelta(hours=5, minutes=30))
     project = db.relationship('Project', backref='stage', lazy=True)

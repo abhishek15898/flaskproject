@@ -1,18 +1,24 @@
 from flask import render_template, url_for, redirect, flash, Markup, abort, request, jsonify
-from flaskproject import app, db, mail, bcrypt
+from flaskproject import app, db, mail, bcrypt, admin
 from flaskproject.models import Project, Guide, Student, Team, ProjectGuideDemo, Marks, Demo, Grades
-from flaskproject.forms import projectRegister, guideRegister, trackProject, GuideLoginForm, membersForm, DemoForm, passwordReset, subscription_form
+from flaskproject.forms import notificationForm, projectRegister, guideRegister, trackProject, GuideLoginForm, membersForm, DemoForm, passwordReset, subscription_form, abstractForm
 from sqlalchemy import asc, desc, update
 from flask_mail import Mail, Message
 from flask_login import login_user, current_user, logout_user, login_required
 from flaskproject.global_variables import *
 from flaskproject.email_templates import *
-
+from flask_admin.contrib.sqla import ModelView
+admin.add_view(ModelView(Project, db.session))
+admin.add_view(ModelView(Guide, db.session))
+admin.add_view(ModelView(Student, db.session))
+admin.add_view(ModelView(ProjectGuideDemo, db.session))
+admin.add_view(ModelView(Marks, db.session))
+admin.add_view(ModelView(Demo, db.session))
+admin.add_view(ModelView(Grades, db.session))
 @app.context_processor
 def inject_sidebar_trackForm():
     trackForm = trackProject()
     return dict(trackForm=trackForm)
-
 
 @app.route("/")
 @app.route("/home")
@@ -422,3 +428,57 @@ def deleteProject(id):
     count = Project.query.filter_by(status=0).count()
     flash('Project Deleted Successfully', 'danger')
     return render_template('temporary.html', title="ConfirmProjects", projects=projects, count=count)
+
+
+@app.route('/fetchProject', methods = ['POST'])
+def fetchProject():
+    form = abstractForm()
+    if form.validate_on_submit():
+        project = Project.query.filter_by(code=form.code.data).first()
+        if project:
+            flag = 1
+            flash('Successfully fetched your project details.', 'success')
+        else:
+            flag = 0
+            flash('Please enter a valid code.', 'danger')
+        return render_template('addAbstract.html', title="Add Abstract", form=form, project=project, flag=flag)
+
+@app.route('/getAbstract', methods = ['GET','POST'])
+def getAbstract():
+    if request.method == 'POST':
+        abstractData = request.form.get('editordata')
+        # preview = request.args.get('preview')
+        print(abstractData)
+        # if preview is None:
+        # return render_template('previewAbstract.html', title="Preview", data=abstractData)
+        # else:
+        flash('Your abstract has been successfully submitted!', 'success')
+    elif request.method == 'GET':
+        abstractData = request.args.get('editordata')
+        preview = request.args.get('preview')
+        print(abstractData, preview)
+        if preview==1:
+            return render_template('previewAbstract.html', title="Preview", data=abstractData)
+    else:
+        flash(abstractData)
+        flash('Oops! There seems to be some error here. Try submitting the abstract again.', 'danger')
+    return redirect(url_for('addAbstract'))
+
+@app.route('/addAbstract', methods=['GET','POST'])
+def addAbstract():
+    form = abstractForm()
+    flag = request.args.get('flag')
+    project = None
+    # print(str(request.args[0][0][1]))
+    return render_template('addAbstract.html', title="Add Abstract", form=form, project=project, flag=flag)
+
+@app.route('/addNotifications', methods=['GET','POST'])
+def addNotifications():
+
+    if request.method=="POST":
+        email_from = request.form.get('email_from')
+        email_to = request.form.get('email_to')
+        body = request.form.get('editordata')
+        print(email_from, email_to, body)
+        flash('Messange Sent', 'success')
+    return render_template('addNotifications.html', title="Add Notifications")

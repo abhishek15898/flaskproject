@@ -5,6 +5,8 @@ from flask_bcrypt import Bcrypt
 from flask_login import LoginManager
 from flask_script import Manager
 from flask_migrate import Migrate, MigrateCommand
+from flask_admin import Admin
+
 
 app = Flask(__name__)
 
@@ -27,6 +29,8 @@ app.config['SQLALCHEMY_DATABASE_URI'] ='sqlite:///./site.db'
 #Else place the path to: 'sqlite:///../site.db'
 db = SQLAlchemy(app)
 bcrypt = Bcrypt(app)
+admin = Admin(app)
+
 login_manager = LoginManager(app)
 login_manager.login_view = 'guideLogin'
 login_manager.login_message_category = 'info'
