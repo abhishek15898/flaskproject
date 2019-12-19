@@ -19,7 +19,7 @@ class projectRegister(FlaskForm):
     projectTitle = StringField('Project Title',
                         validators=[DataRequired(), Length(min=2, max=50)])
     projectDescription = TextAreaField('Project Description',
-                        validators=[DataRequired()])
+                        validators=[DataRequired(), Length(min=150)])
     teamName = StringField('Team Name',
                         validators=[DataRequired(), Length(min=2, max=50)])
     members = FieldList(FormField(membersForm), min_entries=4)
@@ -79,3 +79,20 @@ class subscription_form(FlaskForm):
     email = StringField('Your Email: ',
                         validators=[DataRequired(), Email()])
     subscribe = SubmitField('Subscribe')
+
+class abstractForm(FlaskForm):
+    code = StringField('Enter Code', validators = [DataRequired()])
+    submit = SubmitField('Add Abstract')
+
+
+class notificationForm(FlaskForm):
+    email_from = SelectField(u'Email From', validators = [DataRequired()], choices=[('','Select your Designation'),(1, 'Project Incharge - 1'), (2, 'Project Incharge - 2'), (3, 'Project Management Team'), (4, 'Developers')])
+    email_to = SelectField(u'Email To', validators = [DataRequired()], choices=[('','Your Designation'),(1, 'To all the Guides'),(2, 'To all the Students'), (3, 'To all the BE-CSE-A Students'), (4, 'To all the BE-CSE-B Students')])
+    submit = SubmitField('Add Abstract')
+
+class doubtForm(FlaskForm):
+    name = StringField('Enter Your Name', validators = [DataRequired(), Length(min=2)])
+    Email = StringField('Enter Your Email: ',validators=[Email(), DataRequired()])
+    Query = TextAreaField('Enter Your Query',
+                        validators=[DataRequired()])
+    submit = SubmitField('Ask Query')

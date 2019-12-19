@@ -207,9 +207,21 @@ Todo-list -> 06-10-2019
 5) Intermediate Screen. -> If confirmed, email the team and internal_guide.
   Else, the project incharge can ask for corrections.
 
+-> When students try to submit the page and same name occurs twice - 500 Internal error
+    Try to display this error
   Gitignore files
   *.pyc
   site.db
 
 
 Bug found -> Team members not displaying
+<!-- <div class="abstractDetails container">
+  <h3>{{project.title}}</h3><hr>
+  <small><b>TEAM MEMBERS:</b>&emsp;
+    {% for member in project.team.members%}
+    {{member.name}}&emsp;
+    {%endfor%}<br/>
+    <b>GUIDES: </b>&emsp;
+    {{project.int_relation.name}}&emsp;{{project.ext_relation.name}}
+  </small>
+</div> -->

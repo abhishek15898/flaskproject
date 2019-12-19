@@ -1,0 +1,45 @@
+{%extends 'layout.html'%}
+  {%block content%}
+
+  <div id="forms">
+
+    <form method="post" action="/fetchProject">
+      {{ form.hidden_tag()}}
+      <h3 class="formTitle">Abstract Submission Form</h3>
+      <div class="row">
+        <div class="form-group col-md-6">
+          {% if form.code.errors %}
+            {{form.code(class="form-control is-invalid")}}
+            {% for error in form.code.errors %}
+              <span class="errorFeedback">{{ error }}</span>
+            {% endfor %}
+          {% else %}
+            {{form.code(class="form-control", placeholder="Enter Your Project Code")}}
+          {% endif %}
+        </div>
+        <div class="col-md-6">
+            {{form.submit(class="btn btn-outline-primary")}}
+        </div>
+      </div>
+    </form>
+  </div><br/>
+{%if flag%}
+  <div id="forms">
+    <div class="abstractDetails container">
+      <h3>{{project.title}}</h3><hr>
+      <small><b>TEAM MEMBERS:</b>&emsp;
+        {% for member in project.team.members%}
+        {{member.name}}&emsp;
+        {%endfor%}<br/>
+        <b>GUIDES: </b>&emsp;
+        {{project.int_relation.name}}&emsp;{{project.ext_relation.name}}
+      </small>
+    </div>
+    <form method="post" action="getAbstract">
+      <textarea id="summernote" name="editordata"></textarea><br/>
+      <input class="btn btn-success" type="submit" value="Submit Abstract">
+       &emsp; <a href="{{url_for('getAbstract', preview=1,editordata=editordata)}}"  class="float-right">Preview Abstract</a>
+    </form>
+  </div>
+{%endif%}
+  {%endblock content%}

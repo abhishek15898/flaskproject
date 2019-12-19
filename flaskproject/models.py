@@ -102,3 +102,4 @@ class Stage(db.Model):
     started_time = db.Column(db.DateTime, default=datetime.now()+timedelta(hours=5, minutes=30))
     completion_time = db.Column(db.DateTime, nullable=False, default=datetime.now()+timedelta(hours=5, minutes=30))
     project = db.relationship('Project', backref='stage', lazy=True)
+

@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pretty-checkbox@3.0/dist/pretty-checkbox.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='main.css')}}">
+    <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
+    <script src="http://code.jquery.com/jquery-1.5.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{{title}}</title>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-89694519-4"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'UA-89694519-4');
+    </script>
+
+  </head>
+  <body>
+    <div id="forms">
+      <center><h2>Guidelines</h2></center>
+      <div><a href="{{url_for('home')}}"> <i class="fa fa-chevron-circle-left" aria-hidden="true"></i> Back</a></div>
+    </div><br/>
+    {% with FlashMessages = get_flashed_messages(with_categories=true) %}
+      {% if FlashMessages %}
+        {% for category, message in FlashMessages %}
+        <br />
+          <div class="messages alert alert-{{ category }}">
+            {{ message }}
+          </div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+    <div class="container">
+        <div id="forms">
+            <h4 style="text-align:center"><i class="fa fa-file-text" aria-hidden="true"></i> &nbsp;Project Report</h4><hr>
+            <p style="border: 1px solid red; padding: 10px; border-radius: 10px;">
+              <b>Please Note:</b><br/>
+              &emsp; 1. Ensure not to include more than 6 chapters, unless your guide specifically asks.<br/>
+              &emsp; 2. There should be minimum of 7000 words in the project report.<br/>
+              &emsp; 3. Line Height: 1.5<br/>
+              &emsp; 4. Headings Font size: 16px<br/>
+              &emsp; 5. Sub-headings Font size: 14px<br/>
+              &emsp; 6. Paragraphs: 12px<br/>
+              &emsp; 7. Font-Family: Times New Roman(Preferred)<br/>
+              &emsp; 8. Ensure that captions for images should be below the image, with numbering like  <b>fig 1.7</b>.
+              where "1" indicates chapter number - 1 and "7" indicates 7th figure of chapter 1.<br/>
+              &emsp; 9. Ensure that captions for tables should be above the table. (Similar to Images)<br/>
+            </p>
+            <p>Following are the details given by Project Incharges for drafting a final project submission report.<br/>Your project should contain the following chapters: </p>
+            <small>Click on each Chapter to know more.</small>
+            <div class="list-group" id="index">
+              <a href="#section1" class="list-group-item list-group-item-action">List of Figures</a>
+              <a href="#" class="list-group-item list-group-item-action">List of Tables</a>
+              <a href="#" class="list-group-item list-group-item-action">Abstract</a>
+              <a href="#section1" class="list-group-item list-group-item-action"><b>Chapter 1:</b> Introduction</a>
+              <a href="#section2" class="list-group-item list-group-item-action"><b>Chapter 2:</b> Requirement Analysis and Specification Analysis</a>
+              <a href="#section3" class="list-group-item list-group-item-action"><b>Chapter 3:</b> Implementation</a>
+              <a href="#section4" class="list-group-item list-group-item-action"><b>Chapter 4:</b> Language Implementations and Results</a>
+              <a href="#section5" class="list-group-item list-group-item-action"><b>Chapter 5:</b> Test Cases - Results</a>
+              <a href="#section6" class="list-group-item list-group-item-action"><b>Chapter 6:</b> Conclusion</a>
+            </div><br/>
+            <a href="#section7">New Query? Write to us here. </a>
+        </div><br/>
+
+        <section id="section1">
+          <h3 style="background:#fffc79; padding:10px;text-align:center;"><b>Chapter 1:</b> Introduction</h3>
+          <div id="forms">
+            <p style="text-align:justify">Include the <b>broad area and scope</b> of your project.
+            Specify <b>where is your project going to be used</b> and
+            <b>which sectors will be benefited by your project.</b>
+            Also specify what was your <b>aim and motivation</b>
+            behind building your project. You may also consider
+            specifying the tools and frameworks, in general and brief,
+            that you will be using in this project in about 1-2 paragraphs.
+            Also ensure to include a rough figure/layout of how your platform/
+            website/idea works.<br/></p>
+            <p style="border: 1px solid red; padding: 10px; border-radius: 10px;">
+            <b>Remember:</b> This is a general introduction chapter, and you are <b>NOT</b>
+            expected to specify technical terms and functionalities here.
+            Introductory part is similar to explaining your project to a layman
+            or a non-technical person. Hence, don't go into muct details. </p>
+            <p>
+            <h5>  To summerize:</h5>
+            This section answers the following questions:<br/>
+            &emsp;1. Where is your project used?<br/>
+            &emsp;2. Which sector will be benefited with your project?<br/>
+            &emsp;3. You aim and motivation?<br/>
+
+
+           </p>
+           <a href="#index" class="float-right" style="background:#bae5c8; padding:5px;">Go to Index</a><br/>
+          </div>
+
+        </section>
+
+        <br/>
+        <section id="section2">
+          <h3 style="background:#fffc79; padding:10px;text-align:center;"><b>Chapter 2:</b> Requirement Analysis/Specification Analysis</h3>
+          <div id="forms">
+          <p style="text-align:justify">
+            In this chapter, you are required to specify steps initiated by you and your team
+            to gather further information about the user requirements. These include
+            data collection procedures, functional and non-functional requirements. You
+            should include Use-Case diagrams. Every usecase and its
+            associated actor(s) must be described elaborately. ER Diagram is an added
+            advantage for Specification Analysis.
+          </p>
+          <p style="border: 1px solid red; padding: 10px; border-radius: 10px;">
+            <b>Remember:</b> You are collecting information from the user/client.
+            Hence, ensure to limit the use of technical terms here and map the user-
+            requirements in the form of diagrams.
+          </p>
+            <p>
+              <h5>  To summerize:</h5>
+              &emsp; 1. Maximize the use of diagrams.<br/>
+              &emsp; 2. Diagrams include: Use case Diagrams and ER Diagrams.<br/>
+              &emsp; 3. Everything is as per user/client point of view.<br/>
+           </p>
+           <a href="#index" class="float-right" style="background:#bae5c8; padding:5px;">Go to Index</a><br/>
+          </div>
+        </section>
+        <br/>
+        <section id="section3">
+          <h3 style="background:#fffc79; padding:10px;text-align:center;"><b>Chapter 3:</b> Implementation</h3>
+          <div id="forms">
+          <p style="text-align:justify">
+            This chapter takes in view of a programmer or a software developer.
+            You need to specify every corner cases that can occur in your project,
+            so that the software developer can take in mind those steps before
+            writing the code. These cases could be from the Normal cases to the
+            Exceptional Cases. If your project requires special algorithms/technology
+            (such as any Machine Learning Algo/Special Sorting and Searching Algorithms/
+            or classifiers), then do specify them.
+          </p>
+          <p style="border: 1px solid red; padding: 10px; border-radius: 10px;">
+            <b>Remember:</b> The project <b>hasn't yet started</b> and just resides in your brain!
+            You are now mapping the requirements with a development
+            environment. Hence, ensure to specify every single scenario with the use
+            of Sequence Diagrams.
+          </p>
+            <p>
+              <h5>  To summerize:</h5>
+              &emsp; 1. Think in terms of a Software Developer.<br/>
+              &emsp; 2. Diagrams to be included: Sequence Diagrams.<br/>
+              &emsp; 3. Specify algorithms/libraries/modules you would use in this project.<br/>
+           </p>
+           <a href="#index" class="float-right" style="background:#bae5c8; padding:5px;">Go to Index</a><br/>
+          </div>
+        </section>
+        <br/>
+        <section id="section4">
+          <h3 style="background:#fffc79; padding:10px;text-align:center;"><b>Chapter 4:</b> Language Implementation and Results</h3>
+          <div id="forms">
+          <p style="text-align:justify">
+            This is where you have started implementation (or coding) for your project.
+            You may include the tools, framworks, language etc resources you have used for
+            building this project. It is expected that you also include sample code structures
+            or pseudocodes (whereever possible) to help other developers (so called co-developers)
+            understand your code structure. If your project comes with a backend implementation where
+            databases are used, then also include SQL queries.
+          </p>
+          <p style="border: 1px solid red; padding: 10px; border-radius: 10px;">
+            <b>Remember:</b> The project has started. We are including this chapter to let other
+            developers understand how far the project has reached (or implementated.) A new developer
+            in your project may refer to this chapter to understand the work flow till now and would
+            remain updated.
+          </p>
+            <p>
+              <h5>  To summerize:</h5>
+              &emsp; 1. Think in terms of a new developer who has just joined your project.<br/>
+              &emsp; 2. Stuffs to include: File structure/directory, SQL Queries and References (wherever required)<br/>
+              &emsp; 3. Software/Project Setup Instructions to be included (if any).<br/>
+           </p>
+           <a href="#index" class="float-right" style="background:#bae5c8; padding:5px;">Go to Index</a><br/>
+          </div>
+        </section>
+        <br/>
+        <section id="section5">
+          <h3 style="background:#fffc79; padding:10px;text-align:center;"><b>Chapter 5:</b> Test Cases - Results</h3>
+          <div id="forms">
+          <p style="text-align:justify">
+            In this chapter, you are expected to showcase every <b>implemented</b> scenario or test case, which
+            were described in <a href="#section3">Chapter 3</a>. Include code samples, screenshots and images
+            help better understand each implemented scenario. Also execute testing methodologies such as
+            Black-Box testing, Grey-Box testing etc., incase you have tested your product.
+          </p>
+          <p style="border: 1px solid red; padding: 10px; border-radius: 10px;">
+            <b>Remember:</b> The project is being developed (or ready). You need to showcase
+            how validate are your functions/components in the project with the help of
+            screenshots and simulations.
+          </p>
+            <p>
+              <h5>  To summerize:</h5>
+              &emsp; 1. Think in terms of a Software Tester. Test your products at its core limits!<br/>
+              &emsp; 2. Stuffs to include: Screenshots, Simulations and Test Results Output. <br/>
+              &emsp; 3. You may also include tools for testing.<br/>
+           </p>
+           <a href="#index" class="float-right" style="background:#bae5c8; padding:5px;">Go to Index</a><br/>
+          </div>
+        </section>
+        <br/>
+        <section id="section6">
+          <h3 style="background:#fffc79; padding:10px;text-align:center;"><b>Chapter 6:</b> Conclusion</h3>
+          <div id="forms">
+          <p style="text-align:justify">
+            This is a project-specific section and may not be generalised for all the projects.
+            However, ideas for conclusion may include your motivation to begin this project,
+            tools and technologies used, implementations, your focus to further scale your project etc.
+          </p>
+          <p style="border: 1px solid red; padding: 10px; border-radius: 10px;">
+            <b>Remember:</b> Be Specific. (Preferably explain in 2-3 paragraphs)
+          </p>
+            <p>
+              <h5>  To summerize:</h5>
+              &emsp; 1. Explain how you could further scale your project.<br/>
+              &emsp; 2. Stuffs to include: Preferably Nothing.<br/>
+           </p>
+           <a href="#index" class="float-right" style="background:#bae5c8; padding:5px;">Go to Index</a><br/>
+          </div>
+        </section><br/>
+        <section id="section7">
+          <h3 style="background:#fffc79; padding:10px;text-align:center;"><b>Doubt?</b></h3>
+          <div id="forms">
+          <p style="text-align:justify">
+            We are happy to help you with your report! Report us your issue below,
+            and we will get back to you immediately!
+            <br/>
+            If you would like to have a sample report for reference, fill the form below,
+            and we would mail it to you on your email.
+          </p>
+            <form method="post" action="">
+              {{ form.hidden_tag()}}
+              <!-- <div class="col-md-6"> -->
+                <div class="form-group">
+                  {{form.name.label(class="form-control-label")}}
+                  {% if form.name.errors %}
+                    {{form.name(class="form-control is-invalid")}}
+                    {% for error in form.name.errors %}
+                      <span class="errorFeedback">{{ error }}</span>
+                    {% endfor %}
+                  {% else %}
+                    {{form.name(class="form-control")}}
+                  {% endif %}
+                </div>
+              <!-- </div> -->
+              <!-- <div class="col-md-6"> -->
+                <div class="form-group">
+                  {{form.Email.label(class="form-control-label")}}
+                  {% if form.Email.errors %}
+                    {{form.Email(class="form-control is-invalid")}}
+                    {% for error in form.Email.errors %}
+                      <span class="errorFeedback">{{ error }}</span>
+                    {% endfor %}
+                  {% else %}
+                    {{form.Email(class="form-control")}}
+                  {% endif %}
+                </div>
+              <!-- </div> -->
+
+              <div class="form-group">
+                {{form.Query.label(class="form-control-label")}}
+                {% if form.Query.errors %}
+                  {{form.Query(class="form-control is-invalid")}}
+                  {% for error in form.Email.errors %}
+                    <span class="errorFeedback">{{ error }}</span>
+                  {% endfor %}
+                {% else %}
+                  {{form.Query(class="form-control")}}
+                {% endif %}
+              </div>
+              <div class="form-group">
+                  {{form.submit(class="btn btn-outline-primary")}}
+              </div>
+            </form>
+          </div>
+          <a href="#index" class="float-right" style="background:#bae5c8; padding:5px;">Go to Index</a><br/>
+        </section>
+
+    </div>
+
+    <br/>
+    <br/>
+  </body>

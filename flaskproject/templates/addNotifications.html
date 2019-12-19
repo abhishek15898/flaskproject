@@ -1,0 +1,60 @@
+{%extends 'layout.html'%}
+  {%block content%}
+  <div id="forms">
+    <h3 class="formTitle">Add Notice</h3>
+
+    <form method="post" action="">
+      <!-- <div name="email_from">
+        <input type="checkbox" name="hey" value="Bike"> I have a bike<br>
+        <input type="checkbox" name="vehicle3" value="Boat" checked> I have a boat<br>
+        <input type="checkbox" name="vehicle2" value="Car"> I have a car<br>
+      </div> -->
+      Email to:<br/>
+      <div class="pretty p-icon p-round p-pulse">
+        <input type="checkbox" name="email_from"/>
+        <div class="state p-success">
+            <i class="icon mdi mdi-check"></i>
+            <label>All the Guides</label>
+        </div>
+      </div>
+      <div class="pretty p-icon p-round p-pulse">
+        <input type="checkbox" name="email_to"/>
+        <div class="state p-success">
+            <i class="icon mdi mdi-check"></i>
+            <label>All BE-CSE-A students</label>
+        </div>
+      </div>
+      <div class="pretty p-icon p-round p-pulse">
+        <input type="checkbox" name="email_to"/>
+        <div class="state p-success">
+            <i class="icon mdi mdi-check"></i>
+            <label>All BE-CSE-B students</label>
+        </div>
+      </div><hr>
+      Email from:<br/>
+      <div class="pretty p-icon p-round p-pulse">
+        <input type="checkbox" name="email_from"/>
+        <div class="state p-success">
+            <i class="icon mdi mdi-check"></i>
+            <label>Project Incharge - 1</label>
+        </div>
+      </div>
+      <div class="pretty p-icon p-round p-pulse">
+        <input type="checkbox" name="email_to"/>
+        <div class="state p-success">
+            <i class="icon mdi mdi-check"></i>
+            <label>Project Incharge - 2</label>
+        </div>
+      </div>
+      <div class="pretty p-icon p-round p-pulse">
+        <input type="checkbox" name="email_to"/>
+        <div class="state p-success">
+            <i class="icon mdi mdi-check"></i>
+            <label>Developers</label>
+        </div>
+      </div><hr>
+      <textarea id="summernote" name="editordata"></textarea><br/>
+      <input class="btn btn-success" type="submit" value="Submit Notice">
+    </form>
+  </div>
+  {%endblock content%}
